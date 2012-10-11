@@ -6,11 +6,11 @@ require 'gitnesse/version'
 Gem::Specification.new do |gem|
   gem.name          = "gitnesse"
   gem.version       = Gitnesse::VERSION
-  gem.authors       = ["Luis Hurtado"]
-  gem.email         = ["luis@hlmbusiness.com"]
-  gem.description   = %q{TODO: Write a gem description}
+  gem.authors       = ["www.hybridgroup.com"]
+  gem.email         = ["info@hybridgroup.com"]
+  gem.description   = %q{Use github wiki to store feature stories, then execute then using Cucumber}
   gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/hybridgroup/gitnesse"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
