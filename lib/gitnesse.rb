@@ -1,5 +1,15 @@
 require "gitnesse/version"
 
 module Gitnesse
-  # Your code goes here...
+  def self.wiki_url
+    @@wiki_url
+  end
+
+  def self.wiki_url=(wiki_url)
+    @@wiki_url = wiki_url
+  end
+
+  def self.setup
+    yield self
+  end
 end
