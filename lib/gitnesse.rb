@@ -50,7 +50,8 @@ module Gitnesse
 
       if repo_cloned
         FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
-        FileUtils.cp_r("#{tmp_dir}/.", Gitnesse.target_directory)
+        feature_files = File.join(tmp_dir, "**", "*.feature")
+        FileUtils.cp_r(Dir.glob(feature_files), Gitnesse.target_directory)
         load_ok = true
       else
         puts output
