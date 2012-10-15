@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'gitnesse'
+
+abort("Please provide a config file: gitnesse CONFIG='./gitneese.rb'") unless ENV['CONFIG']
+load(ENV['CONFIG'])
+
+Gitnesse.perform
