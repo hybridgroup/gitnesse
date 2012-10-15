@@ -17,9 +17,21 @@ Or install it yourself as:
 
     $ gem install gitnesse
 
+For Rails 3, create an initializer file config/initializer/gitnesse.rb like this:
+
+    Gitnesse.config do |config|
+      config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.git"
+    end
+
 ## Usage
 
-TODO: Write usage instructions here
+For Rails 3 there is rake task:
+
+    $ rake gitnesse
+
+There is also available an executable that requires the path to the configuration file:
+
+    $ CONFIG='./gitnesse_config.rb' gitnesse
 
 ## Contributing
 
