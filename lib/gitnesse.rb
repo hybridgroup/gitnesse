@@ -60,7 +60,7 @@ module Gitnesse
 
     if load_ok
       puts "Now going to run cucumber..."
-      `cucumber #{Gitnesse.target_directory}/*.feature`
+      exec("cucumber #{Gitnesse.target_directory}/*.feature")
     end
   end
   module_function :perform
