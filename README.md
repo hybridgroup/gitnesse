@@ -20,16 +20,16 @@ Or install it yourself as:
 For Rails 3, create an initializer file config/initializer/gitnesse.rb like this:
 
     Gitnesse.config do |config|
-      config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.git"
+      config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki"
     end
 
 ## Usage
 
-For Rails 3 there is rake task:
+For Rails 3 there is a rake task:
 
     $ rake gitnesse
 
-There is also available an executable that requires the path to the configuration file:
+Not Rails 3 ? There is available an executable that requires the path to the configuration file:
 
     $ CONFIG='./gitnesse_config.rb' gitnesse
 
