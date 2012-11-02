@@ -2,6 +2,7 @@
 
 require 'gitnesse'
 
+# TODO: also allow for passing this as command line param
 abort("Please provide a config file: CONFIG='./gitneese.rb' gitnesse") unless ENV['CONFIG']
 load(ENV['CONFIG'])
 

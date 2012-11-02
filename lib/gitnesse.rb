@@ -4,28 +4,65 @@ require 'fileutils'
 require 'tmpdir'
 require 'gitnesse/railtie' if defined?(Rails::Railtie)
 
+# core module for settings
 module Gitnesse
 
+  # Public: Return String with url of the git wiki repo containing features.
+  #
   def self.repository_url
     @@repository_url
   end
 
+  # Public: Set url of the git-based wiki repo containing features.
+  #
+  # repository_url - A String containing your repo's url.
+  #
+  # Example:
+  #
+  #   Gitnesse.config do |config|
+  #     config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki"
+  #   end
+  #
   def self.repository_url=(repository_url)
     @@repository_url = repository_url
   end
 
+  # Public: Return String with branch of the git-based wiki repo containing features.
+  #
   def self.branch
     @@branch ||= "master"
   end
 
+  # Public: Set branch of the git-based wiki repo containing features.
+  #
+  # branch - A String containing which branch of your repo to use.
+  #
+  # Example:
+  #
+  #   Gitnesse.config do |config|
+  #     config.branch = "master"
+  #   end
+  #
   def self.branch=(branch)
     @@branch = branch
   end
 
+  # Public: Return String with which directory being used to sync with git-wiki stored feature stories.
+  #
   def self.target_directory
     @@target_directory ||= File.join(Dir.pwd, 'features')
   end
 
+  # Public: Set local directory used to sync with git-wiki stored feature stories.
+  #
+  # target_directory - A String containing which directory to use.
+  #
+  # Example:
+  #
+  #   Gitnesse.config do |config|
+  #     config.target_directory = "features"
+  #   end
+  #
   def self.target_directory=(target_directory)
     @@target_directory = target_directory
   end
