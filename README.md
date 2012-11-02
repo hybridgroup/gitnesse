@@ -1,7 +1,8 @@
 # Gitnesse
 
- Gitnesse is cucumber-wiki integration tool.
- It enables a project to store cucumber features in a remote git-based wiki.
+ Gitnesse is a Cucumber-wiki integration tool.
+ It enables a project to store cucumber features in a git-based wiki, and then test them against your code.
+ Conceptually influenced by Fitnesse http://fitnesse.org/
 
 ## Installation
 
