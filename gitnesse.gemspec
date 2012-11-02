@@ -17,5 +17,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.add_dependency("bundler","~> 1.2.1")
   gem.add_dependency("gollum","~> 2.3.4")
+  gem.add_development_dependency("minitest-matchers")
   gem.executables << 'gitnesse'
 end
