@@ -86,9 +86,9 @@ module Gitnesse
 
     puts "Pulling features into: #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
-      if clone_feature_repo
+      if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
-        
+
         wiki_pages = wiki = Gollum::Wiki.new(tmp_dir).pages
         wiki_pages.each do |wiki_page|
           page_features = extract_features(wiki_page.raw_data)
@@ -134,12 +134,10 @@ module Gitnesse
   end
   module_function :extract_features
 
-  def clone_feature_repo
-    output = `git clone #{Gitnesse.repository_url} #{tmp_dir} 2>&1`
-    unless $?.success?
-      puts output
-      false
-    end
+  def clone_feature_repo(dir)
+    output = `git clone #{Gitnesse.repository_url} #{dir} 2>&1`
+    puts output
+    $?.success?
   end
   module_function :clone_feature_repo
 
@@ -150,7 +148,9 @@ module Gitnesse
       puts feature_content
       features = features + feature_content
     end
+    features
   end
+  module_function :gather_features
 
   def write_feature_file(page_name, page_features)
     File.open("#{Gitnesse.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
@@ -160,7 +160,10 @@ module Gitnesse
   def ensure_git_and_cucumber_available
     %w(git cucumber).each do |cmd|
       output = `#{cmd} --version 2>&1`
-      abort("#{cmd} command not found or not working.") unless $?.success?
+      unless $?.success?
+        puts output
+        abort("#{cmd} command not found or not working.")
+      end
     end
   end
   module_function :ensure_git_and_cucumber_available
