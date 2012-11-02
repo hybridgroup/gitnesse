@@ -1,4 +1,16 @@
-desc "Update features from remote repository and run cucumber."
-task :gitnesse => :environment do
-  Gitnesse.perform
+namespace :gitnesse do
+	desc "Pull features from remote repository and run cucumber."
+	task :run => :environment do
+	  Gitnesse.run
+	end
+
+	desc "Pull features from remote git wiki repository."
+	task :pull => :environment do
+	  Gitnesse.pull
+	end
+
+	desc "Push features to remote git wiki repository."
+	task :push => :environment do
+	  Gitnesse.push
+	end
 end

@@ -4,7 +4,7 @@ require 'fileutils'
 require 'tmpdir'
 require 'gitnesse/railtie' if defined?(Rails::Railtie)
 
-# core module for settings
+# core module
 module Gitnesse
 
   # Public: Return String with url of the git wiki repo containing features.
@@ -71,48 +71,46 @@ module Gitnesse
     yield self
   end
 
-  def perform
-    %w(git cucumber).each do |cmd|
-      output=`#{cmd} --version 2>&1`; requirement_ok=$?.success?
-      abort("#{cmd} command not found or not working.") unless requirement_ok
-    end
-
-    abort("Setup git URL for Gitnesse.") if Gitnesse.repository_url.nil?
-
-    puts "Loading features into: #{Gitnesse.target_directory}"
-
-    load_ok = false
-    Dir.mktmpdir do |tmp_dir|
-      # clone repository into tmp dir
-      output=`git clone #{Gitnesse.repository_url} #{tmp_dir} 2>&1`; repo_cloned=$?.success?
-
-      if repo_cloned
-        FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
-        wiki_pages = wiki = Gollum::Wiki.new(tmp_dir).pages
-
-        wiki_pages.each do |wiki_page|
-          page_features = get_features(wiki_page.raw_data)
-
-          page_features.each do |feature_name, feature_content|
-            File.open("#{Gitnesse.target_directory}/#{feature_name}.feature","w") {|f| f.write(feature_content) }
-            puts "============================== #{feature_name} =============================="
-            puts feature_content
-            load_ok = true
-          end
-        end
-      else
-        puts output
-      end
-    end
-
-    if load_ok
+  def run
+    if pull
       puts "Now going to run cucumber..."
       exec("cucumber #{Gitnesse.target_directory}/*.feature")
     end
   end
-  module_function :perform
+  module_function :run
 
-  def get_features(data)
+  # pull features from git wiki, and sync up with features dir
+  def pull
+    ensure_git_and_cucumber_available
+    ensure_repository
+
+    puts "Pulling features into: #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
+    Dir.mktmpdir do |tmp_dir|
+      if clone_feature_repo
+        FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
+        
+        wiki_pages = wiki = Gollum::Wiki.new(tmp_dir).pages
+        wiki_pages.each do |wiki_page|
+          page_features = extract_features(wiki_page.raw_data)
+          write_feature_file(wiki_page.name, page_features) unless page_features.empty?
+        end
+      end
+    end
+    puts "DONE."
+  end
+  module_function :pull
+
+  # TODO: push features back up to git wiki from features directory
+  def push
+    ensure_git_and_cucumber_available
+    ensure_repository
+
+    puts "Not implemented yet... pull request for push please!"
+  end
+  module_function :push
+
+  # look thru wiki page for features
+  def extract_features(data)
     features = {}
 
     if match_result = data.match(/\u0060{3}(.+)\u0060{3}/m)
@@ -134,5 +132,41 @@ module Gitnesse
 
     features
   end
-  module_function :get_features
+  module_function :extract_features
+
+  def clone_feature_repo
+    output = `git clone #{Gitnesse.repository_url} #{tmp_dir} 2>&1`
+    unless $?.success?
+      puts output
+      false
+    end
+  end
+  module_function :clone_feature_repo
+
+  def gather_features(page_features)
+    features = ''
+    page_features.each do |feature_name, feature_content|
+      puts "============================== #{feature_name} =============================="
+      puts feature_content
+      features = features + feature_content
+    end
+  end
+
+  def write_feature_file(page_name, page_features)
+    File.open("#{Gitnesse.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
+  end
+  module_function :write_feature_file
+
+  def ensure_git_and_cucumber_available
+    %w(git cucumber).each do |cmd|
+      output = `#{cmd} --version 2>&1`
+      abort("#{cmd} command not found or not working.") unless $?.success?
+    end
+  end
+  module_function :ensure_git_and_cucumber_available
+
+  def ensure_repository
+    abort("You must select a repository_url to run Gitnesse.") if Gitnesse.repository_url.nil?
+  end
+  module_function :ensure_repository
 end

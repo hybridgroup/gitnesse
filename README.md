@@ -34,6 +34,15 @@ Not Rails 3 ? There is available an executable that requires the path to the con
 
     $ CONFIG='./gitnesse_config.rb' gitnesse
 
+## Usage
+
+For Rails 3 there is a rake task:
+
+## TODO
+
+		- implement git push back to git wiki
+		- rake tasks for push/pull/run
+
 ## Contributing
 
 1. Fork it

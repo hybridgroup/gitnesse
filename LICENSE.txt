@@ -1,4 +1,4 @@
-Copyright (c) 2012 Luis Hurtado
+Copyright (c) 2012 The Hybrid Group, All Rights Reserved
 
 MIT License
 
