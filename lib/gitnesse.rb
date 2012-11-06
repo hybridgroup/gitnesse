@@ -81,7 +81,8 @@ module Gitnesse
 
   # pull features from git wiki, and sync up with features dir
   def pull
-    ensure_git_and_cucumber_available
+    ensure_git_available
+    ensure_cucumber_available
     ensure_repository
 
     puts "Pulling features into: #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
@@ -157,19 +158,18 @@ module Gitnesse
   end
   module_function :write_feature_file
 
-  def ensure_git_and_cucumber_available
-    %w(git cucumber).each do |cmd|
-      output = `#{cmd} --version 2>&1`
-      unless $?.success?
-        puts output
-        abort("#{cmd} command not found or not working.")
-      end
-    end
+  def ensure_git_available
+    raise "git not found or not working." unless Kernel.system("git --version")
   end
-  module_function :ensure_git_and_cucumber_available
+  module_function :ensure_git_available
+
+  def ensure_cucumber_available
+    raise "cucumber not found or not working." unless Kernel.system("cucumber --version")
+  end
+  module_function :ensure_cucumber_available
 
   def ensure_repository
-    abort("You must select a repository_url to run Gitnesse.") if Gitnesse.repository_url.nil?
+    raise "You must select a repository_url to run Gitnesse." if Gitnesse.repository_url.nil?
   end
   module_function :ensure_repository
 end
