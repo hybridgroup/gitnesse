@@ -1,0 +1,89 @@
+body {
+  background: url('../images/background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover:
+  color: #444;
+}
+
+.container {
+  background: white;
+  margin-bottom: 30px;
+}
+
+ul {
+  padding: 0;
+  margin: 0 0 10.5px 25px;
+  list-style: square outside;
+}
+
+li {
+  line-height: 21px;
+}
+
+code, pre {
+  font-family: Inconsolata, Menlo, Monaco, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 21px;
+  border: 1px solid #cccccc;
+}
+
+code {
+  padding: 1px 3px;
+  background: #fafafa;
+  color: #444444;
+}
+
+pre {
+  display: block;
+  padding: 10.5px;
+}
+
+pre code {
+  padding: 0;
+  background: #fafafa;
+  border: 0;
+  color: black;
+}
+
+a, a:visited {
+  color: hsl(35, 95%, 55%);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header, #main {
+  padding: 10px 30px;
+}
+
+header h1 {
+  text-align: center;
+  margin-top: 0;
+  color: hsl(35, 95%, 55%);
+  margin-bottom: 0;
+  font-family: "Oleo Script", sans-serif;
+  font-size: 100px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-weight: normal;
+}
+
+header a:hover {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 767px) {
+  header h1 {
+    font-size: 75px;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  header h1 {
+    font-size: 70px;
+  }
+}

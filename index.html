@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gitnesse</title>
+
+    <!-- mobile viewport optimization -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oleo+Script">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/scaffold.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="https://github.com/hybridgroup/gitnesse">
+          <h1>Gitnesse</h1>
+        </a>
+      </header>
+
+      <div id="main">
+        <section id="section-introduction">
+          <p>
+            Gitnesse is a Cucumber-wiki integration tool. It enables a project to store
+            cucumber features in a git-based wiki, and then test them against your code.
+            Conceptually influenced by <a href="http://fitnesse.org">Fitnesse</a>.
+          </p>
+        </section>
+
+        <section id="section-installation">
+          <h2>Installation</h2>
+          <p>
+            Add this line to your applications's <code>Gemfile</code>:
+            <pre><code>gem 'gitnesse'</code></pre>
+
+            And then execute:
+            <pre><code>$ bundle</code></pre>
+
+            Or install it yourself as
+            <pre><code>$ gem install gitnesse</code></pre>
+
+            For Rails 3, create an initializer file config/initializer/gitnesse.rb like this:
+
+            <pre><code>Gitnesse.config do |config|
+  config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki"
+end</code></pre>
+          </p>
+        </section>
+
+        <section id="section-usage">
+          <h2>Usage</h2>
+          <p>
+            For Rails 3 apps, there are a few Rake tasks:
+            <ul>
+              <li><code>rake pull</code> will pull features from the remote wiki repository</li>
+              <li><code>rake push</code> will push new/changed features to the remote wiki repository</li>
+            </ul>
+          </p>
+        </section>
+
+        <section id="section-more-info">
+          <h2>More Info</h2>
+          <p>
+            You can find out more about Gitnesse on <a href="https://github.com/hybridgroup/gitnesse">GitHub</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
