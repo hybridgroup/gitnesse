@@ -71,13 +71,15 @@ module Gitnesse
     yield self
   end
 
+  # -- all methods after this are module functions --
+  module_function
+
   def run
     if pull
       puts "Now going to run cucumber..."
       exec("cucumber #{Gitnesse.target_directory}/*.feature")
     end
   end
-  module_function :run
 
   # pull features from git wiki, and sync up with features dir
   def pull
@@ -99,16 +101,15 @@ module Gitnesse
     end
     puts "DONE."
   end
-  module_function :pull
 
-  # TODO: push features back up to git wiki from features directory
+  # push features back up to git wiki from features directory
   def push
-    ensure_git_and_cucumber_available
+    ensure_git_available
+    ensure_cucumber_available
     ensure_repository
 
     puts "Not implemented yet... pull request for push please!"
   end
-  module_function :push
 
   # look thru wiki page for features
   def extract_features(data)
@@ -133,14 +134,12 @@ module Gitnesse
 
     features
   end
-  module_function :extract_features
 
   def clone_feature_repo(dir)
     output = `git clone #{Gitnesse.repository_url} #{dir} 2>&1`
     puts output
     $?.success?
   end
-  module_function :clone_feature_repo
 
   def gather_features(page_features)
     features = ''
@@ -151,25 +150,20 @@ module Gitnesse
     end
     features
   end
-  module_function :gather_features
 
   def write_feature_file(page_name, page_features)
     File.open("#{Gitnesse.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
   end
-  module_function :write_feature_file
 
   def ensure_git_available
     raise "git not found or not working." unless Kernel.system("git --version")
   end
-  module_function :ensure_git_available
 
   def ensure_cucumber_available
     raise "cucumber not found or not working." unless Kernel.system("cucumber --version")
   end
-  module_function :ensure_cucumber_available
 
   def ensure_repository
     raise "You must select a repository_url to run Gitnesse." if Gitnesse.repository_url.nil?
   end
-  module_function :ensure_repository
 end
