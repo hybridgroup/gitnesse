@@ -141,13 +141,20 @@ module Gitnesse
     $?.success?
   end
 
+  # we are going to support only one feature per page
   def gather_features(page_features)
+    return "" if page_features.nil? or page_features.empty?
+
     features = ''
-    page_features.each do |feature_name, feature_content|
-      puts "============================== #{feature_name} =============================="
-      puts feature_content
-      features = features + feature_content
+    feature_name, feature_content = page_features.shift
+    puts "============================== Pulling Feature: #{feature_name} =============================="
+    features = features + feature_content
+
+    page_features.each do |_feature_name, _feature_content|
+      puts "============================== WARNING! Discarded Feature: #{_feature_name} =============================="
+      puts _feature_content
     end
+
     features
   end
 
