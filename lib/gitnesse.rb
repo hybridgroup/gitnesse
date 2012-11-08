@@ -90,7 +90,7 @@ module Gitnesse
       if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
 
-        wiki_pages = wiki = Gollum::Wiki.new(tmp_dir).pages
+        wiki_pages = Gollum::Wiki.new(tmp_dir).pages
         wiki_pages.each do |wiki_page|
           page_features = extract_features(wiki_page.raw_data)
           write_feature_file(wiki_page.name, page_features) unless page_features.empty?
