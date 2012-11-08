@@ -107,7 +107,7 @@ module Gitnesse
     ensure_git_available
     ensure_cucumber_available
     ensure_repository
-    commit_info = create_commit_info
+    commit_info
 
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
@@ -116,26 +116,14 @@ module Gitnesse
 
         feature_files.each do |feature_file|
           page_name = File.basename(feature_file, ".feature")
-          feature_content = ""
-          File.open(feature_file, "r") {|_file| feature_content = _file.read }
+          feature_content = File.open(feature_file, "r") {|_file| _file.read }
 
           wiki_page = wiki.page(page_name)
 
           if wiki_page
-            wiki_page_content = wiki_page.raw_data
-            new_page_content = build_page_content(feature_content, wiki_page_content)
-
-            if new_page_content == wiki_page_content
-              puts "=== Page #{page_name} didn't change ==="
-            else
-              wiki.update_page(wiki_page, page_name, :markdown, new_page_content, commit_info)
-              puts "==== Updated page: #{page_name} ==="
-            end
+            update_wiki_page(wiki_page, page_name, feature_content)
           else
-            new_page_content = build_page_content(feature_content)
-
-            wiki.write_page(page_name, :markdown, new_page_content, commit_info)
-            puts "==== Created page: #{page_name} ==="
+            update_wiki_page(wiki_page, page_name, feature_content)
           end
         end
 
@@ -146,6 +134,25 @@ module Gitnesse
       end
     end
 
+  end
+
+  def create_wiki_page(page_name, feature_content)
+    new_page_content = build_page_content(feature_content)
+
+    wiki.write_page(page_name, :markdown, new_page_content, commit_info)
+    puts "==== Created page: #{page_name} ==="
+  end
+
+  def update_wiki_page(wiki_page, page_name, feature_content)
+    wiki_page_content = wiki_page.raw_data
+    new_page_content = build_page_content(feature_content, wiki_page_content)
+
+    if new_page_content == wiki_page_content
+      puts "=== Page #{page_name} didn't change ==="
+    else
+      wiki.update_page(wiki_page, page_name, :markdown, new_page_content, commit_info)
+      puts "==== Updated page: #{page_name} ==="
+    end
   end
 
   def build_page_content(feature_content, wiki_page_content = nil)
@@ -187,13 +194,15 @@ module Gitnesse
     $?.success?
   end
 
-  def create_commit_info
-    user_name = read_git_config("user.name")
-    email = read_git_config("user.email")
-    raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
-    raise "Can't read git's user.email config" if email.nil? || email.empty?
+  def commit_info
+    @commit_info ||= begin
+      user_name = read_git_config("user.name")
+      email = read_git_config("user.email")
+      raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
+      raise "Can't read git's user.email config" if email.nil? || email.empty?
 
-    {:name => user_name, :email => email, :message => "Update features with Gitnesse"}
+      {:name => user_name, :email => email, :message => "Update features with Gitnesse"}
+    end
   end
 
   def read_git_config(config_name)
