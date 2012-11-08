@@ -107,8 +107,54 @@ module Gitnesse
     ensure_git_available
     ensure_cucumber_available
     ensure_repository
+    commit_info = create_commit_info
 
-    puts "Not implemented yet... pull request for push please!"
+    Dir.mktmpdir do |tmp_dir|
+      if clone_feature_repo(tmp_dir)
+        wiki = Gollum::Wiki.new(tmp_dir)
+        feature_files = Dir["#{Gitnesse.target_directory}/*.feature"]
+
+        feature_files.each do |feature_file|
+          page_name = File.basename(feature_file, ".feature")
+          feature_content = ""
+          File.open(feature_file, "r") {|_file| feature_content = _file.read }
+
+          wiki_page = wiki.page(page_name)
+
+          if wiki_page
+            wiki_page_content = wiki_page.raw_data
+            new_page_content = build_page_content(feature_content, wiki_page_content)
+
+            if new_page_content == wiki_page_content
+              puts "=== Page #{page_name} didn't change ==="
+            else
+              wiki.update_page(wiki_page, page_name, :markdown, new_page_content, commit_info)
+              puts "==== Updated page: #{page_name} ==="
+            end
+          else
+            new_page_content = build_page_content(feature_content)
+
+            wiki.write_page(page_name, :markdown, new_page_content, commit_info)
+            puts "==== Created page: #{page_name} ==="
+          end
+        end
+
+        # push the changes to the remote git
+        Dir.chdir(tmp_dir) do
+          puts `git push origin master`
+        end
+      end
+    end
+
+  end
+
+  def build_page_content(feature_content, wiki_page_content = nil)
+    return "```gherkin\n#{feature_content}\n```" if wiki_page_content.nil? || wiki_page_content.empty?
+    features = extract_features(wiki_page_content)
+
+    # replace the first feature found in the wiki page
+    _, old_feature_content = features.shift
+    wiki_page_content.sub(old_feature_content, feature_content)
   end
 
   # look thru wiki page for features
@@ -139,6 +185,22 @@ module Gitnesse
     output = `git clone #{Gitnesse.repository_url} #{dir} 2>&1`
     puts output
     $?.success?
+  end
+
+  def create_commit_info
+    user_name = read_git_config("user.name")
+    email = read_git_config("user.email")
+    raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
+    raise "Can't read git's user.email config" if email.nil? || email.empty?
+
+    {:name => user_name, :email => email, :message => "Update features with Gitnesse"}
+  end
+
+  def read_git_config(config_name)
+    config_value = ""
+    config_value = Kernel.__send__(:`, "git config --get #{config_name}")
+    config_value = Kernel.__send__(:`, "git config --get --global #{config_name}") unless $?.success?
+    config_value.strip
   end
 
   # we are going to support only one feature per page
