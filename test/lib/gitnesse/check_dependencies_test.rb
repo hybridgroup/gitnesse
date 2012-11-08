@@ -6,16 +6,13 @@ describe Gitnesse do
 
     describe "when repository was defined" do
       before { Gitnesse.stubs(:repository_url).returns("git://github.com/hybridgroup/gitnesse-demo.wiki") }
-
       it { _method.call.must_be_nil }
     end
 
     describe "when repository was not defined" do
       before { Gitnesse.stubs(:repository_url).returns(nil) }
-
       it { _method.must_raise(RuntimeError) }
     end
-
   end
 
   describe ".ensure_git_available" do
@@ -43,8 +40,20 @@ describe Gitnesse do
     describe "when cucumber is installed" do
       before { Kernel.expects(:system).with("cucumber --version").returns(true) }
       it { _method.call.must_be_nil }
+    end
+  end
 
+  describe ".branch" do
+    let(:_method) { lambda { Gitnesse.branch } }
+
+    describe "when no branch has been defined" do
+      before { Gitnesse.branch = nil }
+      it { _method.call.must_equal "master" }
+    end
+
+    describe "when a custom branch has been defined" do
+      before { Gitnesse.branch = "features" }
+      it { _method.call.must_equal "features" }
     end
   end
 end
-
