@@ -207,8 +207,8 @@ module Gitnesse
 
   def read_git_config(config_name)
     config_value = ""
-    config_value = Kernel.__send__(:`, "git config --get #{config_name}")
-    config_value = Kernel.__send__(:`, "git config --get --global #{config_name}") unless $?.success?
+    config_value = `git config --get #{config_name}`
+    config_value = `git config --get --global #{config_name}` unless $?.success?
     config_value.strip
   end
 
