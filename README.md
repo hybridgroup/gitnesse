@@ -21,7 +21,7 @@ Or install it yourself as:
 For Rails 3, create an initializer file config/initializer/gitnesse.rb like this:
 
     Gitnesse.config do |config|
-      config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki.git"
+      config.repository_url = "git@github.com:hybridgroup/gitnesse-demo.wiki"
     end
 
 ## Usage
