@@ -205,6 +205,10 @@ module Gitnesse
     end
   end
 
+  def commit_info=(commit_info)
+    @commit_info = commit_info
+  end
+
   def read_git_config(config_name)
     config_value = ""
     config_value = `git config --get #{config_name}`
