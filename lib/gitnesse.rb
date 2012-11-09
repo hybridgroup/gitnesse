@@ -111,21 +111,7 @@ module Gitnesse
 
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
-        wiki = Gollum::Wiki.new(tmp_dir)
-        feature_files = Dir["#{Gitnesse.target_directory}/*.feature"]
-
-        feature_files.each do |feature_file|
-          page_name = File.basename(feature_file, ".feature")
-          feature_content = File.open(feature_file, "r") {|_file| _file.read }
-
-          wiki_page = wiki.page(page_name)
-
-          if wiki_page
-            update_wiki_page(wiki_page, page_name, feature_content)
-          else
-            update_wiki_page(wiki_page, page_name, feature_content)
-          end
-        end
+        load_feature_files_into_wiki(tmp_dir)
 
         # push the changes to the remote git
         Dir.chdir(tmp_dir) do
@@ -134,6 +120,19 @@ module Gitnesse
       end
     end
 
+  end
+
+  def load_feature_files_into_wiki(tmp_dir)
+    wiki = Gollum::Wiki.new(tmp_dir)
+    feature_files = Dir["#{Gitnesse.target_directory}/*.feature"]
+
+    feature_files.each do |feature_file|
+      feature_name    = File.basename(feature_file, ".feature")
+      feature_content = File.open(feature_file, "r") { |file| file.read }
+      wiki_page       = wiki.page(page_name)
+
+      update_wiki_page(wiki_page, feature_name, feature_content)
+    end
   end
 
   def create_wiki_page(page_name, feature_content)
