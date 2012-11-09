@@ -17,4 +17,12 @@ namespace :gitnesse do
     load(ENV['CONFIG'])
     Gitnesse.push
   end
+
+  desc "Pull remote features from git-based wiki to local."
+  task :pull do
+    abort("Please provide a config file. Example: rake gitnesse:push CONFIG='./gitneese.rb'") unless ENV['CONFIG']
+    load(ENV['CONFIG'])
+    Gitnesse.pull
+  end
+
 end
