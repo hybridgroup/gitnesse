@@ -23,13 +23,13 @@ describe Gitnesse do
       it { method.call.must_equal "bob@bobsmith.com" }
     end
 
-    # describe "when a gitconfig value is set globally" do
-    #   before do
-    #     Gitnesse.stubs(:`).with("git config --get user.email").returns("")
-    #     Gitnesse.stubs(:`).with("git config --get --global user.email").returns("bob@bobsmith.com\n")
-    #   end
+    describe "when a gitconfig value is set globally" do
+      before do
+        Gitnesse.stubs(:`).with("git config --get user.email").returns("")
+        Gitnesse.stubs(:`).with("git config --get --global user.email").returns("bob@bobsmith.com\n")
+      end
 
-    #   it { method.call.must_equal "bob@bobsmith.com" }
-    # end
+      it { method.call.must_equal "bob@bobsmith.com" }
+    end
   end
 end
