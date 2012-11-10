@@ -128,7 +128,7 @@ module Gitnesse
 
     feature_files.each do |feature_file|
       feature_name    = File.basename(feature_file, ".feature")
-      feature_content = File.open(feature_file, "r") { |file| file.read }
+      feature_content = File.read(feature_file)
       wiki_page       = wiki.page(page_name)
 
       if wiki_page
