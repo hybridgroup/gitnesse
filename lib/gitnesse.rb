@@ -124,7 +124,7 @@ module Gitnesse
 
   def load_feature_files_into_wiki(tmp_dir)
     wiki = Gollum::Wiki.new(tmp_dir)
-    feature_files = Dir["#{Gitnesse.target_directory}/*.feature"]
+    feature_files = Dir.glob("#{Gitnesse.target_directory}/*.feature")
 
     feature_files.each do |feature_file|
       feature_name    = File.basename(feature_file, ".feature")
