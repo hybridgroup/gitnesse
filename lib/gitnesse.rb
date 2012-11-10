@@ -131,7 +131,11 @@ module Gitnesse
       feature_content = File.open(feature_file, "r") { |file| file.read }
       wiki_page       = wiki.page(page_name)
 
-      update_wiki_page(wiki_page, feature_name, feature_content)
+      if wiki_page
+        update_wiki_page(wiki_page, feature_name, feature_content)
+      else
+        create_wiki_page(page_name, feature_content)
+      end
     end
   end
 
