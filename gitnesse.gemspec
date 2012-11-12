@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  gem.add_dependency("bundler","~> 1.2.1")
+  gem.add_dependency("bundler")
   gem.add_dependency("gollum","~> 2.3.12")
   gem.add_development_dependency("minitest-matchers")
   gem.add_development_dependency("mocha")
