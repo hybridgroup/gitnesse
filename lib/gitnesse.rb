@@ -131,24 +131,24 @@ module Gitnesse
     feature_files.each do |feature_file|
       feature_name    = File.basename(feature_file, ".feature")
       feature_content = File.read(feature_file)
-      wiki_page       = wiki.page(page_name)
+      wiki_page       = wiki.page(feature_name)
 
       if wiki_page
-        update_wiki_page(wiki_page, feature_name, feature_content)
+        update_wiki_page(wiki, wiki_page, feature_name, feature_content)
       else
-        create_wiki_page(page_name, feature_content)
+        create_wiki_page(wiki, feature_name, feature_content)
       end
     end
   end
 
-  def create_wiki_page(page_name, feature_content)
+  def create_wiki_page(wiki, page_name, feature_content)
     new_page_content = build_page_content(feature_content)
 
     wiki.write_page(page_name, :markdown, new_page_content, commit_info)
     puts "==== Created page: #{page_name} ==="
   end
 
-  def update_wiki_page(wiki_page, page_name, feature_content)
+  def update_wiki_page(wiki, wiki_page, page_name, feature_content)
     wiki_page_content = wiki_page.raw_data
     new_page_content = build_page_content(feature_content, wiki_page_content)
 
