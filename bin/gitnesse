@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'gitnesse'
 
+Gitnesse.load_config
+
 if ARGV[0].nil?
   Gitnesse.run
 end

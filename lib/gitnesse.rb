@@ -83,7 +83,6 @@ module Gitnesse
 
   # pull features from git wiki, and sync up with features dir
   def pull
-    load_config
     ensure_git_available
     ensure_cucumber_available
     ensure_repository
@@ -105,7 +104,6 @@ module Gitnesse
 
   # push features back up to git wiki from features directory
   def push
-    load_config
     ensure_git_available
     ensure_cucumber_available
     ensure_repository
@@ -281,8 +279,6 @@ module Gitnesse
   end
 
   def config_to_hash
-    load_config
-
     { "repository_url" => Gitnesse.repository_url,
       "branch" => Gitnesse.branch,
       "target_directory" => Gitnesse.target_directory }
