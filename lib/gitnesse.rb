@@ -71,13 +71,15 @@ module Gitnesse
     yield self
   end
 
+  # -- all methods after this are module functions --
+  module_function
+
   def run
     if pull
       puts "Now going to run cucumber..."
       exec("cucumber #{Gitnesse.target_directory}/*.feature")
     end
   end
-  module_function :run
 
   # pull features from git wiki, and sync up with features dir
   def pull
@@ -99,16 +101,71 @@ module Gitnesse
     end
     puts "DONE."
   end
-  module_function :pull
 
-  # TODO: push features back up to git wiki from features directory
+  # push features back up to git wiki from features directory
   def push
-    ensure_git_and_cucumber_available
+    ensure_git_available
+    ensure_cucumber_available
     ensure_repository
+    commit_info
 
-    puts "Not implemented yet... pull request for push please!"
+    Dir.mktmpdir do |tmp_dir|
+      if clone_feature_repo(tmp_dir)
+        load_feature_files_into_wiki(tmp_dir)
+
+        # push the changes to the remote git
+        Dir.chdir(tmp_dir) do
+          puts `git push origin master`
+        end
+      end
+    end
+
   end
-  module_function :push
+
+  def load_feature_files_into_wiki(tmp_dir)
+    wiki = Gollum::Wiki.new(tmp_dir)
+    feature_files = Dir.glob("#{Gitnesse.target_directory}/*.feature")
+
+    feature_files.each do |feature_file|
+      feature_name    = File.basename(feature_file, ".feature")
+      feature_content = File.read(feature_file)
+      wiki_page       = wiki.page(page_name)
+
+      if wiki_page
+        update_wiki_page(wiki_page, feature_name, feature_content)
+      else
+        create_wiki_page(page_name, feature_content)
+      end
+    end
+  end
+
+  def create_wiki_page(page_name, feature_content)
+    new_page_content = build_page_content(feature_content)
+
+    wiki.write_page(page_name, :markdown, new_page_content, commit_info)
+    puts "==== Created page: #{page_name} ==="
+  end
+
+  def update_wiki_page(wiki_page, page_name, feature_content)
+    wiki_page_content = wiki_page.raw_data
+    new_page_content = build_page_content(feature_content, wiki_page_content)
+
+    if new_page_content == wiki_page_content
+      puts "=== Page #{page_name} didn't change ==="
+    else
+      wiki.update_page(wiki_page, page_name, :markdown, new_page_content, commit_info)
+      puts "==== Updated page: #{page_name} ==="
+    end
+  end
+
+  def build_page_content(feature_content, wiki_page_content = nil)
+    return "```gherkin\n#{feature_content}\n```" if wiki_page_content.nil? || wiki_page_content.empty?
+    features = extract_features(wiki_page_content)
+
+    # replace the first feature found in the wiki page
+    _, old_feature_content = features.shift
+    wiki_page_content.sub(old_feature_content, feature_content)
+  end
 
   # look thru wiki page for features
   def extract_features(data)
@@ -133,43 +190,95 @@ module Gitnesse
 
     features
   end
-  module_function :extract_features
 
   def clone_feature_repo(dir)
     output = `git clone #{Gitnesse.repository_url} #{dir} 2>&1`
     puts output
     $?.success?
   end
-  module_function :clone_feature_repo
 
-  def gather_features(page_features)
-    features = ''
-    page_features.each do |feature_name, feature_content|
-      puts "============================== #{feature_name} =============================="
-      puts feature_content
-      features = features + feature_content
+  def commit_info
+    @commit_info ||= begin
+      user_name = read_git_config("user.name")
+      email = read_git_config("user.email")
+      raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
+      raise "Can't read git's user.email config" if email.nil? || email.empty?
+
+      {:name => user_name, :email => email, :message => "Update features with Gitnesse"}
     end
+  end
+
+  def commit_info=(commit_info)
+    @commit_info = commit_info
+  end
+
+  def read_git_config(config_name)
+    config_value = ""
+    config_value = `git config --get #{config_name}`
+    config_value = `git config --get --global #{config_name}` unless $?.success?
+    config_value.strip
+  end
+
+  # we are going to support only one feature per page
+  def gather_features(page_features)
+    return "" if page_features.nil? or page_features.empty?
+
+    features = ''
+    feature_name, feature_content = page_features.shift
+    puts "============================== Pulling Feature: #{feature_name} =============================="
+    features = features + feature_content
+
+    page_features.each do |_feature_name, _feature_content|
+      puts "============================== WARNING! Discarded Feature: #{_feature_name} =============================="
+      puts _feature_content
+    end
+
     features
   end
-  module_function :gather_features
 
   def write_feature_file(page_name, page_features)
     File.open("#{Gitnesse.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
   end
-  module_function :write_feature_file
 
   def ensure_git_available
     raise "git not found or not working." unless Kernel.system("git --version")
   end
-  module_function :ensure_git_available
 
   def ensure_cucumber_available
     raise "cucumber not found or not working." unless Kernel.system("cucumber --version")
   end
-  module_function :ensure_cucumber_available
 
   def ensure_repository
     raise "You must select a repository_url to run Gitnesse." if Gitnesse.repository_url.nil?
   end
-  module_function :ensure_repository
+
+  def load_config
+    load(ENV['GITNESSE_CONFIG']) and return if ENV['GITNESSE_CONFIG']
+
+    possible_config_files = Dir.glob(File.join("**", "gitnesse.rb"))
+
+    files_with_config = possible_config_files.select do |file_name|
+      if FileUtils.compare_file(__FILE__, file_name)
+        false
+      else
+        file_content = File.read(file_name)
+        file_content.match("Gitnesse.config")
+      end
+    end
+
+    case files_with_config.length
+      when 0
+        raise "Can't find a gitnesse.rb file with Gitnesse configuration."
+      when 1
+        load(File.absolute_path(files_with_config.first))
+      else
+        raise "Several config files found: #{files_with_config.join(", ")}"
+    end
+  end
+
+  def config_to_hash
+    { "repository_url" => Gitnesse.repository_url,
+      "branch" => Gitnesse.branch,
+      "target_directory" => Gitnesse.target_directory }
+  end
 end
