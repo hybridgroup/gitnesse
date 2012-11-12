@@ -262,6 +262,8 @@ module Gitnesse
     files_with_config = possible_config_files.select do |file_name|
       if FileUtils.compare_file(__FILE__, file_name)
         false
+      elsif File.fnmatch("vendor/**/*.rb", file_name)
+        false
       else
         file_content = File.read(file_name)
         file_content.match("Gitnesse.config")
