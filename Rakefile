@@ -13,19 +13,16 @@ task :default => :test
 namespace :gitnesse do
   desc "Push local features to remote git-based wiki."
   task :push do
-    Gitnesse.load_config
     Gitnesse.push
   end
 
   desc "Pull remote features from git-based wiki to local."
   task :pull do
-    Gitnesse.load_config
     Gitnesse.pull
   end
 
   desc "Dump the current config info to the console."
   task :info do
-    Gitnesse.load_config
     puts Gitnesse.config_to_hash.to_yaml
   end
 end

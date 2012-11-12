@@ -279,6 +279,8 @@ module Gitnesse
   end
 
   def config_to_hash
+    load_config
+
     { "repository_url" => Gitnesse.repository_url,
       "branch" => Gitnesse.branch,
       "target_directory" => Gitnesse.target_directory }
