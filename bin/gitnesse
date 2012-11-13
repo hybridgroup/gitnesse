@@ -9,6 +9,14 @@ if ARGV[0].nil?
   Gitnesse.run
 end
 
+def print_help
+  puts "Gitnesse commands:"
+  puts "  run: pull remote features from git-based wiki to local, and run Cucumber"
+  puts "  push: push local features to git-based wiki"
+  puts "  pull: pull remote features from git-based wiki to local"
+  puts "  info: print current Gitnesse configuration"
+end
+
 case ARGV[0]
 when "push"
   Gitnesse.push
@@ -22,12 +30,4 @@ when "help"
   print_help
 else
   print_help
-end
-
-def print_help
-  puts "Gitnesse commands:"
-  puts "  run: pull remote features from git-based wiki to local, and run Cucumber"
-  puts "  push: push local features to git-based wiki"
-  puts "  pull: pull remote features from git-based wiki to local"
-  puts "  info: print current Gitnesse configuration"
 end
