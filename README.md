@@ -32,7 +32,7 @@ For Rails 3 there is a rake task:
 
 Not Rails 3 ? There is available an executable that requires the path to the configuration file:
 
-    $ CONFIG='./gitnesse_config.rb' gitnesse
+    $ GITNESSE_CONFIG='./gitnesse_config.rb' gitnesse
 
 ## Usage
 
