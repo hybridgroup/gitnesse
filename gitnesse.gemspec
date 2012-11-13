@@ -20,5 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency("minitest-matchers")
   gem.add_development_dependency("mocha")
   gem.add_development_dependency("cucumber")
+  gem.add_development_dependency("rake")
   gem.executables = ['gitnesse']
 end
