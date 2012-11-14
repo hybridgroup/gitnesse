@@ -67,10 +67,11 @@ end</code></pre>
         <section id="section-rake-tasks">
           <h2>Rake tasks</h2>
           <p>
-          <pre><code>$ rake gitnesse:pull
-$ rake gitnesse:push
-$ rake gitnesse:run
-$ rake gitnesse:info</code></pre>
+          <pre><code>$ rake -T
+rake gitnesse:info  # Dump the current config info to the console.
+rake gitnesse:pull  # Pull features from remote git wiki repository.
+rake gitnesse:push  # Push features to remote git wiki repository.
+rake gitnesse:run   # Pull features from remote repository and run cucumber.</code></pre>
           </p>
         </section>
 
