@@ -22,6 +22,12 @@ module Gitnesse
           Gitnesse.load_config
           Gitnesse.push
         end
+
+        desc "Dump the current config info to the console."
+        task :info => :environment do
+          Gitnesse.load_config
+          puts Gitnesse.config_to_hash.to_yaml
+        end
       end
     end
   end

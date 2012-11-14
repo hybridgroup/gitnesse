@@ -25,19 +25,25 @@ the following to it:
       repository_url "git@github.com:hybridgroup/gitnesse-demo.wiki"
     end
 
-## Usage
+## Usage In Rails 3
 
 For Rails 3 there is a rake task:
 
     $ rake gitnesse
 
-Not Rails 3 ? There is available an executable that requires the path to the configuration file:
+There is an example application using Rails 3 located here: [https://github.com/hybridgroup/gitnesse-example-rails](https://github.com/hybridgroup/gitnesse-example-rails)
 
-    $ GITNESSE_CONFIG='./gitnesse_config.rb' gitnesse
-
-## Usage
+## Usage In Sinatra
 
 For Rails 3 there is a rake task:
+
+There is an example application using Sinatra located here: [https://github.com/hybridgroup/gitnesse-example-sinatra](https://github.com/hybridgroup/gitnesse-example-sinatra)
+
+## Other Usage
+
+Want to use plain old Gitnesse? There is an executable that requires the path to the configuration file:
+
+    $ GITNESSE_CONFIG='./gitnesse_config.rb' gitnesse
 
 ## TODO
 

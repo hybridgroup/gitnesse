@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'gollum'
 require 'fileutils'
 require 'tmpdir'
-require 'gitnesse/railtie' if defined?(Rails::Railtie)
+require 'gitnesse/railtie' if defined?(Rails)
 
 # core module
 module Gitnesse
