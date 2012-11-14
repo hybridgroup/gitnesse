@@ -7,11 +7,7 @@ require 'gitnesse/railtie' if defined?(Rails::Railtie)
 # core module
 module Gitnesse
 
-  # Public: Return String with url of the git wiki repo containing features.
-  #
-  def self.repository_url
-    @@repository_url
-  end
+  extend self
 
   # Public: Set url of the git-based wiki repo containing features.
   #
@@ -19,18 +15,16 @@ module Gitnesse
   #
   # Example:
   #
-  #   Gitnesse.config do |config|
-  #     config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki"
+  #   Gitnesse.config do
+  #     repository_url  "git@github.com:luishurtado/gitnesse-wiki.wiki"
   #   end
   #
-  def self.repository_url=(repository_url)
-    @@repository_url = repository_url
-  end
-
-  # Public: Return String with branch of the git-based wiki repo containing features.
-  #
-  def self.branch
-    @@branch ||= "master"
+  def self.repository_url(repository_url = false)
+    if repository_url == false
+      @@repository_url
+    else
+      @@repository_url = repository_url
+    end
   end
 
   # Public: Set branch of the git-based wiki repo containing features.
@@ -39,18 +33,16 @@ module Gitnesse
   #
   # Example:
   #
-  #   Gitnesse.config do |config|
-  #     config.branch = "master"
+  #   Gitnesse.config do
+  #     branch "master"
   #   end
   #
-  def self.branch=(branch)
-    @@branch = branch
-  end
-
-  # Public: Return String with which directory being used to sync with git-wiki stored feature stories.
-  #
-  def self.target_directory
-    @@target_directory ||= File.join(Dir.pwd, 'features')
+  def self.branch(branch = false)
+    if branch == false
+      @@branch ||= "master"
+    else
+      @@branch = branch
+    end
   end
 
   # Public: Set local directory used to sync with git-wiki stored feature stories.
@@ -59,16 +51,20 @@ module Gitnesse
   #
   # Example:
   #
-  #   Gitnesse.config do |config|
-  #     config.target_directory = "features"
+  #   Gitnesse.config do
+  #     target_directory "features"
   #   end
   #
-  def self.target_directory=(target_directory)
-    @@target_directory = target_directory
+  def self.target_directory(target_directory = false)
+    if target_directory == false
+      @@target_directory ||= File.join(Dir.pwd, 'features')
+    else
+      @@target_directory = target_directory
+    end
   end
 
-  def self.config
-    yield self
+  def self.config(&block)
+    instance_eval &block
   end
 
   # -- all methods after this are module functions --
