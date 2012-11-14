@@ -279,4 +279,9 @@ module Gitnesse
       "branch" => Gitnesse.branch,
       "target_directory" => Gitnesse.target_directory }
   end
+
+  def method_missing(sym, *args, &block)
+    raise "Invalid variable name for Gitnesse configuration.
+           Allowed variables are repository_url, branch, and target_directory."
+  end
 end
