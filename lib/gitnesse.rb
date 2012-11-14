@@ -21,7 +21,15 @@ module Gitnesse
   #
   def self.repository_url(repository_url = false)
     if repository_url == false
-      @@repository_url
+      unless defined?(@@repository_url)
+        puts "---"
+        puts "No repository_url has been defined for Gitnesse."
+        puts "Add a gitnesse.rb file to your project and use it to configure Gitnesse."
+        puts "For more details, check out gitnesse.com"
+        auts "---"
+        exit 1
+      end
+      return @@repository_url
     else
       @@repository_url = repository_url
     end
