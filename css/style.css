@@ -47,6 +47,23 @@ pre code {
   color: black;
 }
 
+figure {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 14px;
+  color: #888;
+}
+
+figure img {
+  width: 100%;
+  box-shadow: 0 0 20px #bbb;
+}
+
 a, a:visited {
   color: hsl(35, 95%, 55%);
   text-decoration: none;
