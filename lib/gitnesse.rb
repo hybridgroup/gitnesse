@@ -281,7 +281,11 @@ module Gitnesse
   end
 
   def method_missing(sym, *args, &block)
-    raise "Invalid variable name for Gitnesse configuration.
-           Allowed variables are repository_url, branch, and target_directory."
+    unless ["to_str", "to_ary"].contains?(sym)
+      raise "Invalid variable name for Gitnesse configuration.
+             Allowed variables are repository_url, branch, and target_directory."
+    else
+      super
+    end
   end
 end
