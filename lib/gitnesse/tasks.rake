@@ -1,4 +1,7 @@
 namespace :gitnesse do
+  task :environment do
+  end
+
   desc "Pull features from remote repository and run cucumber."
   task :run => :environment do
     Gitnesse.load_config
