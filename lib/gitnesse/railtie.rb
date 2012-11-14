@@ -6,7 +6,7 @@ module Gitnesse
   	railtie_name :gitnesse
 
     rake_tasks do
-      load 'lib/gitnesse/tasks.rake'
+      load File.dirname(__FILE__) + '/tasks.rake'
     end
   end
 end
