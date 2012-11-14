@@ -25,17 +25,24 @@ the following to it:
       repository_url "git@github.com:hybridgroup/gitnesse-demo.wiki"
     end
 
+## rake tasks
+
+    $ rake gitnesse:pull
+    $ rake gitnesse:push
+    $ rake gitnesse:run
+    $ rake gitnesse:info
+
 ## Usage In Rails 3
 
-For Rails 3 there is a rake task:
-
-    $ rake gitnesse
+For Rails 3 the rake tasks should automatically just appear, as long as you have added the gitnesse gem to your Gemfile.
 
 There is an example application using Rails 3 located here: [https://github.com/hybridgroup/gitnesse-example-rails](https://github.com/hybridgroup/gitnesse-example-rails)
 
 ## Usage In Sinatra
 
-For Rails 3 there is a rake task:
+To use gitnesse in a Sinatra application, simple add this line of code to your Rakefile:
+
+    require "gitnesse/tasks"
 
 There is an example application using Sinatra located here: [https://github.com/hybridgroup/gitnesse-example-sinatra](https://github.com/hybridgroup/gitnesse-example-sinatra)
 
@@ -47,8 +54,8 @@ Want to use plain old Gitnesse? There is an executable that requires the path to
 
 ## TODO
 
-		- implement git push back to git wiki
-		- rake tasks for push/pull/run
+	- test git push back to git wiki
+	- pluggable feature runners, so can be used with Spinach, Cucumber-JS, or ?
 
 ## Contributing
 
