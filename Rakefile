@@ -2,7 +2,7 @@
 require "bundler/gem_tasks"
 require 'rake/testtask'
 require_relative 'lib/gitnesse'
-require_relative 'lib/gitnesse/tasks'
+load 'lib/gitnesse/tasks.rake'
 
 Rake::TestTask.new do |t|
   t.libs << 'lib/gitnesse'
@@ -13,5 +13,3 @@ task :default => :test
 
 task :environment do
 end
-
-Gitnesse::Tasks.new
