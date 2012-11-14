@@ -43,10 +43,10 @@
             Or install it yourself as
             <pre><code>$ gem install gitnesse</code></pre>
 
-            For Rails 3, create an initializer file config/initializer/gitnesse.rb like this:
+            Create a <code>gitnesse.rb</code> file somewhere in your project, and add configuration like this:
 
-            <pre><code>Gitnesse.config do |config|
-  config.repository_url = "git@github.com:luishurtado/gitnesse-wiki.wiki"
+            <pre><code>Gitnesse.config do
+  repository_url "git@github.com:luishurtado/gitnesse-wiki.wiki"
 end</code></pre>
           </p>
         </section>
