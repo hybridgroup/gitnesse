@@ -91,7 +91,7 @@ module Gitnesse
     ensure_cucumber_available
     ensure_repository
 
-    puts "Pulling features into: #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
+    puts "Pulling features into #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
@@ -113,6 +113,7 @@ module Gitnesse
     ensure_repository
     commit_info
 
+    puts "Pushing features from #{Gitnesse.target_directory} to #{Gitnesse.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         load_feature_files_into_wiki(tmp_dir)
@@ -123,7 +124,7 @@ module Gitnesse
         end
       end
     end
-
+    puts "DONE."
   end
 
   def load_feature_files_into_wiki(tmp_dir)
