@@ -35,7 +35,9 @@ There is an example application using Rails 3 located here: [https://github.com/
 
 ## Usage In Sinatra
 
-For Rails 3 there is a rake task:
+For Sinatra there is a rake task:
+
+    $ rake gitnesse
 
 There is an example application using Sinatra located here: [https://github.com/hybridgroup/gitnesse-example-sinatra](https://github.com/hybridgroup/gitnesse-example-sinatra)
 
@@ -47,8 +49,7 @@ Want to use plain old Gitnesse? There is an executable that requires the path to
 
 ## TODO
 
-		- implement git push back to git wiki
-		- rake tasks for push/pull/run
+Keep tunned.
 
 ## Contributing
 
