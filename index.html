@@ -46,20 +46,38 @@
             Create a <code>gitnesse.rb</code> file somewhere in your project, and add configuration like this:
 
             <pre><code>Gitnesse.config do
-  repository_url "git@github.com:luishurtado/gitnesse-wiki.wiki"
+  repository_url "git@github.com:hybridgroup/gitnesse-wiki.wiki"
 end</code></pre>
           </p>
         </section>
 
-        <section id="section-usage">
-          <h2>Usage</h2>
+        <section id="section-rake-tasks">
+          <h2>Rake tasks</h2>
           <p>
-            For Rails 3 apps, there are a few Rake tasks:
-            <ul>
-              <li><code>rake gitnesse:pull</code> will pull features from the remote wiki repository</li>
-              <li><code>rake gitnesse:push</code> will push new/changed features to the remote wiki repository</li>
-            </ul>
+          <pre><code>$ rake gitnesse:pull
+$ rake gitnesse:push
+$ rake gitnesse:run
+$ rake gitnesse:info</code></pre>
           </p>
+        </section>
+
+        <section id="section-usage-rails">
+          <h2>Usage in Rails 3</h2>
+          <p>For Rails 3 the rake tasks should automatically just appear, as long as you have added the gitnesse gem to your Gemfile.</p>
+          <p>There is an example application using Rails 3 located here: <a href="https://github.com/hybridgroup/gitnesse-example-rails">https://github.com/hybridgroup/gitnesse-example-rails</a></p>
+        </section>
+
+        <section id="section-usage-sinatra">
+          <h2>Usage in Sinatra</h2>
+          <p>To use gitnesse in a Sinatra application, simple add this line of code to your Rakefile:</p>
+          <pre><code>require "gitnesse/tasks"</code></pre>
+          <p>There is an example application using Sinatra located here: <a href="https://github.com/hybridgroup/gitnesse-example-sinatra">https://github.com/hybridgroup/gitnesse-example-sinatra</a></p>
+        </section>
+
+        <section id="section-usage-other">
+          <h2>Other usage</h2>
+          <p>Want to use plain old Gitnesse? There is an executable that requires the path to the configuration file:</p>
+          <pre><code>$ GITNESSE_CONFIG='./gitnesse_config.rb' gitnesse</code></pre>
         </section>
 
         <section id="section-more-info">
