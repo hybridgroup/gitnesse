@@ -176,7 +176,7 @@ module Gitnesse
   def extract_features(data)
     features = {}
 
-    if match_result = data.match(/\u0060{3}(.+)\u0060{3}/m)
+    if match_result = data.match(/\u0060{3}gherkin(.+)\u0060{3}/m)
       captures = match_result.captures
 
       # create hash with feature name as key and feature text as value
