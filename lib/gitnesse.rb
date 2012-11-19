@@ -98,8 +98,9 @@ module Gitnesse
 
         wiki_pages = Gollum::Wiki.new(tmp_dir).pages
         wiki_pages.each do |wiki_page|
+          page_name =  wiki_page.name.gsub('.feature', '')
           page_features = extract_features(wiki_page.raw_data)
-          write_feature_file(wiki_page.name, page_features) unless page_features.empty?
+          write_feature_file(page_name, page_features) unless page_features.empty?
         end
       end
     end
