@@ -136,6 +136,7 @@ module Gitnesse
       feature_name    = File.basename(feature_file, ".feature")
       feature_content = File.read(feature_file)
       wiki_page       = wiki.page(feature_name)
+      wiki_page       ||= wiki.page("#{feature_name}.feature")
 
       if wiki_page
         update_wiki_page(wiki, wiki_page, feature_name, feature_content)
