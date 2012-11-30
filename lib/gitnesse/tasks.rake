@@ -23,6 +23,6 @@ namespace :gitnesse do
   desc "Dump the current config info to the console."
   task :info => :environment do
     Gitnesse.load_config
-    puts Gitnesse.config_to_hash.to_yaml
+    puts Gitnesse.configuration.to_yaml
   end
 end

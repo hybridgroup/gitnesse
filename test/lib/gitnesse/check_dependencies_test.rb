@@ -5,12 +5,12 @@ describe Gitnesse do
     let(:method) { lambda { Gitnesse.ensure_repository } }
 
     describe "when repository was defined" do
-      before { Gitnesse.repository_url("git://github.com/hybridgroup/gitnesse-demo.wiki") }
+      before { Gitnesse.configuration.repository_url = "git://github.com/hybridgroup/gitnesse-demo.wiki" }
       it { method.call.must_be_nil }
     end
 
     describe "when repository was not defined" do
-      before { Gitnesse.repository_url(nil) }
+      before { Gitnesse.configuration.repository_url = nil }
       it { method.must_raise(RuntimeError) }
     end
   end

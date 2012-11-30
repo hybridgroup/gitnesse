@@ -21,8 +21,8 @@ Or install it yourself as:
 Create a `gitnesse.rb` file somewhere in your project, and add something like
 the following to it:
 
-    Gitnesse.config do
-      repository_url "git@github.com:hybridgroup/gitnesse-demo.wiki"
+    Gitnesse.configure do |config|
+      config.repository_url = "git@github.com:hybridgroup/gitnesse-demo.wiki"
     end
 
 ## rake tasks

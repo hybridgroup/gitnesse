@@ -2,77 +2,21 @@ require 'bundler/setup'
 require 'gollum'
 require 'fileutils'
 require 'tmpdir'
+require 'gitnesse/configuration'
 require 'gitnesse/railtie' if defined?(Rails)
 
 # core module
 module Gitnesse
+  class << self
+    attr_accessor :configuration
+  end
+
+  self.configuration ||= Configuration.new
 
   extend self
 
-  # Public: Set url of the git-based wiki repo containing features.
-  #
-  # repository_url - A String containing your repo's url.
-  #
-  # Example:
-  #
-  #   Gitnesse.config do
-  #     repository_url  "git@github.com:luishurtado/gitnesse-wiki.wiki"
-  #   end
-  #
-  def self.repository_url(repository_url = false)
-    if repository_url == false
-      unless defined?(@@repository_url)
-        puts "---"
-        puts "No repository_url has been defined for Gitnesse."
-        puts "Add a gitnesse.rb file to your project and use it to configure Gitnesse."
-        puts "For more details, check out gitnesse.com"
-        auts "---"
-        exit 1
-      end
-      return @@repository_url
-    else
-      @@repository_url = repository_url
-    end
-  end
-
-  # Public: Set branch of the git-based wiki repo containing features.
-  #
-  # branch - A String containing which branch of your repo to use.
-  #
-  # Example:
-  #
-  #   Gitnesse.config do
-  #     branch "master"
-  #   end
-  #
-  def self.branch(branch = false)
-    if branch == false
-      @@branch ||= "master"
-    else
-      @@branch = branch
-    end
-  end
-
-  # Public: Set local directory used to sync with git-wiki stored feature stories.
-  #
-  # target_directory - A String containing which directory to use.
-  #
-  # Example:
-  #
-  #   Gitnesse.config do
-  #     target_directory "features"
-  #   end
-  #
-  def self.target_directory(target_directory = false)
-    if target_directory == false
-      @@target_directory ||= File.join(Dir.pwd, 'features')
-    else
-      @@target_directory = target_directory
-    end
-  end
-
-  def self.config(&block)
-    instance_eval &block
+  def self.configure
+    yield(configuration)
   end
 
   # -- all methods after this are module functions --
@@ -81,7 +25,7 @@ module Gitnesse
   def run
     if pull
       puts "Now going to run cucumber..."
-      exec("cucumber #{Gitnesse.target_directory}/*.feature")
+      exec("cucumber #{Gitnesse.configuration.target_directory}/*.feature")
     end
   end
 
@@ -91,10 +35,10 @@ module Gitnesse
     ensure_cucumber_available
     ensure_repository
 
-    puts "Pulling features into #{Gitnesse.target_directory} from #{Gitnesse.repository_url}..."
+    puts "Pulling features into #{Gitnesse.configuration.target_directory} from #{Gitnesse.configuration.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
-        FileUtils.mkdir(Gitnesse.target_directory) unless File.exists?(Gitnesse.target_directory)
+        FileUtils.mkdir(Gitnesse.configuration.target_directory) unless File.exists?(Gitnesse.configuration.target_directory)
 
         wiki_pages = Gollum::Wiki.new(tmp_dir).pages
         wiki_pages.each do |wiki_page|
@@ -114,7 +58,7 @@ module Gitnesse
     ensure_repository
     commit_info
 
-    puts "Pushing features from #{Gitnesse.target_directory} to #{Gitnesse.repository_url}..."
+    puts "Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         load_feature_files_into_wiki(tmp_dir)
@@ -130,7 +74,7 @@ module Gitnesse
 
   def load_feature_files_into_wiki(tmp_dir)
     wiki = Gollum::Wiki.new(tmp_dir)
-    feature_files = Dir.glob("#{Gitnesse.target_directory}/*.feature")
+    feature_files = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
 
     feature_files.each do |feature_file|
       feature_name    = File.basename(feature_file, ".feature")
@@ -199,7 +143,7 @@ module Gitnesse
   end
 
   def clone_feature_repo(dir)
-    output = `git clone #{Gitnesse.repository_url} #{dir} 2>&1`
+    output = `git clone #{Gitnesse.configuration.repository_url} #{dir} 2>&1`
     puts output
     $?.success?
   end
@@ -244,7 +188,7 @@ module Gitnesse
   end
 
   def write_feature_file(page_name, page_features)
-    File.open("#{Gitnesse.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
+    File.open("#{Gitnesse.configuration.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
   end
 
   def ensure_git_available
@@ -256,7 +200,7 @@ module Gitnesse
   end
 
   def ensure_repository
-    raise "You must select a repository_url to run Gitnesse." if Gitnesse.repository_url.nil?
+    raise "You must select a repository_url to run Gitnesse." if Gitnesse.configuration.repository_url.nil?
   end
 
   def load_config
@@ -271,7 +215,7 @@ module Gitnesse
         false
       else
         file_content = File.read(file_name)
-        file_content.match("Gitnesse.config")
+        file_content.match("Gitnesse.configure")
       end
     end
 
@@ -282,21 +226,6 @@ module Gitnesse
         load(File.absolute_path(files_with_config.first))
       else
         raise "Several config files found: #{files_with_config.join(", ")}"
-    end
-  end
-
-  def config_to_hash
-    { "repository_url" => Gitnesse.repository_url,
-      "branch" => Gitnesse.branch,
-      "target_directory" => Gitnesse.target_directory }
-  end
-
-  def method_missing(sym, *args, &block)
-    unless ["to_str", "to_ary"].contains?(sym)
-      raise "Invalid variable name for Gitnesse configuration.
-             Allowed variables are repository_url, branch, and target_directory."
-    else
-      super
     end
   end
 end

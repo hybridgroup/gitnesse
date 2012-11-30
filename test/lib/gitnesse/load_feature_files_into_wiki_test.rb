@@ -26,7 +26,7 @@ Feature: Addition
         file.write(feature)
       end
 
-      Dir.expects(:glob).with("#{Gitnesse.target_directory}/*.feature").returns(:feature_file_dir)
+      Dir.expects(:glob).with("#{Gitnesse.configuration.target_directory}/*.feature").returns(:feature_file_dir)
       wiki.expects(:page).with("testing").returns(wiki_page)
       Gitnesse.expects(:update_wiki_page).with(wiki_page, "testing", "blarg")
     end

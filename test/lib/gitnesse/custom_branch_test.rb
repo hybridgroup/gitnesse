@@ -1,25 +1,24 @@
 require_relative '../../test_helper'
 
-describe Gitnesse do
+describe Gitnesse::Configuration do
   describe "#branch" do
     describe "defaults to 'master'" do
-      before { Gitnesse.branch nil }
-      it { Gitnesse.branch.must_equal "master" }
+      it { Gitnesse.configuration.branch.must_equal "master" }
     end
 
     describe "when changed" do
-      before { Gitnesse.branch "wiki" }
-      it { Gitnesse.branch.must_equal "wiki" }
+      before { Gitnesse.configuration.branch = "wiki" }
+      it { Gitnesse.configuration.branch.must_equal "wiki" }
     end
 
-    describe "when changed through #config" do
+    describe "when changed through #configure" do
       before do
-        Gitnesse.config do
-          branch "wiki"
+        Gitnesse.configure do |config|
+          config.branch = "wiki"
         end
       end
 
-      it { Gitnesse.branch.must_equal "wiki" }
+      it { Gitnesse.configuration.branch.must_equal "wiki" }
     end
   end
 end
