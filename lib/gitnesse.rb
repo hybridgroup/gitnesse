@@ -10,6 +10,7 @@ require 'gitnesse/railtie' if defined?(Rails)
 module Gitnesse
   class << self
     attr_accessor :configuration
+    attr_accessor :commit_info
   end
 
   self.configuration ||= Configuration.new
@@ -53,7 +54,7 @@ module Gitnesse
   # push features back up to git wiki from features directory
   def push
     Dependencies.check
-    commit_info
+    generate_commit_info
 
     puts "Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
@@ -145,19 +146,15 @@ module Gitnesse
     $?.success?
   end
 
-  def commit_info
-    @commit_info ||= begin
+  def generate_commit_info
+    self.commit_info ||= begin
       user_name = read_git_config("user.name")
       email = read_git_config("user.email")
       raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
       raise "Can't read git's user.email config" if email.nil? || email.empty?
 
-      {:name => user_name, :email => email, :message => "Update features with Gitnesse"}
+      { :name => user_name, :email => email, :message => "Update features with Gitnesse" }
     end
-  end
-
-  def commit_info=(commit_info)
-    @commit_info = commit_info
   end
 
   def read_git_config(config_name)

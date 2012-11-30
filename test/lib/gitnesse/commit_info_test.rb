@@ -1,8 +1,8 @@
 require_relative '../../test_helper'
 
 describe Gitnesse do
-  describe "#commit_info" do
-    let(:method) { lambda { Gitnesse.commit_info } }
+  describe "#generate_commit_info" do
+    let(:method) { lambda { Gitnesse.generate_commit_info } }
 
     describe "with a defined git username and email" do
       before do
