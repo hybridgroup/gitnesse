@@ -3,6 +3,7 @@ require 'gollum'
 require 'fileutils'
 require 'tmpdir'
 require 'gitnesse/configuration'
+require 'gitnesse/dependencies'
 require 'gitnesse/railtie' if defined?(Rails)
 
 # core module
@@ -31,9 +32,7 @@ module Gitnesse
 
   # pull features from git wiki, and sync up with features dir
   def pull
-    ensure_git_available
-    ensure_cucumber_available
-    ensure_repository
+    Dependencies.check
 
     puts "Pulling features into #{Gitnesse.configuration.target_directory} from #{Gitnesse.configuration.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
@@ -53,9 +52,7 @@ module Gitnesse
 
   # push features back up to git wiki from features directory
   def push
-    ensure_git_available
-    ensure_cucumber_available
-    ensure_repository
+    Dependencies.check
     commit_info
 
     puts "Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}..."
@@ -189,18 +186,6 @@ module Gitnesse
 
   def write_feature_file(page_name, page_features)
     File.open("#{Gitnesse.configuration.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
-  end
-
-  def ensure_git_available
-    raise "git not found or not working." unless Kernel.system("git --version")
-  end
-
-  def ensure_cucumber_available
-    raise "cucumber not found or not working." unless Kernel.system("cucumber --version")
-  end
-
-  def ensure_repository
-    raise "You must select a repository_url to run Gitnesse." if Gitnesse.configuration.repository_url.nil?
   end
 
   def load_config
