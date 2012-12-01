@@ -3,6 +3,7 @@ require 'gollum'
 require 'fileutils'
 require 'tmpdir'
 require 'gitnesse/configuration'
+require 'gitnesse/git_config'
 require 'gitnesse/dependencies'
 require 'gitnesse/railtie' if defined?(Rails)
 
@@ -148,20 +149,10 @@ module Gitnesse
 
   def generate_commit_info
     self.commit_info ||= begin
-      user_name = read_git_config("user.name")
-      email = read_git_config("user.email")
-      raise "Can't read git's user.name config" if user_name.nil? || user_name.empty?
-      raise "Can't read git's user.email config" if email.nil? || email.empty?
-
+      user_name = GitConfig.read("user.name")
+      email = GitConfig.read("user.email")
       { :name => user_name, :email => email, :message => "Update features with Gitnesse" }
     end
-  end
-
-  def read_git_config(config_name)
-    config_value = ""
-    config_value = `git config --get #{config_name}`
-    config_value = `git config --get --global #{config_name}` unless $?.success?
-    config_value.strip
   end
 
   # we are going to support only one feature per page
