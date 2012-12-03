@@ -1,6 +1,15 @@
 require_relative '../../test_helper'
 
-describe Gitnesse do
+describe Gitnesse::Wiki do
+  let(:dir) { Dir.mktmpdir }
+  let(:wiki) { Gitnesse::Wiki.new(dir) }
+
+  before do
+    Dir.chdir(dir) do
+      `git init`
+    end
+  end
+
   describe ".build_page_content" do
     let(:wiki_page_content) do
       <<-EOS
@@ -35,7 +44,7 @@ Feature: Addition
     end
 
     describe "without existing wiki page content" do
-      let(:method) { lambda { Gitnesse.build_page_content(new_feature_content) } }
+      let(:method) { lambda { wiki.build_page_content(new_feature_content) } }
       let(:expected_result) do
         "```gherkin
 Feature: Addition
@@ -55,7 +64,7 @@ Feature: Addition
     end
 
     describe "with existing wiki page content" do
-      let(:method) { lambda { Gitnesse.build_page_content(new_feature_content, wiki_page_content) } }
+      let(:method) { lambda { wiki.build_page_content(new_feature_content, wiki_page_content) } }
       let(:expected_result) do
         <<-EOS
 # Addition is Awesome

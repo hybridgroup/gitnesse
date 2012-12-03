@@ -5,6 +5,7 @@ require 'tmpdir'
 require 'gitnesse/configuration'
 require 'gitnesse/git_config'
 require 'gitnesse/dependencies'
+require 'gitnesse/wiki'
 require 'gitnesse/railtie' if defined?(Rails)
 
 # core module
@@ -41,15 +42,15 @@ module Gitnesse
       if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.configuration.target_directory) unless File.exists?(Gitnesse.configuration.target_directory)
 
-        wiki_pages = Gollum::Wiki.new(tmp_dir).pages
-        wiki_pages.each do |wiki_page|
-          page_name =  wiki_page.name.gsub('.feature', '')
-          page_features = extract_features(wiki_page.raw_data)
+        wiki_pages = Wiki.new(tmp_dir).pages
+        wiki_pages.each do |page|
+          page_name =  page.name.gsub('.feature', '')
+          page_features = Wiki.extract_features(page)
           write_feature_file(page_name, page_features) unless page_features.empty?
         end
       end
     end
-    puts "DONE."
+    puts "  Done pulling features."
   end
 
   # push features back up to git wiki from features directory
@@ -60,7 +61,8 @@ module Gitnesse
     puts "Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}..."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
-        load_feature_files_into_wiki(tmp_dir)
+        feature_files = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
+        Wiki.new(tmp_dir).load_feature_files(feature_files)
 
         # push the changes to the remote git
         Dir.chdir(tmp_dir) do
@@ -68,77 +70,7 @@ module Gitnesse
         end
       end
     end
-    puts "DONE."
-  end
-
-  def load_feature_files_into_wiki(tmp_dir)
-    wiki = Gollum::Wiki.new(tmp_dir)
-    feature_files = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
-
-    feature_files.each do |feature_file|
-      feature_name    = File.basename(feature_file, ".feature")
-      feature_content = File.read(feature_file)
-      wiki_page       = wiki.page(feature_name)
-      wiki_page       ||= wiki.page("#{feature_name}.feature")
-
-      if wiki_page
-        update_wiki_page(wiki, wiki_page, feature_name, feature_content)
-      else
-        create_wiki_page(wiki, feature_name, feature_content)
-      end
-    end
-  end
-
-  def create_wiki_page(wiki, page_name, feature_content)
-    new_page_content = build_page_content(feature_content)
-
-    wiki.write_page(page_name, :markdown, new_page_content, commit_info)
-    puts "==== Created page: #{page_name} ==="
-  end
-
-  def update_wiki_page(wiki, wiki_page, page_name, feature_content)
-    wiki_page_content = wiki_page.raw_data
-    new_page_content = build_page_content(feature_content, wiki_page_content)
-
-    if new_page_content == wiki_page_content
-      puts "=== Page #{page_name} didn't change ==="
-    else
-      wiki.update_page(wiki_page, page_name, :markdown, new_page_content, commit_info)
-      puts "==== Updated page: #{page_name} ==="
-    end
-  end
-
-  def build_page_content(feature_content, wiki_page_content = nil)
-    return "```gherkin\n#{feature_content}\n```" if wiki_page_content.nil? || wiki_page_content.empty?
-    features = extract_features(wiki_page_content)
-
-    # replace the first feature found in the wiki page
-    _, old_feature_content = features.shift
-    wiki_page_content.sub(old_feature_content, feature_content)
-  end
-
-  # look thru wiki page for features
-  def extract_features(data)
-    features = {}
-
-    if match_result = data.match(/\u0060{3}gherkin(.+)\u0060{3}/m)
-      captures = match_result.captures
-
-      # create hash with feature name as key and feature text as value
-      captures.each do |capture|
-        feature_definition_at = capture.index('Feature:')
-        feature_text = capture[feature_definition_at,capture.size-1]
-        feature_lines = feature_text.split("\n")
-        feature_definition = feature_lines.grep(/^Feature:/).first
-
-        if feature_definition
-          feature_name = feature_definition.split(":").last.strip.gsub(" ","-").downcase
-          features[feature_name] = feature_text
-        end
-      end
-    end
-
-    features
+    puts "  Done pushing features."
   end
 
   def clone_feature_repo(dir)
@@ -161,15 +93,15 @@ module Gitnesse
 
     features = ''
     feature_name, feature_content = page_features.shift
-    puts "============================== Pulling Feature: #{feature_name} =============================="
+    puts "  # Pulling Feature: #{feature_name}"
     features = features + feature_content
 
     page_features.each do |_feature_name, _feature_content|
-      puts "============================== WARNING! Discarded Feature: #{_feature_name} =============================="
+      puts "  # WARNING! Discarded Feature: #{_feature_name}"
       puts _feature_content
     end
 
-    features
+   features
   end
 
   def write_feature_file(page_name, page_features)
