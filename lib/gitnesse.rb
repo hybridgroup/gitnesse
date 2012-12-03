@@ -5,6 +5,7 @@ require 'tmpdir'
 require 'gitnesse/configuration'
 require 'gitnesse/git_config'
 require 'gitnesse/dependencies'
+require 'gitnesse/features'
 require 'gitnesse/wiki'
 require 'gitnesse/railtie' if defined?(Rails)
 
@@ -44,9 +45,10 @@ module Gitnesse
 
         wiki_pages = Wiki.new(tmp_dir).pages
         wiki_pages.each do |page|
-          page_name =  page.name.gsub('.feature', '')
-          page_features = Wiki.extract_features(page)
-          write_feature_file(page_name, page_features) unless page_features.empty?
+          name =  page.name.gsub('.feature', '')
+          filename = "#{Gitnesse.configuration.target_directory}/#{name}.feature"
+          features = Wiki.extract_features(page)
+          Features.write_feature_file(filename, features) unless features.empty?
         end
       end
     end
@@ -85,27 +87,6 @@ module Gitnesse
       email = GitConfig.read("user.email")
       { :name => user_name, :email => email, :message => "Update features with Gitnesse" }
     end
-  end
-
-  # we are going to support only one feature per page
-  def gather_features(page_features)
-    return "" if page_features.nil? or page_features.empty?
-
-    features = ''
-    feature_name, feature_content = page_features.shift
-    puts "  # Pulling Feature: #{feature_name}"
-    features = features + feature_content
-
-    page_features.each do |_feature_name, _feature_content|
-      puts "  # WARNING! Discarded Feature: #{_feature_name}"
-      puts _feature_content
-    end
-
-   features
-  end
-
-  def write_feature_file(page_name, page_features)
-    File.open("#{Gitnesse.configuration.target_directory}/#{page_name}.feature","w") {|f| f.write(gather_features(page_features)) }
   end
 
   def load_config

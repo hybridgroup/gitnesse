@@ -1,17 +1,17 @@
 require_relative '../../test_helper'
 
-describe Gitnesse do
-  describe "#write_feature_file" do
-    let(:method) { lambda { Gitnesse.write_feature_file } }
+describe Gitnesse::Features do
+  describe ".write_feature_file" do
     let(:file) { StringIO.new }
+    let(:file_path) { "#{Gitnesse.configuration.target_directory}/test.feature" }
 
     before do
-      File.expects(:open).with("#{Gitnesse.configuration.target_directory}/test.feature", "w").yields(file)
-      Gitnesse.expects(:gather_features).with({ "test-feature" => "feature content" }).returns("feature content")
+      File.expects(:open).with(file_path, "w").yields(file)
+      Gitnesse::Features.expects(:gather_features).with({ "test-feature" => "feature content" }).returns("feature content")
     end
 
     it "writes to the file" do
-      Gitnesse.write_feature_file("test", { "test-feature" => "feature content" })
+      Gitnesse::Features.write_feature_file(file_path, { "test-feature" => "feature content" })
       file.string.must_equal "feature content"
     end
   end
