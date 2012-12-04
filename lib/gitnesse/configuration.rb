@@ -3,6 +3,8 @@ module Gitnesse
     attr_accessor :repository_url
     attr_accessor :branch
     attr_accessor :target_directory
+    attr_accessor :annotate_results
+    attr_accessor :info
 
     class NoConfigFileError < StandardError ; end
     class MultipleConfigFileError < StandardError ; end
@@ -10,6 +12,8 @@ module Gitnesse
     def initialize
       @branch = 'master'
       @target_directory = File.join(Dir.pwd, 'features')
+      @annotate_results = false
+      @info = nil
     end
 
     # Public: Returns the current Gitnesse configuration as a Hash
