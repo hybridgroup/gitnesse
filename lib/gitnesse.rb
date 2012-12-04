@@ -48,7 +48,7 @@ module Gitnesse
           name =  page.name.gsub('.feature', '')
           filename = "#{Gitnesse.configuration.target_directory}/#{name}.feature"
           features = Wiki.extract_features(page)
-          Features.write_feature_file(filename, features) unless features.empty?
+          Features.write_file(filename, features) unless features.empty?
         end
       end
     end

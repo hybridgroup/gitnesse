@@ -7,9 +7,9 @@ module Gitnesse
     # filename - the filename to use for the feature
     # features - the features to write to disk
     #
-    def self.write_feature_file(filename, features)
+    def self.write_file(filename, features)
       File.open(filename, "w") do |file|
-        file.write(gather_features(features))
+        file.write(gather(features))
       end
     end
 
@@ -19,7 +19,7 @@ module Gitnesse
     # page_features - the features
     #
     # Returns a string containing the
-    def self.gather_features(page_features)
+    def self.gather(page_features)
       return '' if page_features.nil? || page_features.empty?
 
       features = ''
