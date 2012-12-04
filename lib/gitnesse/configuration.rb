@@ -21,7 +21,7 @@ module Gitnesse
         'target_directory' => @target_directory }
     end
 
-    def self.load_config
+    def self.load_using_search
       load(ENV['GITNESSE_CONFIG']) and return if ENV['GITNESSE_CONFIG']
 
       possible_config_files = Dir.glob(File.join("**", "gitnesse.rb"))

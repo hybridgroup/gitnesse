@@ -1,9 +1,9 @@
-#!/usr/bin/env ruby
+e!/usr/bin/env ruby
 
 require 'rubygems'
 require 'gitnesse'
 
-Gitnesse::Configuration.load_config
+Gitnesse::Configuration.load_using_search
 
 if ARGV[0].nil?
   Gitnesse.run
