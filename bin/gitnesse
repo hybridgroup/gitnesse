@@ -1,9 +1,9 @@
-#!/usr/bin/env ruby
+e!/usr/bin/env ruby
 
 require 'rubygems'
 require 'gitnesse'
 
-Gitnesse.load_config
+Gitnesse::Configuration.load_using_search
 
 if ARGV[0].nil?
   Gitnesse.run
@@ -11,7 +11,7 @@ end
 
 def print_help
   puts "Gitnesse commands:"
-  puts "  run: pull remote features from git-based wiki to local, and run Cucumber"
+  puts "  run:  pull remote features from git-based wiki to local, and run Cucumber"
   puts "  push: push local features to git-based wiki"
   puts "  pull: pull remote features from git-based wiki to local"
   puts "  info: print current Gitnesse configuration"
@@ -25,7 +25,7 @@ when "pull"
 when "run"
   Gitnesse.run
 when "info"
-  puts Gitnesse.config_to_hash.to_yaml
+  puts Gitnesse.configuration.to_yaml
 when "help"
   print_help
 else

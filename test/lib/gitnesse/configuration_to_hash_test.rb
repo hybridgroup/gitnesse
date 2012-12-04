@@ -1,13 +1,14 @@
 require_relative '../../test_helper'
 
-describe Gitnesse do
-  describe ".config_to_hash" do
-    let(:method) { lambda { Gitnesse.config_to_hash } }
+describe Gitnesse::Configuration do
+  describe ".to_hash" do
+    let(:method) { lambda { Gitnesse.configuration.to_hash } }
+
     before do
-      Gitnesse.config do
-        repository_url   "git://github.com/hybridgroup/gitnesse-demo.wiki.git"
-        branch           "wiki"
-        target_directory "feature_files"
+      Gitnesse.configure do |config|
+        config.repository_url   = "git://github.com/hybridgroup/gitnesse-demo.wiki.git"
+        config.branch           = "wiki"
+        config.target_directory = "feature_files"
       end
     end
 

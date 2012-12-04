@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-describe Gitnesse do
+describe Gitnesse::Wiki do
   describe ".extract_features" do
     let(:data) do
       <<-EOS
@@ -33,7 +33,7 @@ Feature: Addition
 "}
     end
 
-    let(:method) { lambda { Gitnesse.extract_features(data) } }
+    let(:method) { lambda { Gitnesse::Wiki.extract_features(data) } }
 
     it { method.call.must_be_instance_of Hash }
 
