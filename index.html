@@ -35,7 +35,7 @@
           <h2>Screenshots</h2>
           <figure>
             <img src="images/example-github-wiki.jpg">
-            <figcaption>Feature in Github Wiki</figcaption>
+            <figcaption>Feature in Github Wiki, with last test result annotated</figcaption>
           </figure>
 
           <figure>
@@ -58,8 +58,10 @@
 
             Create a <code>gitnesse.rb</code> file somewhere in your project, and add configuration like this:
 
-            <pre><code>Gitnesse.config do
-  repository_url "git@github.com:hybridgroup/gitnesse-wiki.wiki"
+            <pre><code>Gitnesse.configure do |config|
+  config.repository_url =  "git@github.com:hybridgroup/gitnesse-wiki.wiki"
+  config.annotate_results = "true"
+  config.info = "Bob Martin's Work Laptop"
 end</code></pre>
           </p>
         </section>
@@ -68,10 +70,11 @@ end</code></pre>
           <h2>Rake tasks</h2>
           <p>
           <pre><code>$ rake -T
-rake gitnesse:info  # Dump the current config info to the console.
-rake gitnesse:pull  # Pull features from remote git wiki repository.
-rake gitnesse:push  # Push features to remote git wiki repository.
-rake gitnesse:run   # Pull features from remote repository and run cucumber.</code></pre>
+rake gitnesse:info         # Dump the current config info to the console.
+rake gitnesse:pull         # Pull features from remote git wiki repository.
+rake gitnesse:push         # Push features to remote git wiki repository.
+rake gitnesse:run          # Pull features from remote repository and run cucumber.
+rake gitnesse:push_results # Push features to remote repository and run cucumber, pushing results to wiki.</code></pre>
           </p>
         </section>
 
