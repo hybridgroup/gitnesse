@@ -36,6 +36,14 @@ module Gitnesse
     end
   end
 
+  def push_results
+    if push
+      Hooks.create
+      puts "Now going to run cucumber..."
+      exec("cucumber #{Gitnesse.configuration.target_directory}/*.feature")
+    end
+  end
+
   # pull features from git wiki, and sync up with features dir
   def pull
     Dependencies.check
@@ -76,6 +84,7 @@ module Gitnesse
       end
     end
     puts "  Done pushing features."
+    true
   end
 
   def clone_feature_repo(dir)

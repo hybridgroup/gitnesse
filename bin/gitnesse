@@ -26,6 +26,8 @@ when "run"
   Gitnesse.run
 when "info"
   puts Gitnesse.configuration.to_yaml
+when "push_results"
+  Gitnesse.push_results
 when "help"
   print_help
 else
