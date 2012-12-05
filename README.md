@@ -23,6 +23,8 @@ the following to it:
 
     Gitnesse.configure do |config|
       config.repository_url = "git@github.com:hybridgroup/gitnesse-demo.wiki"
+      config.annotate_results = true
+      config.info = "Bob Martin's development laptop"
     end
 
 ## rake tasks

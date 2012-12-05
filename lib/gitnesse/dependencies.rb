@@ -3,6 +3,7 @@ module Gitnesse
     class NoGitError < StandardError ; end
     class NoCucumberError < StandardError ; end
     class NoRepositoryURLError < StandardError ; end
+    class NoAnnotationInfoError < StandardError ; end
 
     # Checks Gitnesse's dependencies, and throws an error if one of them is
     # missing.
@@ -24,6 +25,14 @@ module Gitnesse
 
     def self.check_repository_url
       raise NoRepositoryURLError, "You must select a repository_url to run Gitnesse." if Gitnesse.configuration.repository_url.nil?
+    end
+
+    def self.check_annotation_info
+      if Gitnesse.configuration.annotate_results
+        if Gitnesse.configuration.info.nil?
+          raise NoAnnotationInfoError, "You must enter local information to annotate test results in the wiki"
+        end
+      end
     end
   end
 end

@@ -42,4 +42,19 @@ describe Gitnesse::Dependencies do
       it { method.call.must_be_nil }
     end
   end
+
+  describe "#check_annotation_info" do
+    let(:method) { lambda { Gitnesse::Dependencies.check_annotation_info } }
+    before { Gitnesse.configuration.annotate_results = true }
+
+    describe "when info is defined" do
+      before { Gitnesse.configuration.info = "Bob Martin's workstation" }
+      it { method.call.must_be_nil }
+    end
+
+    describe "when info is not defined" do
+      before { Gitnesse.configuration.info = nil }
+      it { method.must_raise Gitnesse::Dependencies::NoAnnotationInfoError }
+    end
+  end
 end
