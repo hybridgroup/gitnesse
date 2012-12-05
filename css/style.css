@@ -42,7 +42,7 @@ pre {
 
 pre code {
   padding: 0;
-  background: #fafafa;
+  background: none;
   border: 0;
   color: black;
 }
