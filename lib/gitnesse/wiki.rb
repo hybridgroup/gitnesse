@@ -108,7 +108,7 @@ module Gitnesse
     def strip_results(content)
       if content.match(/\u0060{3}gherkin.*\u0060{3}(.*)/m)[1]
         [ "FAILED", "PASSED", "PENDING", "UNDEFINED" ].each do |type|
-          content.gsub!(/#{type}: .*\n*/, '')
+          content.gsub!(/\n*\`Last result was #{type}: .*\n*/, '')
         end
       end
       content
@@ -128,7 +128,7 @@ module Gitnesse
         if page.name == filename || page.name == "#{filename}.feature"
           if page.text_data.include? scenario.name
             content = page.raw_data
-            string = "\n#{scenario.status.to_s.upcase}: #{scenario.name}\n"
+            string = "\n\`Last result was #{scenario.status.to_s.upcase}: #{scenario.name} (#{Time.now.to_s} - #{Gitnesse.configuration.info})\`\n"
             content.gsub(string, '')
             content << string
             @wiki.update_page(page, page.name, :markdown, content, @commit_info)
