@@ -1,8 +1,10 @@
 # Gitnesse
 
- Gitnesse is a Cucumber-wiki integration tool.
- It enables a project to store cucumber features in a git-based wiki, and then test them against your code.
- Conceptually influenced by Fitnesse http://fitnesse.org/
+ Gitnesse is an acceptance testing tool.
+
+ It enables a project to store Cucumber feature stories in a git-based wiki, test them against your code, and then update the wiki with the latest test results.
+
+ Conceptually influenced by Fitnesse http://fitnesse.org/ thank you Uncle Bob!
 
 ## Installation
 
@@ -51,13 +53,15 @@ There is an example application using Sinatra located here: [https://github.com/
 
 ## Other Usage
 
-Want to use plain old Gitnesse? There is an executable that requires the path to the configuration file:
+Want to use plain old Gitnesse? There is an executable, if you're allergic to rake tasks:
 
-    $ GITNESSE_CONFIG='./gitnesse_config.rb' gitnesse
+    $ gitnesse
+
 
 ## TODO
 
-	- pluggable feature runners, so can be used with Spinach, Cucumber-JS, or ?
+    - pluggable feature runners, so can be used with Spinach, Cucumber-JS, or ?
+    - standalone server so end users to run tests and see live results, just like Fitnesse
 
 ## Contributing
 
