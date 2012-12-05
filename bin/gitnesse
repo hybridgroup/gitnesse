@@ -1,4 +1,4 @@
-e!/usr/bin/env ruby
+#!/usr/bin/env ruby
 
 require 'rubygems'
 require 'gitnesse'

@@ -81,6 +81,52 @@ module Gitnesse
       old_page_content.sub(old_feature_content, feature_content)
     end
 
+    # Public: Removes past Cucumber results from feature files
+    #
+    # Returns nothing
+    def remove_past_results
+      @commit_info[:message] = Gitnesse.configuration.info
+      features = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
+
+      features.each do |feature|
+        feature_name = File.basename(feature, ".feature")
+        page = @wiki.page(feature_name) || @wiki.page("#{feature_name}.feature")
+
+        if page
+          content = page.raw_data
+          if content.match(/\u0060{3}gherkin.*\u0060{3}(.*)/m)[1]
+            [ "FAILED", "PASSED", "PENDING", "UNDEFINED" ].each do |type|
+             content.gsub!(/#{type}: .*\n/, '')
+            end
+            @wiki.update_page(page, page.name, :markdown, content, @commit_info)
+          end
+        end
+      end
+    end
+
+    # Public: Appends results of cucumber scenario to wiki
+    #
+    # scenario - Cucumber scenario from After hook
+    #
+    # Returns nothing
+    def append_results(scenario)
+      pages = @wiki.pages
+      filename = File.basename(scenario.feature.file, ".feature")
+      @commit_info[:message] = Gitnesse.configuration.info
+
+      pages.each do |page|
+        if page.name == filename || page.name == "#{filename}.feature"
+          if page.text_data.include? scenario.name
+            content = page.raw_data
+            string = "\n#{scenario.status.to_s.upcase}: #{scenario.name}\n"
+            content.gsub(string, '')
+            content << string
+            @wiki.update_page(page, page.name, :markdown, content, @commit_info)
+          end
+        end
+      end
+    end
+
     private
 
     # Private: Creates a new wiki page for the provided name and content

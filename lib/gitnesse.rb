@@ -6,6 +6,7 @@ require 'gitnesse/configuration'
 require 'gitnesse/git_config'
 require 'gitnesse/dependencies'
 require 'gitnesse/features'
+require 'gitnesse/hooks'
 require 'gitnesse/wiki'
 require 'gitnesse/railtie' if defined?(Rails)
 
@@ -29,6 +30,7 @@ module Gitnesse
 
   def run
     if pull
+      Hooks.create
       puts "Now going to run cucumber..."
       exec("cucumber #{Gitnesse.configuration.target_directory}/*.feature")
     end
@@ -53,6 +55,7 @@ module Gitnesse
       end
     end
     puts "  Done pulling features."
+    true
   end
 
   # push features back up to git wiki from features directory
