@@ -33,6 +33,7 @@ the following to it:
     $ rake gitnesse:push
     $ rake gitnesse:run
     $ rake gitnesse:info
+    $ rake gitnesse:push_results
 
 ## Usage In Rails 3
 
@@ -56,7 +57,6 @@ Want to use plain old Gitnesse? There is an executable that requires the path to
 
 ## TODO
 
-	- test git push back to git wiki
 	- pluggable feature runners, so can be used with Spinach, Cucumber-JS, or ?
 
 ## Contributing
