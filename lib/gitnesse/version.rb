@@ -1,3 +1,3 @@
 module Gitnesse
-  VERSION = "0.1.3"
+  VERSION = "0.12.5"
 end
