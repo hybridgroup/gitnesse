@@ -16,20 +16,18 @@ Feature: Division
     When I divide
     Then the result should be 3
 ```
+`Last result was UNDEFINED: Divide two numbers`
 
-UNDEFINED: Divide two numbers
+`Last result was PENDING: Divide two numbers`
 
-PENDING: Divide two numbers
+`Last result was FAILED: Divide two numbers`
 
-FAILED: Divide two numbers
-
-PASSED: Divide two numbers
+`Last result was PASSED: Divide two numbers`
 EOS
     end
 
     let(:expected_result) do
-      <<-EOS
-```gherkin
+      "```gherkin
 Feature: Division
   In order to avoid silly mistakes
   As a math idiot
@@ -40,9 +38,7 @@ Feature: Division
     And I have entered 2 into the calculator
     When I divide
     Then the result should be 3
-```
-
-EOS
+```"
     end
 
     before do
