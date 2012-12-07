@@ -1,6 +1,19 @@
 require_relative '../../test_helper'
 
 describe Gitnesse::Dependencies do
+  describe "#check" do
+    before do
+      Gitnesse::Dependencies.expects(:check_git)
+      Gitnesse::Dependencies.expects(:check_cucumber)
+      Gitnesse::Dependencies.expects(:check_repository_url)
+      Gitnesse::Dependencies.expects(:check_annotation_info)
+    end
+
+    it "calls the other check functions" do
+      Gitnesse::Dependencies.check
+    end
+  end
+
   describe "#check_repository_url" do
     let(:method) { lambda { Gitnesse::Dependencies.check_repository_url } }
 

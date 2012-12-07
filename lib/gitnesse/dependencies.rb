@@ -11,6 +11,7 @@ module Gitnesse
       check_git
       check_cucumber
       check_repository_url
+      check_annotation_info
     end
 
     protected
