@@ -118,13 +118,12 @@ module Gitnesse
     #
     # scenario - Cucumber scenario from After hook
     #
-    # Returns nothing
+    # Returns a string containing the scenario result
     def append_results(scenario)
-      pages = @wiki.pages
       filename = File.basename(scenario.feature.file, ".feature")
       @commit_info[:message] = Gitnesse.configuration.info
 
-      pages.each do |page|
+      self.pages.each do |page|
         if page.name == filename || page.name == "#{filename}.feature"
           if page.text_data.include? scenario.name
             content = page.raw_data
@@ -132,6 +131,7 @@ module Gitnesse
             content.gsub(string, '')
             content << string
             @wiki.update_page(page, page.name, :markdown, content, @commit_info)
+            return string
           end
         end
       end
