@@ -4,6 +4,8 @@
 
  It enables a project to store Cucumber feature stories in a git-based wiki, test them against your code, and then update the wiki with the latest test results.
 
+ The advantage is, that the features are on a wiki, so non-programmers can see them, and edit using the wiki. Hence an awesome bi-directional testing flow between developers and non-developers on a team.
+
  Conceptually influenced by Fitnesse http://fitnesse.org/ thank you Uncle Bob!
 
 ## Installation
