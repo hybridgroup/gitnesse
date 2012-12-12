@@ -73,6 +73,21 @@ end</code></pre>
           </p>
         </section>
 
+        <section id="section-gitconfig">
+        <h2>Git Config</h2>
+
+        <p>
+          Gitnesse depends on two values being present in your <code>gitconfig</code>: <code>user.name</code>
+          and <code>user.email</code>. These will be used when annotating test results, and to
+          identify commits you make to the feature wiki. If Gitnesse complains that you
+          don't have these set, you can fix this by entering the following lines in your
+          terminal:
+        </p>
+
+        <pre><code>$ git config --add --global user.name &lt;your_name&gt;
+$ git config --add --global user.email &lt;your_email&gt;</code></pre>
+        </section>
+
         <section id="section-rake-tasks">
           <h2>Rake tasks</h2>
           <p>
