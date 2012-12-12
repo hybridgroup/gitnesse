@@ -31,6 +31,17 @@ the following to it:
       config.info = "Bob Martin's development laptop"
     end
 
+## Git Config
+
+Gitnesse depends on two values being present in your `gitconfig`: `user.name`
+and `user.email`. These will be used when annotating test results, and to
+identify commits you make to the feature wiki. If Gitnesse complains that you
+don't have these set, you can fix this by entering the following lines in your
+terminal:
+
+    $ git config --add --global user.name <your_name>
+    $ git config --add --global user.email <your_email>
+
 ## rake tasks
 
     $ rake gitnesse:pull
