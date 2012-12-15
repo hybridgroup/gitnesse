@@ -1,0 +1,5 @@
+Gitnesse.configure do |config|
+  config.repository_url = "git@github.com:hybridgroup/gitnesse.wiki.git"
+  config.annotate_results = true
+  config.info = "Bob Martin's development laptop"
+end
