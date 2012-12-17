@@ -21,7 +21,7 @@ namespace :gitnesse do
   end
 
   desc "Push features to remote git wiki repository, run cucumber, and push results to wiki"
-  task :push => :environment do
+  task :push_results => :environment do
     Gitnesse::Configuration.load_using_search
     Gitnesse.push_results
   end
