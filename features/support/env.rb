@@ -47,14 +47,6 @@ Dir.chdir(@repo_dir) do
   end
 end
 
-config_file = File.join(@repo_dir, "gitnesse.rb")
-
-config = File.read(config_file)
-config.gsub!(/config\.repository_url.*$/, "config.repository_url = '#{@features_dir}'")
-File.open(config_file, 'w') { |file| file.puts config }
-
-puts "  Updated demo repo configuration to use demo features."
-
 Dir.chdir(@repo_dir_no_features) do
   FileUtils.cp_r("#{@repo_dir}/.", @repo_dir_no_features)
   Dir.glob("#{@repo_dir_no_features}/**/*.feature") do |file|

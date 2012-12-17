@@ -1,17 +1,27 @@
-Given /^there is a git wiki with cucumber features defined$/ do
-  @features_dir = File.join(Dir.home, ".gitnesse_features")
-end
-
-Given /^there is a git wiki without any cucumber features defined$/ do
-  @features_dir = File.join(Dir.home, ".gitnesse_features_no_features")
-end
-
 Given /^there is a code repo with cucumber features defined$/ do
   @repo_dir = File.join(Dir.home, ".gitnesse_repo")
 end
 
 Given /^there is a code repo without any cucumber features defined$/ do
   @repo_dir = File.join(Dir.home, ".gitnesse_repo_no_features")
+end
+
+Given /^there is a git wiki with cucumber features defined$/ do
+  @features_dir = File.join(Dir.home, ".gitnesse_features")
+
+  config_file = File.join(@repo_dir, "gitnesse.rb")
+  config = File.read(config_file)
+  config.gsub!(/config\.repository_url.*$/, "config.repository_url = '#{@features_dir}'")
+  File.open(config_file, 'w') { |file| file.puts config }
+end
+
+Given /^there is a git wiki without any cucumber features defined$/ do
+  @features_dir = File.join(Dir.home, ".gitnesse_features_no_features")
+
+  config_file = File.join(@repo_dir, "gitnesse.rb")
+  config = File.read(config_file)
+  config.gsub!(/config\.repository_url.*$/, "config.repository_url = '#{@features_dir}'")
+  File.open(config_file, 'w') { |file| file.puts config }
 end
 
 When /^developer pulls feature stories from the wiki$/ do
@@ -31,17 +41,14 @@ end
 Then /^the feature stories within the code should match the wiki$/ do
   assert_dir = File.join(Dir.home, ".gitnesse_features_for_assert")
 
-  Dir.mkdir(assert_dir)
-  Dir.chdir(assert_dir) do
-    system("git clone #{@features_dir} . &> /dev/null")
-  end
+  `git clone #{@features_dir} #{assert_dir} &> /dev/null`
 
   repo_features = Dir.glob("#{@repo_dir}/features/*.feature").map { |file| File.basename(file, ".feature") }
   wiki_files    = Dir.glob("#{assert_dir}/*.md").map { |file| File.basename(file, ".md") }
 
+  FileUtils.rm_rf(assert_dir)
+
   repo_features.each do |feature|
     assert(wiki_files.include?(feature) || wiki_files.include?("#{feature}.feature"))
   end
-
-  FileUtils.rm_rf(assert_dir)
 end
