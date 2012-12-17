@@ -32,12 +32,12 @@ describe Gitnesse::Dependencies do
     let(:method) { lambda { Gitnesse::Dependencies.check_git } }
 
     describe "when git is not installed" do
-      before { Kernel.expects(:system).with("git --version").returns(false) }
+      before { Kernel.expects(:system).with("git --version &> /dev/null").returns(false) }
       it { method.must_raise(Gitnesse::Dependencies::NoGitError) }
     end
 
     describe "when git is installed" do
-      before { Kernel.expects(:system).with("git --version").returns(true) }
+      before { Kernel.expects(:system).with("git --version &> /dev/null").returns(true) }
       it { method.call.must_be_nil }
     end
   end
@@ -46,12 +46,12 @@ describe Gitnesse::Dependencies do
     let(:method) { lambda { Gitnesse::Dependencies.check_cucumber } }
 
     describe "when cucumber is not installed" do
-      before { Kernel.expects(:system).with("cucumber --version").returns(false) }
+      before { Kernel.expects(:system).with("cucumber --version &> /dev/null").returns(false) }
       it { method.must_raise(Gitnesse::Dependencies::NoCucumberError) }
     end
 
     describe "when cucumber is installed" do
-      before { Kernel.expects(:system).with("cucumber --version").returns(true) }
+      before { Kernel.expects(:system).with("cucumber --version &> /dev/null").returns(true) }
       it { method.call.must_be_nil }
     end
   end
