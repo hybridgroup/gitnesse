@@ -148,7 +148,7 @@ module Gitnesse
     def create_wiki_page(name, content)
       new_page_content = build_page_content(content)
       @wiki.write_page(name, :markdown, new_page_content, @commit_info)
-      puts "  # Created Page: #{name}"
+      puts "  \e[32mCreated page \e[0m#{name}."
     end
 
     # Private: Updates a wiki page with the provided name and content
@@ -163,10 +163,10 @@ module Gitnesse
       new_page_content  = build_page_content(feature_content, wiki_page_content)
 
       if new_page_content == wiki_page_content
-        puts "  # Page #{page_name} didn't change"
+        puts "  \e[32mPage \e[0m#{page_name} \e[32mdidn't change\e[0m."
       else
         @wiki.update_page(wiki_page, page_name, :markdown, new_page_content, @commit_info)
-        puts "  # Updated Page: #{page_name}"
+        puts "  \e[33mUpdated page \e[0m#{page_name}."
       end
     end
   end
