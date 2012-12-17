@@ -14,12 +14,12 @@ Feature:
 
   Scenario: Features already exist in code but not in wiki
     When developer pushes feature stories to the wiki
-    Then the the feature stories within the code should match the wiki
+    Then the feature stories within the code should match the wiki
 
   Scenario: Features pushes features from code to existing wiki
     When developer pushes feature stories to the wiki
-    Then the the feature stories within the code should match the wiki
+    Then the feature stories within the code should match the wiki
 
   Scenario: Features pulls features from wiki to existing code
     When developer pulls feature stories from the wiki
-    Then the the feature stories within the code should match the wiki
+    Then the feature stories within the code should match the wiki
