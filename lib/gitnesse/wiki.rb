@@ -127,7 +127,16 @@ module Gitnesse
         if page.name == filename || page.name == "#{filename}.feature"
           if page.text_data.include? scenario.name
             content = page.raw_data
-            string = "\n\`Last result was #{scenario.status.to_s.upcase}: #{scenario.name} (#{Time.now.to_s} - #{Gitnesse.configuration.info})\`\n"
+
+            case scenario.status
+            when :undefined then image = "![](https://s3.amazonaws.com/gitnesse/github/undefined.png)"
+            when :passed   then image = "![](https://s3.amazonaws.com/gitnesse/github/passing.png)"
+            when :failed   then image = "![](https://s3.amazonaws.com/gitnesse/github/failing.png)"
+            when :pending   then image = "![](https://s3.amazonaws.com/gitnesse/github/pending.png)"
+            else image = "![](https://s3.amazonaws.com/gitnesse/github/undefined.png)"
+            end
+
+            string = "\n#{image} \`Last result was #{scenario.status.to_s.upcase}: #{scenario.name} (#{Time.now.to_s} - #{Gitnesse.configuration.info})\`\n"
             content.gsub(string, '')
             content << string
             @wiki.update_page(page, page.name, :markdown, content, @commit_info)
