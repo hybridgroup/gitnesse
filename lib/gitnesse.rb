@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'gollum'
 require 'fileutils'
+require 'pathname'
 require 'tmpdir'
 require 'gitnesse/configuration'
 require 'gitnesse/git_config'
@@ -31,7 +32,7 @@ module Gitnesse
   def run
     if pull
       Hooks.create
-      puts "Now going to run cucumber..."
+      puts "\n  Now going to run Cucumber."
       exec("cucumber #{Gitnesse.configuration.target_directory}/*.feature")
     end
   end
@@ -39,7 +40,7 @@ module Gitnesse
   def push_results
     if push
       Hooks.create
-      puts "Now going to run cucumber..."
+      puts "\n  Now going to run Cucumber."
       exec("cucumber #{Gitnesse.configuration.target_directory}/*.feature")
     end
   end
@@ -48,7 +49,9 @@ module Gitnesse
   def pull
     Dependencies.check
 
-    puts "Pulling features into #{Gitnesse.configuration.target_directory} from #{Gitnesse.configuration.repository_url}..."
+    relative_path = Pathname.new(Gitnesse.configuration.target_directory).relative_path_from(Pathname.new(Dir.pwd))
+
+    puts "  Pulling features into ./#{relative_path} from #{Gitnesse.configuration.repository_url}."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.configuration.target_directory) unless File.exists?(Gitnesse.configuration.target_directory)
@@ -62,7 +65,7 @@ module Gitnesse
         end
       end
     end
-    puts "  Done pulling features."
+    puts "  \e[32mDone pulling features.\e[0m"
     true
   end
 
@@ -71,7 +74,9 @@ module Gitnesse
     Dependencies.check
     generate_commit_info
 
-    puts "Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}..."
+    relative_path = Pathname.new(Gitnesse.configuration.target_directory).relative_path_from(Pathname.new(Dir.pwd))
+
+    puts "  Pushing features from ./#{relative_path} to #{Gitnesse.configuration.repository_url}."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         feature_files = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
@@ -79,17 +84,16 @@ module Gitnesse
 
         # push the changes to the remote git
         Dir.chdir(tmp_dir) do
-          puts `git push origin master`
+          `git push origin master &> /dev/null`
         end
       end
     end
-    puts "  Done pushing features."
+    puts "  \e[32mDone pushing features.\e[0m"
     true
   end
 
   def clone_feature_repo(dir)
-    output = `git clone #{Gitnesse.configuration.repository_url} #{dir} 2>&1`
-    puts output
+    output = `git clone #{Gitnesse.configuration.repository_url} #{dir} &> /dev/null`
     $?.success?
   end
 

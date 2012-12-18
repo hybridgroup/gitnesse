@@ -9,7 +9,7 @@ module Gitnesse
       Gitnesse::Configuration.load_using_search
       FileUtils.rm_rf(@dir) if File.directory?(@dir)
       Dir.mkdir(@dir)
-      `git clone #{Gitnesse.configuration.repository_url} #{@dir}`
+      `git clone #{Gitnesse.configuration.repository_url} #{@dir} &> /dev/null`
       Wiki.new(@dir).remove_past_results
     end
 
@@ -17,12 +17,14 @@ module Gitnesse
     #
     # Returns nothing
     def self.teardown
+      puts "  Pushing Cucumber results to wiki."
       Dir.chdir(@dir) do
-        `git push origin master`
+        `git push origin master &> /dev/null`
       end
 
       FileUtils.rm_rf(@dir)
       FileUtils.rm(File.absolute_path("#{Gitnesse.configuration.target_directory}/support/gitnesse_hooks.rb"))
+      puts "  Done."
     end
 
     # Public: Adds hooks into Cucumber

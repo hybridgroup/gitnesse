@@ -25,11 +25,11 @@ module Gitnesse
       features = ''
 
       name, content = page_features.shift
-      puts "  # Pulling Feature: #{name}"
+      puts "  \e[32m\e[1mPulling Feature: \e[0m#{name}"
       features += content
 
       page_features.each do |name, feature|
-        puts "  # WARNING! Discarding Feature: #{name}"
+        puts "  \e[33m\e[1mDiscarding Feature: \e[0m#{name}"
       end
 
       features

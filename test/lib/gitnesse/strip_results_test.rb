@@ -16,13 +16,13 @@ Feature: Division
     When I divide
     Then the result should be 3
 ```
-`Last result was UNDEFINED: Divide two numbers`
+![](http://path-to-image) `Last result was UNDEFINED: Divide two numbers`
 
-`Last result was PENDING: Divide two numbers`
+![](http://path-to-image) `Last result was PENDING: Divide two numbers`
 
-`Last result was FAILED: Divide two numbers`
+![](http://path-to-image) `Last result was FAILED: Divide two numbers`
 
-`Last result was PASSED: Divide two numbers`
+![](http://path-to-image) `Last result was PASSED: Divide two numbers`
 EOS
     end
 

@@ -108,7 +108,7 @@ module Gitnesse
     def strip_results(content)
       if content.match(/\u0060{3}gherkin.*\u0060{3}(.*)/m)[1]
         [ "FAILED", "PASSED", "PENDING", "UNDEFINED" ].each do |type|
-          content.gsub!(/\n*\`Last result was #{type}: .*\n*/, '')
+          content.gsub!(/\n*\!\[\]\(.*\) \`Last result was #{type}: .*\n*/, '')
         end
       end
       content
@@ -127,7 +127,16 @@ module Gitnesse
         if page.name == filename || page.name == "#{filename}.feature"
           if page.text_data.include? scenario.name
             content = page.raw_data
-            string = "\n\`Last result was #{scenario.status.to_s.upcase}: #{scenario.name} (#{Time.now.to_s} - #{Gitnesse.configuration.info})\`\n"
+
+            case scenario.status
+            when :undefined then image = "![](https://s3.amazonaws.com/gitnesse/github/undefined.png)"
+            when :passed   then image = "![](https://s3.amazonaws.com/gitnesse/github/passing.png)"
+            when :failed   then image = "![](https://s3.amazonaws.com/gitnesse/github/failing.png)"
+            when :pending   then image = "![](https://s3.amazonaws.com/gitnesse/github/pending.png)"
+            else image = "![](https://s3.amazonaws.com/gitnesse/github/undefined.png)"
+            end
+
+            string = "\n#{image} \`Last result was #{scenario.status.to_s.upcase}: #{scenario.name} (#{Time.now.to_s} - #{Gitnesse.configuration.info})\`\n"
             content.gsub(string, '')
             content << string
             @wiki.update_page(page, page.name, :markdown, content, @commit_info)
@@ -148,7 +157,7 @@ module Gitnesse
     def create_wiki_page(name, content)
       new_page_content = build_page_content(content)
       @wiki.write_page(name, :markdown, new_page_content, @commit_info)
-      puts "  # Created Page: #{name}"
+      puts "  \e[32mCreated page \e[0m#{name}."
     end
 
     # Private: Updates a wiki page with the provided name and content
@@ -163,10 +172,10 @@ module Gitnesse
       new_page_content  = build_page_content(feature_content, wiki_page_content)
 
       if new_page_content == wiki_page_content
-        puts "  # Page #{page_name} didn't change"
+        puts "  \e[32mPage \e[0m#{page_name} \e[32mdidn't change\e[0m."
       else
         @wiki.update_page(wiki_page, page_name, :markdown, new_page_content, @commit_info)
-        puts "  # Updated Page: #{page_name}"
+        puts "  \e[33mUpdated page \e[0m#{page_name}."
       end
     end
   end

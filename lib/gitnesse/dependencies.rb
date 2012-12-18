@@ -17,11 +17,11 @@ module Gitnesse
     protected
 
     def self.check_git
-      raise NoGitError, "git not found or not working." unless Kernel.system("git --version")
+      raise NoGitError, "git not found or not working." unless Kernel.system("git --version &> /dev/null")
     end
 
     def self.check_cucumber
-      raise NoCucumberError, "cucumber not found or not working." unless Kernel.system("cucumber --version")
+      raise NoCucumberError, "cucumber not found or not working." unless Kernel.system("cucumber --version &> /dev/null")
     end
 
     def self.check_repository_url
