@@ -108,7 +108,7 @@ module Gitnesse
     def strip_results(content)
       if content.match(/\u0060{3}gherkin.*\u0060{3}(.*)/m)[1]
         [ "FAILED", "PASSED", "PENDING", "UNDEFINED" ].each do |type|
-          content.gsub!(/\n*\`Last result was #{type}: .*\n*/, '')
+          content.gsub!(/\n*\!\[\]\(.*\) \`Last result was #{type}: .*\n*/, '')
         end
       end
       content
