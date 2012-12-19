@@ -1,7 +1,6 @@
 require 'bundler/setup'
 require 'gollum'
 require 'fileutils'
-require 'pathname'
 require 'tmpdir'
 require 'gitnesse/configuration'
 require 'gitnesse/git_config'
@@ -49,9 +48,7 @@ module Gitnesse
   def pull
     Dependencies.check
 
-    relative_path = Pathname.new(Gitnesse.configuration.target_directory).relative_path_from(Pathname.new(Dir.pwd))
-
-    puts "  Pulling features into ./#{relative_path} from #{Gitnesse.configuration.repository_url}."
+    puts "  Pulling features into #{Gitnesse.configuration.target_directory} from #{Gitnesse.configuration.repository_url}."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         FileUtils.mkdir(Gitnesse.configuration.target_directory) unless File.exists?(Gitnesse.configuration.target_directory)
@@ -74,9 +71,7 @@ module Gitnesse
     Dependencies.check
     generate_commit_info
 
-    relative_path = Pathname.new(Gitnesse.configuration.target_directory).relative_path_from(Pathname.new(Dir.pwd))
-
-    puts "  Pushing features from ./#{relative_path} to #{Gitnesse.configuration.repository_url}."
+    puts "  Pushing features from #{Gitnesse.configuration.target_directory} to #{Gitnesse.configuration.repository_url}."
     Dir.mktmpdir do |tmp_dir|
       if clone_feature_repo(tmp_dir)
         feature_files = Dir.glob("#{Gitnesse.configuration.target_directory}/*.feature")
