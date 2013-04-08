@@ -1,25 +1,24 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'gitnesse/version'
+require File.expand_path '../lib/gitnesse/version', __FILE__
 
-Gem::Specification.new do |gem|
-  gem.name          = "gitnesse"
-  gem.version       = Gitnesse::VERSION
-  gem.authors       = ["www.hybridgroup.com"]
-  gem.email         = ["info@hybridgroup.com"]
-  gem.description   = %q{Use github wiki to store feature stories, then execute then using Cucumber}
-  gem.summary       = %q{Features on git-based Wiki!}
-  gem.homepage      = "https://github.com/hybridgroup/gitnesse"
+Gem::Specification.new do |spec|
+  spec.name          = "gitnesse"
+  spec.version       = Gitnesse::VERSION
+  spec.authors       = ["www.hybridgroup.com"]
+  spec.email         = ["info@hybridgroup.cim"]
+  spec.description   = %q{Use github wiki to store feature stories, then execute then using Cucumber}
+  spec.summary       = %q{Features on git-based Wiki!}
+  spec.homepage      = "https://github.com/hybridgroup/gitnesse"
+  spec.license       = "MIT"
 
-  gem.files         = `git ls-files`.split($/)
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
-  gem.add_dependency("bundler")
-  gem.add_dependency("gollum","~> 2.3.12")
-  gem.add_development_dependency("minitest-matchers")
-  gem.add_development_dependency("mocha")
-  gem.add_development_dependency("cucumber")
-  gem.add_development_dependency("rake")
-  gem.executables = ['gitnesse']
+  spec.files         = `git ls-files`.split($/)
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
+
+  spec.add_dependency "bundler", "~> 1.3"
+  spec.add_dependency "gollum","~> 2.4.13"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec",   "~> 2.13.0"
+  spec.add_development_dependency "cucumber", "~> 1.2.5"
 end
