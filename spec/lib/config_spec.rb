@@ -14,7 +14,7 @@ describe Gitnesse::Config do
 
   it "is a singleton" do
     expect(Gitnesse::Config.instance).to eq config
-    expect {Gitnesse::Config.new}.to raise_error NoMethodError
+    expect{Gitnesse::Config.new}.to raise_error NoMethodError
   end
 
   it "has default settings" do
@@ -30,12 +30,30 @@ describe Gitnesse::Config do
   end
 
   describe ".setup" do
-    it "allows for config values to be set" do
-      Gitnesse::Config.config do
-        annotate_results = true
+    context "when a block is not passed" do
+      it "returns the configuration hash" do
+        expect(Gitnesse::Config.config).to eq default_config_hash
+      end
+    end
+
+    context "when a block is passed" do
+      before do
+        Gitnesse::Config.config do |config|
+          config.annotate_results = true
+        end
       end
 
-      expect(config.annotate_results).to be_true
+      let(:expected_results) do
+        default_config_hash.tap { |h| h[:annotate_results] = true }
+      end
+
+      it "allows for config values to be set" do
+        expect(config.annotate_results).to be_true
+      end
+
+      it "returns the configuration hash" do
+        expect(Gitnesse::Config.config).to eq expected_results
+      end
     end
   end
 end
