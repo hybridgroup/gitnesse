@@ -1,7 +1,9 @@
 require 'spec_helper'
 
-describe Gitnesse do
-  it "should have a version number string" do
-    expect(Gitnesse::VERSION).to be_a String
+module Gitnesse
+  describe VERSION do
+    it "should have a version number string" do
+      expect(VERSION).to be_a String
+    end
   end
 end
