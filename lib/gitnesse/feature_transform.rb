@@ -1,5 +1,5 @@
 module Gitnesse
-  class ConvertsFeatureToMarkdown
+  class FeatureTransform
 
     # Converts a Cucumber feature into a Markdown string compatible with
     # Github's Wiki system
