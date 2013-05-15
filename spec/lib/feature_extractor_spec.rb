@@ -2,12 +2,12 @@ require 'spec_helper'
 
 module Gitnesse
   describe FeatureExtractor do
-    let(:expected_features) { [example_feature.chomp, another_example_feature.chomp] }
-    let(:wiki_page_to_extract) { example_wiki_page }
+    let(:wiki_page_to_extract) { Support.example_wiki_page }
+    let(:expected_features) { Support.example_features }
 
     describe ".extract!" do
       it "extracts Cucumber features from Markdown wiki pages" do
-        extracted_page = FeatureExtractor.extract!(example_wiki_page)
+        extracted_page = FeatureExtractor.extract!(wiki_page_to_extract)
         expect(extracted_page).to eq expected_features
       end
 

@@ -1,4 +1,4 @@
-require 'rspec'
-require File.expand_path '../../lib/gitnesse.rb', __FILE__
+require 'gitnesse'
 
-require 'wiki_helper'
+require 'rspec'
+require 'support_helper'
