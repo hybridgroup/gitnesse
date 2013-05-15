@@ -1,9 +1,10 @@
-libs = %w(config converts_feature_to_markdown git_config_reader
-          feature_extractor version checks_dependencies config_loader)
-
-libs.each do |lib|
-  require "gitnesse/#{lib}"
-end
+require 'gitnesse/checks_dependencies'
+require 'gitnesse/config'
+require 'gitnesse/config_loader'
+require 'gitnesse/converts_feature_to_markdown'
+require 'gitnesse/feature_extractor'
+require 'gitnesse/git_config_reader'
+require 'gitnesse/version'
 
 module Gitnesse
 end
