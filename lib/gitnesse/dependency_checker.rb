@@ -1,5 +1,5 @@
 module Gitnesse
-  class ChecksDependencies
+  class DependencyChecker
     class DependencyNotMetError < StandardError ; end
 
     def self.check
