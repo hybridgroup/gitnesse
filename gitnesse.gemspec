@@ -5,8 +5,9 @@ Gem::Specification.new do |spec|
   spec.name          = "gitnesse"
   spec.version       = Gitnesse::VERSION
   spec.authors       = ["www.hybridgroup.com"]
-  spec.email         = ["info@hybridgroup.cim"]
-  spec.description   = %q{Use github wiki to store feature stories, then execute then using Cucumber}
+  spec.email         = ["info@hybridgroup.com"]
+  spec.description   = %q{Use github wiki to store feature stories, then execute
+                          then using Cucumber}
   spec.summary       = %q{Features on git-based Wiki!}
   spec.homepage      = "https://github.com/hybridgroup/gitnesse"
   spec.license       = "MIT"
