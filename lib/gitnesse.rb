@@ -1,3 +1,4 @@
+require 'gitnesse/commit_info_generator'
 require 'gitnesse/config'
 require 'gitnesse/config_loader'
 require 'gitnesse/dependency_checker'
