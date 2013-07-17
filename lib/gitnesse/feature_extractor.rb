@@ -7,7 +7,7 @@ module Gitnesse
     #
     # Returns an array of strings or false if no feature found
     def self.extract!(string)
-      matches = string.scan(/\u0060{3}gherkin(.+?)\u0060{3}/m).flatten
+      matches = string.scan(/\u0060{3}gherkin(.+?)\u0060{3}/im).flatten
 
       if matches.any?
         # Remove newline characters from beginning/end of each feature

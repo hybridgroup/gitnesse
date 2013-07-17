@@ -1,6 +1,6 @@
 # Developer Can Sync Features To Code
 
-```gherkin
+```Gherkin
 Feature: Addition
   In order to avoid silly mistakes
   As a math idiot
