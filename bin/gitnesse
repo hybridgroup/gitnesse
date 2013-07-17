@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'gitnesse'
+
+case ARGV[0]
+when 'info' then Gitnesse::Commands::Info.run
+when 'help' then Gitnesse::Commands::Help.run
+else Gitnesse::Commands::Help.run
+end
