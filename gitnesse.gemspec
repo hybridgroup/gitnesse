@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "bundler", "~> 1.3"
-  spec.add_dependency "gollum","~> 2.4.13"
+  spec.add_dependency "gollum","~> 2.4.15"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec",   "~> 2.13.0"
-  spec.add_development_dependency "cucumber", "~> 1.2.5"
+  spec.add_development_dependency "rspec",   "~> 2.14.1"
+  spec.add_development_dependency "cucumber", "~> 1.3.4"
 end
