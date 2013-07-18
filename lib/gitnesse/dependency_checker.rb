@@ -1,43 +1,56 @@
 module Gitnesse
   class DependencyChecker
-    class DependencyNotMetError < StandardError ; end
+    attr_reader :errors
 
-    def self.check
+    def initialize
+      @errors = []
+    end
+
+    def check
       check_git
       check_cucumber
       check_repository_url
       check_commit_info
+
+      display_errors if @errors.any?
+    end
+
+    def display_errors
+      puts "Configuration errors were found!"
+      @errors.each do |error|
+        puts "  - #{error}"
+      end
     end
 
     # Checks that Git is installed on the system.
     #
     # Returns true or raises DependencyNotMetError if git is broken
-    def self.check_git
+    def check_git
       if system("git --version &> /dev/null")
         true
       else
-        raise DependencyNotMetError, "Git not found or not working"
+        @errors << "Git not found or not working"
       end
     end
 
     # Checks that Cucumber is installed on the system.
     #
     # Returns true or raises DependencyNotMetError if Cucumber is broken
-    def self.check_cucumber
+    def check_cucumber
       if system("cucumber --version &> /dev/null")
         true
       else
-        raise DependencyNotMetError, "Cucumber not found or not working"
+        @errors << "Cucumber not found or not working"
       end
     end
 
     # Checks that repository_url is set in Gitnesse::Config.
     #
     # Returns true or raises DependencyNotMetError if repository_url isn't set
-    def self.check_repository_url
+    def check_repository_url
       url = Gitnesse::Config.instance.repository_url
       if url.nil? || url.empty?
-        raise DependencyNotMetError, "You must specify a repository_url to run Gitnesse"
+        @errors << "You must specify a repository_url to run Gitnesse"
       else
         true
       end
@@ -47,11 +60,11 @@ module Gitnesse
     # set.
     #
     # Returns true or raises DependencyNotMetError if commit_info isn't set
-    def self.check_commit_info
+    def check_commit_info
       return true unless Gitnesse::Config.instance.annotate_results
       commit_info = Gitnesse::Config.instance.commit_info
       if commit_info.nil? || commit_info.empty?
-        raise DependencyNotMetError, "You must specify commit_info to use the annotate_results option"
+        @errors << "You must specify commit_info to use the annotate_results option"
       else
         true
       end
