@@ -26,7 +26,11 @@ module Gitnesse
 
     describe "#display_errors" do
       before do
+        checker.instance_variable_set(:@errors, ["this is an example error"])
+
         checker.should_receive(:puts).with("Configuration errors were found!")
+        checker.should_receive(:puts).with("  - this is an example error")
+        checker.should_receive(:exit)
       end
 
       it "prints a note saying errors were found" do
@@ -34,8 +38,10 @@ module Gitnesse
       end
 
       it "displays every error in @errors" do
-        checker.instance_variable_set(:@errors, ["this is an example error"])
-        checker.should_receive(:puts).with("  - this is an example error")
+        checker.display_errors
+      end
+
+      it "should exit" do
         checker.display_errors
       end
     end

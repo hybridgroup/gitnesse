@@ -17,9 +17,12 @@ module Gitnesse
 
     def display_errors
       puts "Configuration errors were found!"
+
       @errors.each do |error|
         puts "  - #{error}"
       end
+
+      exit
     end
 
     # Checks that Git is installed on the system.
