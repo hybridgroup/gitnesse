@@ -3,6 +3,8 @@ require 'gitnesse'
 require 'optparse'
 require 'optparse/version'
 
+require 'gitnesse/cli/task'
+
 module Gitnesse
   class Cli
     attr_accessor :out, :parser

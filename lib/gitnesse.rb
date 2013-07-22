@@ -7,8 +7,5 @@ require 'gitnesse/feature_extractor'
 require 'gitnesse/feature_transform'
 require 'gitnesse/git_config_reader'
 
-require 'gitnesse/commands/help'
-require 'gitnesse/commands/info'
-
 module Gitnesse
 end
