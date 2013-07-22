@@ -5,15 +5,14 @@ module Gitnesse
     let(:config) { Config.instance }
 
     describe "#find_and_load" do
-      let(:find_and_load) { -> { ConfigLoader.find_and_load } }
-
       context "when no config file exists" do
         before do
           Dir.should_receive(:glob).and_return([])
+          ConfigLoader.should_receive(:raise_error).with("Can't find a gitnesse.rb file with Gitnesse configuration.")
         end
 
         it "raises an error" do
-          expect(find_and_load).to raise_error ConfigLoader::ConfigFileError
+          ConfigLoader.find_and_load
         end
       end
 
@@ -22,10 +21,11 @@ module Gitnesse
           files = [Support.example_config_file_path]
           Dir.should_receive(:glob).and_return(files)
           ConfigLoader.should_receive(:load).and_return(true)
+          ConfigLoader.should_receive(:reject_irrelevant_files).and_return(files)
         end
 
         it "loads the config file" do
-          expect(find_and_load.call).to be_true
+          ConfigLoader.find_and_load
         end
       end
 
@@ -33,10 +33,12 @@ module Gitnesse
         before do
           files = [Support.example_config_file_path, Support.example_config_file_path]
           Dir.should_receive(:glob).and_return(files)
+          ConfigLoader.should_receive(:reject_irrelevant_files).and_return(files)
+          ConfigLoader.should_receive(:raise_error).with("Multiple configuration files found:", files)
         end
 
         it "raises an error" do
-          expect(find_and_load).to raise_error ConfigLoader::ConfigFileError
+          ConfigLoader.find_and_load
         end
       end
     end
