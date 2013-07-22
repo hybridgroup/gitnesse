@@ -1,5 +1,7 @@
 SUPPORT_FILES_DIR = File.join(File.dirname(__FILE__), "/support")
 
+Dir[File.join(File.dirname(__FILE__), "support", "*.rb")].each { |f| require(f) }
+
 class Support
   class << self
     def example_config_file_path
