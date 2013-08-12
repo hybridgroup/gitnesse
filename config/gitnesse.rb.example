@@ -1,0 +1,3 @@
+Gitnesse::Config.config do |c|
+  c.repository_url = "https://github.com/hybridgroup/gitnesse.wiki.git"
+end
