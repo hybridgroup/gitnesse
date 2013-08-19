@@ -1,15 +1,150 @@
 body {
-  background: url('../images/background.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover:
+  background-color: #e5e8ea;
   color: #444;
+  max-width: 100%;
 }
 
 .container {
-  background: white;
+  background-color: #e5e8ea;
   margin-bottom: 30px;
+}
+
+#logo-wrapper{
+  margin: 3.5em;
+}
+
+#section-introduction{
+  background-color: #33393d;
+  border-top: 5px solid #ff563d;
+  border-bottom: 25px solid #454d52;
+  width: 100%;
+  color: #ffffff;
+  padding: 10px;
+}
+
+#intro-wrapper{
+  margin: 5em 5em 5em 10em;
+  width: 50%;
+}
+
+#intro-wrapper span{
+  color: #ff563d;
+}
+
+#intro-wrapper h3{
+  font-size: 28px;
+}
+
+#intro-wrapper img{
+  position: absolute;
+  right: 200px;
+  top: 300px;
+}
+
+#section-screenshots{
+  width: 100%;
+  float: left;
+  margin-top: 2.5em;
+  margin-bottom: 5em;
+}
+
+#section-screenshots h2{
+  vertical-align: top;
+}
+
+#section-screenshots h2:before{
+  content: url(../images/screenshot_eye.png);
+  padding-right: 10px;
+}
+
+#section-screenshots #screen1{
+  width: 48%;
+  float: left;
+  padding-right: 35px;
+}
+
+#section-screenshots #screen2{
+  width: 48%;
+  float: left;
+}
+
+#section-installation{
+  margin-bottom: 5em;
+}
+
+#section-installation h2{
+  vertical-align: top;
+}
+
+#section-installation h2:before{
+  content: url(../images/installation_heart.png);
+  padding-right: 10px;
+}
+
+#section-gitconfig{
+  margin-bottom: 60px;
+}
+
+#section-gitconfig h2{
+  vertical-align: top;
+}
+
+#section-gitconfig h2:before{
+  content: url(../images/git_config_cog.png);
+  padding-right: 10px;
+}
+
+#section-usage-rails{
+  margin-bottom: 60px;
+}
+
+#section-usage-rails h2{
+  vertical-align: top;
+}
+
+#section-usage-rails h2:before{
+  content: url(../images/rails3_usage.png);
+  padding-right: 10px;
+}
+
+#section-usage-sinatra{
+  margin-bottom: 60px;
+}
+
+#section-usage-sinatra h2{
+  vertical-align: top;
+}
+
+#section-usage-sinatra h2:before{
+  content: url(../images/sinatra_hat.png);
+  padding-right: 10px;
+}
+
+#section-usage-other{
+  margin-bottom: 60px;
+}
+
+#section-usage-other h2{
+  vertical-align: top;
+}
+
+#section-usage-other h2:before{
+  content: url(../images/other_star.png);
+  padding-right: 10px;
+}
+
+#section-more-info{
+  width: 100%;
+}
+
+#more-info-wrapper{
+  text-align: center;
+  background-color: #fff;
+  border-radius: 100%;
+  width: 165px;
+  height: 125px;
+  margin-left: 40%;
+  padding-top: 35px;
 }
 
 ul {
@@ -38,6 +173,7 @@ code {
 pre {
   display: block;
   padding: 10.5px;
+  background-color: #fff;
 }
 
 pre code {
@@ -65,7 +201,7 @@ figure img {
 }
 
 a, a:visited {
-  color: hsl(35, 95%, 55%);
+  color: #ff563d;
   text-decoration: none;
 }
 
@@ -91,6 +227,22 @@ header h1 {
 
 header a:hover {
   text-decoration: none;
+}
+
+footer{
+  background-color: #33393d;
+  border-bottom: 15px solid #ff563d;
+  height: 100px;
+}
+
+#footer-wrapper{
+  float: right;
+  color: #ffffff;
+  padding-right: 50px;
+}
+
+#footer-wrapper p{
+  margin-bottom: 1px;
 }
 
 @media only screen and (max-width: 767px) {

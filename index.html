@@ -15,38 +15,43 @@
   </head>
   <body>
     <a href="https://github.com/hybridgroup/gitnesse"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
-    <div class="container">
-      <header>
+    <header>
+      <div id="logo-wrapper">
         <a href="https://github.com/hybridgroup/gitnesse">
-          <h1>Gitnesse</h1>
+          <img src="images/logo.png" alt="logo" />
         </a>
-      </header>
+      </div>
+    </header>
+    <section id="section-introduction">
+      <div id="intro-wrapper">
+        <h3>
+          <span>Gitnesse</span> is an acceptance testing tool.
+        </h3>
+        <p>
+          It enables a project to store Cucumber feature stories in a git-based wiki, test them against your code, and then update the wiki with the latest test results.
+        </p>
+        <p>
+          The advantage is, that the features are on a wiki, so <em>non-programmers</em> can see them, and <strong>edit</strong> using the <em>wiki</em>. Hence an awesome bi-directional testing flow between developers and non-developers on a team.
+        </p>
+        <p>
+          Conceptually influenced by <a href="http://fitnesse.org">Fitnesse</a>, thank you Uncle Bob!.
+        </p>
+        <img src="images/gitnesse-avatar.png" alt="gitnesse avatar" />
+      </div>
+    </section>
+    <div class="container">
 
       <div id="main">
-        <section id="section-introduction">
-          <p>
-            Gitnesse is an acceptance testing tool.
-          <p>
-          <p>
-            It enables a project to store Cucumber feature stories in a git-based wiki, test them against your code, and then update the wiki with the latest test results.
-          </p>
-          <p>
-            The advantage is, that the features are on a wiki, so <em>non-programmers</em> can see them, and <strong>edit</strong> using the <em>wiki</em>. Hence an awesome bi-directional testing flow between developers and non-developers on a team.
-          </p>
-          </p>
-            Conceptually influenced by <a href="http://fitnesse.org">Fitnesse</a>, thank you Uncle Bob!.
-          </p>
-        </section>
 
         <section id="section-screenshots">
           <h2>Screenshots</h2>
-          <figure>
-            <img src="images/example-github-wiki.jpg">
+          <figure id="screen1">
+            <img src="images/example-github-wiki.jpg" alt="github-wiki">
             <figcaption>Feature in Github Wiki, with last test result annotated</figcaption>
           </figure>
 
-          <figure>
-            <img src="images/example-terminal-pull.jpg">
+          <figure id="screen2">
+            <img src="images/example-terminal-pull.jpg" alt="pull">
             <figcaption>Pulling features from Github wiki to local project.</figcaption>
           </figure>
         </section>
@@ -65,12 +70,15 @@
 
             Create a <code>gitnesse.rb</code> file somewhere in your project, and add configuration like this:
 
-            <pre><code>Gitnesse.configure do |config|
-  config.repository_url =  "git@github.com:hybridgroup/gitnesse-wiki.wiki"
-  config.annotate_results = "true"
-  config.info = "Bob Martin's Work Laptop"
-end</code></pre>
-          </p>
+            <pre>
+              <code>
+                Gitnesse.configure do |config|
+                  config.repository_url =  "git@github.com:hybridgroup/gitnesse-wiki.wiki"
+                  config.annotate_results = "true"
+                  config.info = "Bob Martin's Work Laptop"
+                end
+              </code>
+            </pre>
         </section>
 
         <section id="section-gitconfig">
@@ -83,21 +91,6 @@ end</code></pre>
           don't have these set, you can fix this by entering the following lines in your
           terminal:
         </p>
-
-        <pre><code>$ git config --add --global user.name &lt;your_name&gt;
-$ git config --add --global user.email &lt;your_email&gt;</code></pre>
-        </section>
-
-        <section id="section-rake-tasks">
-          <h2>Rake tasks</h2>
-          <p>
-          <pre><code>$ rake -T
-rake gitnesse:info         # Dump the current config info to the console.
-rake gitnesse:pull         # Pull features from remote git wiki repository.
-rake gitnesse:push         # Push features to remote git wiki repository.
-rake gitnesse:run          # Pull features from remote repository and run cucumber.
-rake gitnesse:push_results # Push features to remote repository and run cucumber, pushing results to wiki.</code></pre>
-          </p>
         </section>
 
         <section id="section-usage-rails">
@@ -120,12 +113,20 @@ rake gitnesse:push_results # Push features to remote repository and run cucumber
         </section>
 
         <section id="section-more-info">
-          <h2>More Info</h2>
-          <p>
-            You can find out more about Gitnesse on <a href="https://github.com/hybridgroup/gitnesse">GitHub</a>.
-          </p>
+          <div id="more-info-wrapper">
+            <a href="https://github.com/hybridgroup/gitnesse">
+              <img src="images/octocat.png" alt="github-octocat" />
+            </a>
+            <h2>More Info</h2>
+          </div>
         </section>
       </div>
     </div>
+    <footer id="footer">
+      <div id="footer-wrapper">
+        <p>Developed by</p>
+        <img src="images/hybrid_logo.png" alt="hybrid-logo" />
+      </div>
+    </footer>
   </body>
 </html>
