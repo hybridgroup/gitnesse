@@ -2,29 +2,37 @@ body {
   background-color: #e5e8ea;
   color: #444;
   max-width: 100%;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.top-container {
+  margin: 0 auto;
+  max-width: 960px;
 }
 
 .container {
+  max-width: 960px;
+}
+
+#main{
   background-color: #e5e8ea;
   margin-bottom: 30px;
 }
 
 #logo-wrapper{
-  margin: 3.5em;
+  margin: 2.5em 0 2.5em 0;
 }
 
 #section-introduction{
   background-color: #33393d;
   border-top: 5px solid #ff563d;
   border-bottom: 25px solid #454d52;
-  width: 100%;
   color: #ffffff;
-  padding: 10px;
+  padding: 75px;
 }
 
 #intro-wrapper{
-  margin: 5em 5em 5em 10em;
-  width: 50%;
+  width: 65%;
 }
 
 #intro-wrapper span{
@@ -37,8 +45,8 @@ body {
 
 #intro-wrapper img{
   position: absolute;
-  right: 200px;
-  top: 300px;
+  right: 0;
+  top: 15px;
 }
 
 #section-screenshots{
@@ -246,13 +254,57 @@ footer{
 }
 
 @media only screen and (max-width: 767px) {
+  #logo-wrapper{
+    margin: 2.5em 0 2.5em 4.5em;
+  }
+
+  #logo-wrapper img{
+    width: 200px;
+  }
+
   header h1 {
     font-size: 75px;
+  }
+
+  #intro-wrapper img{
+    display: none;
+  }
+
+  #section-screenshots #screen1{
+    width: 100%;
+    float: left;
+  }
+
+  #section-screenshots #screen2{
+    width: 100%;
+    float: left;
   }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+  #logo-wrapper{
+    margin: 2.5em 0 2.5em 4.5em;
+  }
+
+  #logo-wrapper img{
+    width: 200px;
+  }
+
   header h1 {
     font-size: 70px;
+  }
+
+  #intro-wrapper img{
+    display: none;
+  }
+
+  #section-screenshots #screen1{
+    width: 100%;
+    float: left;
+  }
+
+  #section-screenshots #screen2{
+    width: 100%;
+    float: left;
   }
 }
