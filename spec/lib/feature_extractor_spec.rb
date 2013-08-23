@@ -16,5 +16,15 @@ module Gitnesse
         expect(FeatureExtractor.extract!("")).to eq []
       end
     end
+
+    describe ".contains_features?" do
+      it "returns true if the page contains features" do
+        expect(FeatureExtractor.contains_features?(example_page)).to be_true
+      end
+
+      it "returns false if no features were found" do
+        expect(FeatureExtractor.contains_features?("")).to be_false
+      end
+    end
   end
 end

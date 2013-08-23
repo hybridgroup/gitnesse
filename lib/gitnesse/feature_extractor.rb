@@ -7,7 +7,7 @@ module Gitnesse
     #
     # Returns an array of matches
     def self.extract!(string)
-      matches = string.scan(/\u0060{3}gherkin(.+?)\u0060{3}/im).flatten
+      matches = string.scan(/\u0060{3}gherkin\s*(.+?)\u0060{3}/im).flatten
 
       if matches.any?
         # Remove newline characters from beginning/end of each feature
@@ -15,6 +15,15 @@ module Gitnesse
       else
         []
       end
+    end
+
+    # Checks if a string contains a Cucumber feature
+    #
+    # string - Markdown-formatted string to check for Cucumber features in
+    #
+    # Returns true if there are features, false otherwise
+    def self.contains_features?(string)
+      string.scan(/\u0060{3}gherkin\s*(.+?)\u0060{3}/im).flatten.any?
     end
   end
 end
