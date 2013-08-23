@@ -14,6 +14,14 @@ module Gitnesse
         @filename = File.basename path
         @name = File.basename path, ".md"
       end
+
+      # Public: Reads the file's contents. Caches result so only reads from FS
+      # first time it's called per page.
+      #
+      # Returns a string
+      def content
+        @content ||= File.read(@path)
+      end
     end
   end
 end
