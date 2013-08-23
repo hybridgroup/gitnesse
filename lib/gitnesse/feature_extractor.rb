@@ -5,7 +5,7 @@ module Gitnesse
     #
     # string - Markdown-formatted string to find Cucumber features in
     #
-    # Returns an array of strings or false if no feature found
+    # Returns an array of matches
     def self.extract!(string)
       matches = string.scan(/\u0060{3}gherkin(.+?)\u0060{3}/im).flatten
 
@@ -13,7 +13,7 @@ module Gitnesse
         # Remove newline characters from beginning/end of each feature
         matches.map { |m| m.lstrip! ; m.chomp! }
       else
-        false
+        []
       end
     end
   end
