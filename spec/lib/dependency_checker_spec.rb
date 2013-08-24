@@ -7,7 +7,9 @@ module Gitnesse
 
     describe "#check" do
       it "calls other dependency checks" do
-        %w(check_git check_cucumber check_repository_url check_commit_info).each do |check|
+        checks = %w(check_git check_cucumber check_repository_url
+                    check_commit_info check_features_dir_exists)
+        checks.each do |check|
           checker.should_receive(check.to_sym).and_return(true)
         end
 
@@ -15,10 +17,15 @@ module Gitnesse
       end
 
       it "calls display_errors if there are any errors" do
-        %w(check_cucumber check_repository_url check_commit_info display_errors).each do |check|
+        checks = %w(check_cucumber check_repository_url check_commit_info
+                    check_features_dir_exists)
+
+        checks.each do |check|
           checker.should_receive(check.to_sym).and_return(true)
         end
+
         checker.should_receive(:system).with('git --version &> /dev/null').and_return(nil)
+        checker.should_receive(:display_errors)
 
         checker.check
       end
@@ -63,7 +70,9 @@ module Gitnesse
         end
 
         it 'adds an error' do
-          expect{checker.check_git}.to change{checker.errors.length}.from(0).to(1)
+          expect {
+            checker.check_git
+          }.to change{checker.errors.length}.from(0).to(1)
         end
       end
     end
@@ -85,7 +94,9 @@ module Gitnesse
         end
 
         it 'adds an error' do
-          expect{checker.check_cucumber}.to change{checker.errors.length}.from(0).to(1)
+          expect {
+            checker.check_cucumber
+          }.to change{checker.errors.length}.from(0).to(1)
         end
       end
     end
@@ -107,7 +118,9 @@ module Gitnesse
         end
 
         it "adds an error" do
-          expect{checker.check_repository_url}.to change{checker.errors.length}.from(0).to(1)
+          expect {
+            checker.check_repository_url
+          }.to change{checker.errors.length}.from(0).to(1)
         end
       end
     end
@@ -135,7 +148,9 @@ module Gitnesse
           end
 
           it "adds an error" do
-            expect{checker.check_commit_info}.to change{checker.errors.length}.from(0).to(1)
+            expect {
+              checker.check_commit_info
+            }.to change{checker.errors.length}.from(0).to(1)
           end
         end
       end
@@ -147,6 +162,30 @@ module Gitnesse
 
         it "returns true" do
           expect(checker.check_commit_info).to be_true
+        end
+      end
+    end
+
+    describe "#check_features_dir_exists" do
+      context "when features_dir exists" do
+        before do
+          File.should_receive(:directory?).and_return(true)
+        end
+
+        it "returns true" do
+          expect(checker.check_features_dir_exists).to be_true
+        end
+      end
+
+      context "when features_dir does not exist or is a file" do
+        before do
+          File.should_receive(:directory?).and_return(false)
+        end
+
+        it "adds an error" do
+          expect {
+            checker.check_features_dir_exists
+          }.to change{checker.errors.length}.from(0).to(1)
         end
       end
     end

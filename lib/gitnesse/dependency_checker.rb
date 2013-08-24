@@ -11,6 +11,7 @@ module Gitnesse
       check_cucumber
       check_repository_url
       check_commit_info
+      check_features_dir_exists
 
       display_errors if @errors.any?
     end
@@ -70,6 +71,15 @@ module Gitnesse
         @errors << "You must specify commit_info to use the annotate_results option"
       else
         true
+      end
+    end
+
+    def check_features_dir_exists
+      dir = Gitnesse::Config.instance.features_dir
+      if File.directory?(dir)
+        true
+      else
+        @errors << "The features directory #{dir} does not exist."
       end
     end
   end
