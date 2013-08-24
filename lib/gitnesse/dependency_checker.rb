@@ -79,7 +79,7 @@ module Gitnesse
       if File.directory?(dir)
         true
       else
-        @errors << "The features directory #{dir} does not exist."
+        @errors << "The features directory './#{dir}' does not exist."
       end
     end
   end
