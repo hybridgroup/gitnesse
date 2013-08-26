@@ -24,6 +24,10 @@ Examples:
 
   private
   def extract_features_from_wiki
+    unless @wiki.pages.any?
+      abort "  Wiki contains no features."
+    end
+
     puts "  Extracting wiki pages containing features."
 
     feature_pages = @wiki.pages.select do |page|
