@@ -23,20 +23,6 @@ Examples:
   end
 
   private
-  def load_and_check_config
-    Gitnesse::ConfigLoader.find_and_load
-    Gitnesse::DependencyChecker.new.check
-
-    @config = Gitnesse::Config.instance
-  end
-
-  def clone_wiki
-    puts "  Pulling wiki."
-
-    @dir = Gitnesse::DirManager.make_project_dir
-    @wiki = Gitnesse::Wiki.new @config.repository_url, @dir
-  end
-
   def extract_features_from_wiki
     puts "  Extracting wiki pages containing features."
 
