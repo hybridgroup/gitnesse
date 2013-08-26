@@ -1,7 +1,7 @@
 module Gitnesse
   class Wiki
     class Page
-      attr_reader :name, :filename, :path
+      attr_reader :wiki_path, :path, :filename, :relative_path
 
       # Public: Creates a new Wiki Page object. Contains references to the page
       # and an easy way to access/update relevant page data.
@@ -10,9 +10,10 @@ module Gitnesse
       #
       # Returns a Wiki::Page object
       def initialize(path)
-        @path = path
-        @filename = File.basename path
-        @name = File.basename path, ".md"
+        @wiki_path = path
+        @relative_path = get_relative_path
+        @filename = get_filename
+        @path = "#{@relative_path}/#{@filename}"
       end
 
       # Public: Reads the file's contents. Caches result so only reads from FS
@@ -20,7 +21,42 @@ module Gitnesse
       #
       # Returns a string
       def content
-        @content ||= File.read(@path)
+        @content ||= File.read(@wiki_path)
+      end
+
+      protected
+      # Protected: Converts wiki-formatted filename into directories containing
+      # the page.
+      #
+      # Wiki filenames are formatted to accomodate nested directories, so for
+      # example the local feature "features/thing/thing.feature" would be given
+      # the filename "features > thing > thing.feature" in the wiki.
+      #
+      # path - path to convert
+      #
+      # Returns a string dir path
+      #
+      # Examples:
+      #   @wiki_path = "features > thing > thing.feature.md"
+      #   get_relative_path #=> "./features/thing"
+      #
+      #   @wiki_path = "thing.feature"
+      #   get_relative_path #=> "./features"
+      def get_relative_path
+        dirs = File.basename(@wiki_path).scan(/(\w+)\ \>/).flatten
+        dirs.shift if dirs.first == "features"
+        "./#{Gitnesse::Config.instance.features_dir}/#{dirs.join("/")}"
+      end
+
+      # Protected: Extracts the local filename for the wiki page
+      #
+      # Returns a string containing the filename
+      #
+      # Examples:
+      #   @wiki_path = "features > thing > thing.feature.md"
+      #   get_filename #=> "thing.feature"
+      def get_filename
+        File.basename(@wiki_path).scan(/(\w+\.feature)\.md$/).flatten.first
       end
     end
   end

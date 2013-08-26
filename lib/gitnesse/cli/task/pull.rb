@@ -30,33 +30,27 @@ Examples:
 
     puts "  Extracting wiki pages containing features."
 
-    feature_pages = @wiki.pages.select do |page|
+    @feature_pages = @wiki.pages.select do |page|
       Gitnesse::FeatureExtractor.contains_features? page.content
-    end
-
-    @features_and_files = feature_pages.each_with_object([]) do |page, arr|
-      arr << {
-        name: page.name,
-        features: Gitnesse::FeatureExtractor.extract!(page.content)
-      }
     end
   end
 
   def create_or_update_local_features
     puts "  Creating and updating local features."
 
-    @features_and_files.each do |feature|
-      filename = "#{@config.features_dir}/#{feature[:name]}.feature"
-
-      if File.exists?(filename)
-        puts "    - Updating #{filename}"
+    @feature_pages.each do |page|
+      if File.exists?(page.path)
+        puts "    - Updating #{page.path}"
       else
-        puts "    - Creating #{filename}"
+        puts "    - Creating #{page.path}"
+        FileUtils.mkdir_p page.relative_path
       end
 
-      File.open filename, 'w' do |file|
-        feature[:features].each do |f|
-          file.write f
+      features = Gitnesse::FeatureExtractor.extract!(page.content)
+
+      File.open page.path, 'w' do |file|
+        features.each do |feature|
+          file.write(feature)
         end
       end
     end

@@ -19,8 +19,10 @@ module Gitnesse
 
       @repo = Grit::Repo.new dir
 
-      @pages = @repo.status.map do |s|
-        Gitnesse::Wiki::Page.new("#{dir}/#{s.path}") if s.path =~ /\.md$/
+      @pages = @repo.status.each_with_object([]) do |s, a|
+        if s.path =~ /\.feature\.md$/
+          a << Gitnesse::Wiki::Page.new("#{dir}/#{s.path}")
+        end
       end
 
       @pages
