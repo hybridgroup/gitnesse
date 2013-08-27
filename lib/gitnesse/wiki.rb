@@ -37,12 +37,15 @@ module Gitnesse
     #
     # Returns nothing
     def clone_or_update_repo(url, dir, present)
+      branch = Gitnesse::Config.instance.branch
+
       if present
         puts "  Updating local copy of remote wiki."
-        Dir.chdir(dir) { `git pull origin master &> /dev/null` }
+        Dir.chdir(dir) { `git pull origin #{branch} &> /dev/null` }
       else
         puts "  Creating local copy of remote wiki."
         `git clone #{url} #{dir} &> /dev/null`
+        `git checkout #{branch} &> /dev/null`
       end
     end
   end
