@@ -4,7 +4,7 @@ require 'grit'
 
 module Gitnesse
   class Wiki
-    attr_reader :repo, :pages
+    attr_reader :repo, :pages, :dir
 
     # Public: Clones/updates a wiki in the provided dir
     #
@@ -15,6 +15,8 @@ module Gitnesse
     #
     # Returns a Gitnesse::Wiki object
     def initialize(repository_url, dir, opts={})
+      @dir = dir
+
       clone_or_update_repo repository_url, dir, !!opts[:present]
 
       @repo = Grit::Repo.new dir
@@ -26,6 +28,31 @@ module Gitnesse
       end
 
       @pages
+    end
+
+    # Public: Adds a new feature page to the Wiki
+    #
+    # feature_path - relative path from Gitnesse::Config.instance.features_path
+    # to feature file
+    #
+    # Returns new Gitnesse::Wiki::Page
+    def add_feature_page(feature_path)
+      config = Gitnesse::Config.instance
+      feature = File.read("#{config.features_dir}/#{feature_path}")
+
+      name = "features/#{feature_path}.md".gsub('/', ' > ')
+      filename = "#{@dir}/#{name}"
+      content = Gitnesse::FeatureTransform.convert(feature)
+
+      if File.exists?(filename)
+        puts "    Updating page: '#{name}'"
+      else
+        puts "    Creating page: '#{name}'"
+      end
+
+      File.open(filename, 'w') do |f|
+        f.write content
+      end
     end
 
     private
