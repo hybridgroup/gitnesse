@@ -4,8 +4,20 @@ module Gitnesse
   class Config
     include Singleton
 
-    ConfigStruct = Struct.new :annotate_results, :branch, :commit_info,
-                              :features_dir, :repository_url
+    ConfigStruct = Struct.new :repository_url, :features_dir, :branch,
+                              :annotate_results, :identifier
+
+    # Config Options:
+    #
+    # repository_url   - URl to remote git-based wiki.
+    # features_dir     - directory for local features. Defaults to "features"
+    # branch           - git branch of remote git-based wiki to use. Defaults to
+    #                    'master'
+    # annotate_results - boolean, determines if Gitnesse will annotate cucumber
+    #                    results to wiki pages. Defaults to false
+    # identifier       - if annotate_results is checked, an identifier to use
+    #                    to indicate who ran the cukes.
+    #                    e.g. "Uncle Bob's MacBook Air"
 
     @@config = ConfigStruct.new
 

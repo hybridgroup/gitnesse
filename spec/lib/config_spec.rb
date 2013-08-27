@@ -7,7 +7,7 @@ module Gitnesse
       {
         annotate_results: false,
         branch: 'master',
-        commit_info: nil,
+        identifier: nil,
         features_dir: 'features',
         repository_url: nil
       }

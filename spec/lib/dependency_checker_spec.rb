@@ -8,7 +8,7 @@ module Gitnesse
     describe "#check" do
       it "calls other dependency checks" do
         checks = %w(check_git check_cucumber check_repository_url
-                    check_commit_info check_features_dir_exists)
+                    check_identifier check_features_dir_exists)
         checks.each do |check|
           checker.should_receive(check.to_sym).and_return(true)
         end
@@ -17,7 +17,7 @@ module Gitnesse
       end
 
       it "calls display_errors if there are any errors" do
-        checks = %w(check_cucumber check_repository_url check_commit_info
+        checks = %w(check_cucumber check_repository_url check_identifier
                     check_features_dir_exists)
 
         checks.each do |check|
@@ -126,30 +126,30 @@ module Gitnesse
     end
 
 
-    describe "#check_commit_info" do
+    describe "#check_identifier" do
       context "when annotate_results is true" do
         before do
           config.annotate_results = true
         end
 
-        context "when commit_info is set" do
+        context "when identifier is set" do
           before do
-            config.commit_info = "Uncle Bob's Macbook Pro"
+            config.identifier = "Uncle Bob's Macbook Pro"
           end
 
           it "returns true" do
-            expect(checker.check_commit_info).to be_true
+            expect(checker.check_identifier).to be_true
           end
         end
 
-        context "when commit_info is not set" do
+        context "when identifier is not set" do
           before do
-            config.commit_info = nil
+            config.identifier = nil
           end
 
           it "adds an error" do
             expect {
-              checker.check_commit_info
+              checker.check_identifier
             }.to change{checker.errors.length}.from(0).to(1)
           end
         end
@@ -161,7 +161,7 @@ module Gitnesse
         end
 
         it "returns true" do
-          expect(checker.check_commit_info).to be_true
+          expect(checker.check_identifier).to be_true
         end
       end
     end

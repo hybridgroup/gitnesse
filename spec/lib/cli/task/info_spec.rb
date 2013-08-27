@@ -6,11 +6,11 @@ module Gitnesse
     let(:result) do
       <<-EOS
 Current Gitnesse Configuration:
-  annotate_results - [not set]
-            branch - master
-       commit_info - [not set]
-      features_dir - features
     repository_url - [not set]
+      features_dir - features
+            branch - master
+  annotate_results - [not set]
+        identifier - [not set]
       EOS
     end
 

@@ -10,7 +10,7 @@ module Gitnesse
       check_git
       check_cucumber
       check_repository_url
-      check_commit_info
+      check_identifier
       check_features_dir_exists
 
       display_errors if @errors.any?
@@ -60,15 +60,15 @@ module Gitnesse
       end
     end
 
-    # Checks that commit_info is set in Gitnesse::Config, if annotate_results is
+    # Checks that identifier is set in Gitnesse::Config, if annotate_results is
     # set.
     #
-    # Returns true or raises DependencyNotMetError if commit_info isn't set
-    def check_commit_info
+    # Returns true or raises DependencyNotMetError if identifier isn't set
+    def check_identifier
       return true unless Gitnesse::Config.instance.annotate_results
-      commit_info = Gitnesse::Config.instance.commit_info
-      if commit_info.nil? || commit_info.empty?
-        @errors << "You must specify commit_info to use the annotate_results option"
+      identifier = Gitnesse::Config.instance.identifier
+      if identifier.nil? || identifier.empty?
+        @errors << "You must specify identifier to use the annotate_results option"
       else
         true
       end
