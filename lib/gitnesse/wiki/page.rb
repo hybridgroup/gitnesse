@@ -20,8 +20,21 @@ module Gitnesse
       # first time it's called per page.
       #
       # Returns a string
-      def content
+      def read
         @content ||= File.read(@wiki_path)
+      end
+
+      # Public: Writes content to the file.
+      #
+      # Returns the passed content
+      def write(content)
+        File.open(@wiki_path, 'w') do |f|
+          f.write content
+        end
+
+        @content = nil
+
+        content
       end
 
       protected

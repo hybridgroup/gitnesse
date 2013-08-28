@@ -16,12 +16,25 @@ module Gitnesse
       expect(page.path).to eq "./features/new_features/new_feature.feature"
     end
 
-    describe "#content" do
-      it "reads and caches the page's content" do
+    describe "#read" do
+      it "reads and caches the page's contents" do
         File.should_receive(:read).with(page.wiki_path).once.and_return("test")
 
-        expect(page.content).to be_a String
-        expect(page.content).to eq "test"
+        expect(page.read).to be_a String
+        expect(page.read).to eq "test"
+      end
+    end
+
+    describe "#write" do
+      before do
+        @stringio = StringIO.new
+        expect(File).to receive(:open).with(page.wiki_path, 'w').and_yield(@stringio)
+        allow(File).to receive(:read).with(page.wiki_path).and_return(@stringio.string)
+      end
+
+      it "writes content to the file" do
+        page.write('testing')
+        expect(page.read).to eq "testing"
       end
     end
   end
