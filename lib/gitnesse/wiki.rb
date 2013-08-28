@@ -1,6 +1,6 @@
 Dir[File.dirname(__FILE__) + "/wiki/*.rb"].each { |f| require(f) }
 
-require 'grit'
+require 'git'
 
 module Gitnesse
   class Wiki
@@ -19,7 +19,7 @@ module Gitnesse
 
       clone_or_update_repo repository_url, dir, !!opts[:present]
 
-      @repo = Grit::Repo.new dir
+      @repo = Git.init dir
 
       @pages = @repo.status.each_with_object([]) do |s, a|
         if s.path =~ /\.feature\.md$/
@@ -37,8 +37,18 @@ module Gitnesse
     def remove_features
       @repo.status.each do |file|
         if file.path =~ /^features(\.md|\ >)/
-          File.delete("#{@dir}/#{file.path}") if File.exists?("#{@dir}/#{file.path}")
-          @repo.remove(file.path)
+          begin
+            @repo.remove(file.path)
+          rescue Git::GitExecuteError => e
+            # Git spat something on git rm [file]. Likely the file doesn't
+            # exist, or was previously removed and hasn't been committed yet.
+            # It's likely fine. If not, we'll abort and show the end user the
+            # error Git sent to us.
+            unless e.message =~ /did not match any files/
+              puts "  A Git error occured. The message it passed to us was:"
+              abort e.message
+            end
+          end
         end
       end
     end
@@ -60,7 +70,6 @@ module Gitnesse
       end
 
       page.write(content)
-
       @repo.add(filename)
       page
     end
