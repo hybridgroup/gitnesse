@@ -30,29 +30,39 @@ module Gitnesse
       @pages
     end
 
-    # Public: Adds a new feature page to the Wiki
+    # Public: Removes pages previously placed by Gitnesse. This includes the
+    # feature listing pages.
     #
-    # feature_path - relative path from Gitnesse::Config.instance.features_path
-    # to feature file
+    # Returns nothing.
+    def remove_features
+      @repo.status.each do |file|
+        if file.path =~ /^features(\.md|\ >)/
+          File.delete("#{@dir}/#{file.path}") if File.exists?("#{@dir}/#{file.path}")
+          @repo.remove(file.path)
+        end
+      end
+    end
+
+    # Public: Adds or updates wiki page
     #
-    # Returns new Gitnesse::Wiki::Page
-    def add_feature_page(feature_path)
-      config = Gitnesse::Config.instance
-      feature = File.read("#{config.features_dir}/#{feature_path}")
+    # filename - filename for wiki page
+    # content - content for page
+    #
+    # Returns a Wiki::Page
+    def add_page(filename, content)
+      full_filename = "#{@dir}/#{filename}"
 
-      name = "features/#{feature_path}.md".gsub('/', ' > ')
-      filename = "#{@dir}/#{name}"
-      content = Gitnesse::FeatureTransform.convert(feature)
-
-      if File.exists?(filename)
-        puts "    Updating page: '#{name}'"
+      if @pages.detect { |f| f.wiki_path == full_filename }
+        page = @pages.find { |f| f.wiki_path == full_filename }
       else
-        puts "    Creating page: '#{name}'"
+        page = Gitnesse::Wiki::Page.new(full_filename)
+        @pages << page
       end
 
-      File.open(filename, 'w') do |f|
-        f.write content
-      end
+      page.write(content)
+
+      @repo.add(filename)
+      page
     end
 
     private
