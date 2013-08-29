@@ -53,6 +53,27 @@ module Gitnesse
       end
     end
 
+    # Public: Commits staged wiki changes
+    #
+    # Returns nothing
+    def commit
+      begin
+        @repo.commit("Update features with Gitnesse")
+      rescue Git::GitExecuteError => e
+        unless e.message =~ /nothing to commit/
+          puts "  A Git error occured. The message it passed to us was:"
+          abort e.message
+        end
+      end
+    end
+
+    # Public: Pushes new commits to remote wiki
+    #
+    # Returns nothing
+    def push
+      @repo.push
+    end
+
     # Public: Adds or updates wiki page
     #
     # filename - filename for wiki page

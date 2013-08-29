@@ -18,38 +18,96 @@ Examples:
   def perform
     load_and_check_config
     clone_wiki
+    remove_existing_features
     collect_features
+    add_index_page
+    add_feature_index_pages_to_wiki
     add_features_to_wiki
     commit_and_push_changes
+
+    puts "  Done."
   end
 
   private
   def collect_features
     puts "  Collecting local features."
     Dir.chdir @config.features_dir do
-      @features = Dir.glob("**/*.feature")
+      @features = Dir.glob("**/*.feature").each_with_object([]) do |f, a|
+        a << Gitnesse::Feature.new(f)
+      end
+    end
+
+    unless @features.any?
+      abort "  No local features found."
+    end
+  end
+
+  def remove_existing_features
+    @wiki.remove_features
+  end
+
+  def add_feature_index_pages_to_wiki
+    nested = @features.group_by(&:index_page)
+    nested.reject! { |k,v| k == 'features.md' }
+
+    if nested.any?
+      puts "  Creating index pages:"
+    end
+
+    nested.each do |filename, features|
+      content = features.each_with_object("") do |f, s|
+        s << "- #{f.relative_link}\n"
+      end
+
+      puts "    - #{filename}"
+
+      @wiki.add_page(filename, content)
     end
   end
 
   def add_features_to_wiki
-    unless @features.any?
-      abort "  No local features found."
-    end
-
+    puts "  Creating/updating wiki features:"
     @features.each do |feature|
-      @wiki.add_feature_page feature
+      puts "    - #{feature.wiki_filename}"
+
+      filename = feature.wiki_filename
+      content = Gitnesse::FeatureTransform.convert(feature.read)
+      @wiki.add_page(filename, content)
     end
   end
 
-  def commit_and_push_changes
-    Dir.chdir @wiki.dir do
-      puts "  Committing updated wiki features."
-      `git add . &> /dev/null`
-      `git commit -m "Update features with Gitnesse" &> /dev/null`
-      puts "  Pushing updated features to remote wiki."
-      `git push origin #{@config.branch} &> /dev/null`
+  def add_index_page
+    filename = "features.md"
+    content = "# Features\n\n"
+
+    puts "  Creating index page: #{filename}"
+
+    nested = @features.group_by(&:index_page)
+
+    if nested.key?("features.md") && nested["features.md"].any?
+      features = nested.delete("features.md")
+
+      features.each do |f|
+        content << "- #{f.relative_link}\n"
+      end
     end
 
-    puts "  Done."
+    nested.each do |folder, features|
+      content << "- **[[#{folder.gsub('.md', '')}|#{folder}]]**\n"
+
+      features.each do |f|
+        content << "    - #{f.relative_link}\n"
+      end
+    end
+
+    @wiki.add_page(filename, content)
+  end
+
+  def commit_and_push_changes
+    puts "  Commiting changes."
+    @wiki.commit
+
+    puts "  Pushing changes to remote wiki."
+    @wiki.push
   end
 end

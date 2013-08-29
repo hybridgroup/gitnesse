@@ -47,5 +47,12 @@ module Gitnesse
       p = wiki_filename.scan(/^(features\ \>\ .+) >/).flatten[0] || 'features'
       p + ".md"
     end
+
+    # Public: Generates relative link for wiki index pages.
+    #
+    # Returns a string containing the relative link as markdown
+    def relative_link
+      "[[#{wiki_filename.gsub('.md', '')}]]"
+    end
   end
 end
