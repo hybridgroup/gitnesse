@@ -8,6 +8,14 @@ module Gitnesse
     #
     # Returns a string
     def self.convert(feature)
+      unless feature.scan(/^\s*?Feature\:(.+?)\n/).flatten.any?
+        return <<-EOS.chomp
+# Undefined Feature
+
+This feature hasn't been added yet.
+        EOS
+      end
+
       title = feature.scan(/^\s*?Feature\:(.+?)\n/).flatten.first.lstrip.chomp
 
       <<-EOS.chomp
