@@ -42,10 +42,6 @@ Examples:
     end
   end
 
-  def remove_existing_features
-    @wiki.remove_features
-  end
-
   def add_feature_index_pages_to_wiki
     nested = @features.group_by(&:index_page)
     nested.reject! { |k,v| k == 'features.md' }
@@ -101,13 +97,5 @@ Examples:
     end
 
     @wiki.add_page(filename, content)
-  end
-
-  def commit_and_push_changes
-    puts "  Commiting changes."
-    @wiki.commit
-
-    puts "  Pushing changes to remote wiki."
-    @wiki.push
   end
 end

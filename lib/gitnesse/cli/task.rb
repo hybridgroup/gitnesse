@@ -1,6 +1,12 @@
+Dir["#{File.dirname(__FILE__)}/helpers/*.rb"].each { |f| require f }
+
 module Gitnesse
   class Cli
     class Task
+      include Gitnesse::Cli::ConfigHelpers
+      include Gitnesse::Cli::FeatureHelpers
+      include Gitnesse::Cli::WikiHelpers
+
       attr_accessor :out
 
       class << self
@@ -37,33 +43,6 @@ module Gitnesse
         out.puts *args
         exit 1
       end
-
-      # Loads and checks Gitnesse configuration/dependencies
-      #
-      # Returns an instance of Gitnesse::Config
-      def load_and_check_config
-        Gitnesse::ConfigLoader.find_and_load
-        Gitnesse::DependencyChecker.new.check
-      end
-
-      # Clones or updates local copy of remote git-based wiki. Also prints
-      # message indicating which operation is taking place
-      #
-      # Returns instance of Gitnesse::Wiki referring to new/updated local wiki
-      def clone_wiki
-        opts = {}
-        @dir = Gitnesse::DirManager.project_dir
-
-        if Gitnesse::DirManager.project_dir_present?
-          opts[:present] = true
-        else
-          opts[:present] = false
-          Gitnesse::DirManager.make_project_dir
-        end
-
-        @wiki = Gitnesse::Wiki.new @config.repository_url, @dir, opts
-      end
-
     end
 
     def tasks

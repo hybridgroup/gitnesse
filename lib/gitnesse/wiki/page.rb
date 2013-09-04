@@ -69,7 +69,7 @@ module Gitnesse
       #   @wiki_path = "features > thing > thing.feature.md"
       #   get_filename #=> "thing.feature"
       def get_filename
-        File.basename(@wiki_path).scan(/(\w+\.feature)\.md$/).flatten.first
+        File.basename(@wiki_path, '.md').scan(/(\w+\.feature)$/).flatten.first
       end
     end
   end
