@@ -16,7 +16,9 @@ module Gitnesse
           end
 
           feature = Gitnesse::Feature.new(page.path)
-          feature.write(Gitnesse::FeatureExtractor.extract!(page.read))
+          features = Gitnesse::FeatureExtractor.extract!(page.read)
+
+          feature.write(features.join("\n\n"))
         end
       end
     end
