@@ -20,6 +20,8 @@ Examples:
     clone_wiki
     extract_features_from_wiki
     create_or_update_local_features
+
+    puts "  Done."
   end
 
   private
@@ -31,7 +33,7 @@ Examples:
     puts "  Extracting wiki pages containing features."
 
     @feature_pages = @wiki.pages.select do |page|
-      Gitnesse::FeatureExtractor.contains_features? page.content
+      Gitnesse::FeatureExtractor.contains_features? page.read
     end
   end
 
@@ -46,7 +48,7 @@ Examples:
         FileUtils.mkdir_p page.relative_path
       end
 
-      features = Gitnesse::FeatureExtractor.extract!(page.content)
+      features = Gitnesse::FeatureExtractor.extract!(page.read)
 
       File.open page.path, 'w' do |file|
         features.each do |feature|
