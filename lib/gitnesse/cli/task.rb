@@ -17,6 +17,7 @@ module Gitnesse
 
       def initialize(out)
         @out = out
+        @config = Gitnesse::Config.instance
       end
 
       def perform(*); end
@@ -43,8 +44,6 @@ module Gitnesse
       def load_and_check_config
         Gitnesse::ConfigLoader.find_and_load
         Gitnesse::DependencyChecker.new.check
-
-        @config = Gitnesse::Config.instance
       end
 
       # Clones or updates local copy of remote git-based wiki. Also prints
