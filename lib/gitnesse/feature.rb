@@ -3,7 +3,12 @@ module Gitnesse
     attr_accessor :filename
 
     def initialize(filename)
-      @filename = filename
+      if filename =~ /^\.\/features\/(.+)/
+        @filename = filename.scan(/^\.?\/?features\/(.+)/).flatten.first
+      else
+        @filename = filename
+      end
+
       @config = Gitnesse::Config.instance
     end
 
