@@ -9,5 +9,7 @@ require 'gitnesse/dir_manager'
 require 'gitnesse/wiki'
 require 'gitnesse/hooks'
 
+require 'gitnesse/railtie' if defined?(Rails)
+
 module Gitnesse
 end
