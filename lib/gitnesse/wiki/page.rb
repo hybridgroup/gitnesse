@@ -37,6 +37,13 @@ module Gitnesse
         content
       end
 
+      # Public: Removes existing results from the feature page.
+      #
+      # Returns nothing
+      def remove_results
+        write(read.gsub(/(\s+\!\[\].*)/, ''))
+      end
+
       # Public: Appends the result of a Cucumber scenario to the feature's wiki
       # page.
       #

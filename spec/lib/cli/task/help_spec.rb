@@ -11,6 +11,7 @@ The gitnesse tasks are:
   info   Prints current Gitnesse configuration
   pull   Pulls features from remote git-based wiki
   push   Pushes local features to remote git-based wiki
+  run    Pulls changes from remote git-based wiki, and runs Cucumber.
 
 See 'gitnesse help <task>' for more information on a specific task.
       EOS

@@ -43,6 +43,7 @@ module Gitnesse
       return unless page
 
       page.append_result name, status
+      @wiki.repo.add(page.wiki_path)
     end
   end
 end
