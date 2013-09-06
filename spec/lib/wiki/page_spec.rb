@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'time'
 
 module Gitnesse
   describe Wiki::Page do
@@ -28,13 +29,39 @@ module Gitnesse
     describe "#write" do
       before do
         @stringio = StringIO.new
-        expect(File).to receive(:open).with(page.wiki_path, 'w').and_yield(@stringio)
+        expect(File).to receive(:open).with(page.wiki_path, 'w+').and_yield(@stringio)
         allow(File).to receive(:read).with(page.wiki_path).and_return(@stringio.string)
       end
 
       it "writes content to the file" do
         page.write('testing')
         expect(page.read).to eq "testing"
+      end
+    end
+
+    describe "#remove_results" do
+      before do
+        @stringio = StringIO.new(Support.wiki_feature_with_annotations)
+        expect(File).to receive(:read).with(page.wiki_path).and_return(@stringio.string)
+        allow(File).to receive(:open).with(page.wiki_path, 'w+').and_yield(@stringio)
+      end
+
+      it "removes all existing scenario results from the wiki page" do
+        expect(page.remove_results).to eq Support.wiki_feature_without_annotations
+      end
+    end
+
+    describe "#append_result" do
+      before do
+        @stringio = StringIO.new(Support.wiki_feature_without_annotations)
+        allow(File).to receive(:read).with(page.wiki_path).and_return(@stringio.string)
+        allow(File).to receive(:open).with(page.wiki_path, 'w+').and_yield(@stringio)
+        allow(Time).to receive(:now).and_return(Time.parse("Sep 06 2013 10:00"))
+      end
+
+      it "appends scenario results to the wiki page" do
+        page.append_result('Divide two numbers', :passed)
+        expect(page.read).to eq Support.wiki_feature_with_annotations
       end
     end
   end

@@ -28,7 +28,7 @@ module Gitnesse
       #
       # Returns the passed content
       def write(content)
-        File.open(@wiki_path, 'w') do |f|
+        File.open(@wiki_path, 'w+') do |f|
           f.write content
         end
 

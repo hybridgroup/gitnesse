@@ -46,6 +46,22 @@ class Support
       EOS
     end
 
+    def wiki_feature_without_annotations
+      wiki_division_feature
+    end
+
+    def wiki_feature_with_annotations
+      <<-EOS.chomp
+# Division
+
+```gherkin
+#{division_feature}
+```
+
+![](https://s3.amazonaws.com/gitnesse/github/passed.png) `Last Result For Scenario 'Divide two numbers': PASSED (Sep 06, 2013, 10:00 AM - )`
+      EOS
+    end
+
     def example_features
       [addition_feature, division_feature]
     end
