@@ -6,9 +6,10 @@ Gem::Specification.new do |spec|
   spec.version       = Gitnesse::VERSION
   spec.authors       = ["www.hybridgroup.com"]
   spec.email         = ["info@hybridgroup.com"]
-  spec.description   = %q{Use github wiki to store feature stories, then execute
-                          then using Cucumber}
-  spec.summary       = %q{Features on git-based Wiki!}
+  spec.description   = %q{Gitnesse lets you sync Cucumber feature stories
+                          through a Git-based wiki, and display current
+                          scenario results on wiki pages}
+  spec.summary       = %q{Sync your feature stories using a Git-based wiki!}
   spec.homepage      = "https://github.com/hybridgroup/gitnesse"
   spec.license       = "MIT"
 
