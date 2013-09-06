@@ -21,5 +21,28 @@ module Gitnesse
     def self.destroy!
       FileUtils.rm PATH, force: true
     end
+
+    # Public: Used by Gitnesse hook to append results to wiki page for feature
+    #
+    # scenario - Cucumber scenario passed by post-scenario hook
+    #
+    # Returns nothing
+    def self.append_results(scenario)
+      Gitnesse::ConfigLoader.find_and_load
+      dir = Gitnesse::DirManager.project_dir
+
+      file = scenario.file.gsub(/^#{@config.features_dir}\//, '')
+
+      page = file.gsub("/", " > ")
+      name = scenario.name
+      status = scenario.status
+
+      @wiki = Gitnesse::Wiki.new(@config.repository_url, dir, clone: false)
+      page = @wiki.pages.find { |f| f.wiki_path.include?(page) }
+
+      return unless page
+
+      page.append_result name, status
+    end
   end
 end

@@ -9,14 +9,11 @@ module Gitnesse
         opts = {}
         @dir = Gitnesse::DirManager.project_dir
 
-        if Gitnesse::DirManager.project_dir_present?
-          opts[:present] = true
-        else
-          opts[:present] = false
+        unless Gitnesse::DirManager.project_dir_present?
           Gitnesse::DirManager.make_project_dir
         end
 
-        @wiki = Gitnesse::Wiki.new @config.repository_url, @dir, opts
+        @wiki = Gitnesse::Wiki.new @config.repository_url, @dir
       end
 
       # Public: Removes existing features from local copy of remote wiki.

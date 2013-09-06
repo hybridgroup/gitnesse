@@ -37,6 +37,26 @@ module Gitnesse
         content
       end
 
+      # Public: Appends the result of a Cucumber scenario to the feature's wiki
+      # page.
+      #
+      # scenario - feature scenario that was run
+      # status - return status of the scenario, e.g. :passed, :undefined,
+      # :failing
+      #
+      # Returns nothing
+      def append_result(scenario, status)
+        status = status.to_s
+        image = "![](https://s3.amazonaws.com/gitnesse/github/#{status}.png)"
+        string = "\n\n#{image} \`"
+        string << "Last Result For Scenario '#{scenario}': "
+        string << status.upcase
+        string << " (#{Time.now.strftime("%b %d, %Y, %-l:%M %p")} - "
+        string << "#{Gitnesse::Config.instance.identifier})\`"
+
+        write(read + string)
+      end
+
       protected
       # Protected: Converts wiki-formatted filename into directories containing
       # the page.
