@@ -6,16 +6,12 @@ module Gitnesse
     let(:path) { Hooks::PATH }
     let(:dir) { Hooks::DIR }
 
-    before do
-      allow(File).to receive(:directory?).with(dir).and_return(true)
-    end
-
     it "sets DIR to the 'support' cucumber dir" do
-      expect(dir).to include "features/support"
+      expect(dir).to match "features/support"
     end
 
     it "sets PATH to the filename for the Cucumber hook" do
-      expect(path).to include "features/support/gitnesse.rb"
+      expect(path).to match "features/support/gitnesse.rb"
     end
 
     describe ".create!" do

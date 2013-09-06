@@ -56,7 +56,7 @@ module Gitnesse
         @stringio = StringIO.new(Support.wiki_feature_without_annotations)
         allow(File).to receive(:read).with(page.wiki_path).and_return(@stringio.string)
         allow(File).to receive(:open).with(page.wiki_path, 'w+').and_yield(@stringio)
-        allow(Time).to receive(:now).and_return(Time.parse("Sep 06 2013 10:00"))
+        allow(Time).to receive(:now).and_return(Time.parse("Sep 06 2013 10:10"))
       end
 
       it "appends scenario results to the wiki page" do

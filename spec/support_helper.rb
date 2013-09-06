@@ -58,7 +58,7 @@ class Support
 #{division_feature}
 ```
 
-![](https://s3.amazonaws.com/gitnesse/github/passed.png) `Last Result For Scenario 'Divide two numbers': PASSED (Sep 06, 2013, 10:00 AM - )`
+![](https://s3.amazonaws.com/gitnesse/github/passed.png) `Last Result For Scenario 'Divide two numbers': PASSED (Sep 06, 2013, 10:10 AM - )`
       EOS
     end
 
