@@ -15,6 +15,7 @@ Current Gitnesse Configuration:
     end
 
     it "prints the current configuration" do
+      expect(Gitnesse::ConfigLoader).to receive(:find_and_load)
       expect(gitnesse("info")).to eq result
     end
   end

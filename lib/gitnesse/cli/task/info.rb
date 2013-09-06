@@ -2,6 +2,7 @@ Gitnesse::Cli.task :info do
   desc "Prints current Gitnesse configuration"
 
   def perform
+    Gitnesse::ConfigLoader.find_and_load
     config = Gitnesse::Config.instance.to_h
     size = config.keys.map(&:length).max
 
