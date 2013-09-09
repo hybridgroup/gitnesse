@@ -160,7 +160,7 @@ debugging purposes and sanity checking.
 To store local copies of your remote wikis, Gitnesse creates a hidden folder in
 your home folder called `~/.gitnesse`. The wikis are stored in the project
 folder, so for example if you have a project called 'awesome_rails_app', it's
-wiki would appear in `~/.gitnesse/awesome_rails_app`
+wiki would appear in `~/.gitnesse/awesome_rails_app`.
 
 ## Contributing
 
@@ -178,6 +178,8 @@ We use RSpec for testing. Please include tests with your pull request. A simple
 `bundle exec rake` will run the suite. Also, please try to [TomDoc][] your
 methods, it makes it easier to see what the code does and makes it easier for
 future contributors to get started.
+
+(c) 2012-2013 The Hybrid Group
 
 [Fitnesse]: http://fitnesse.org/
 [TomDoc]: http://tomdoc.org/
