@@ -68,7 +68,11 @@ Examples:
   def run_features
     puts "  Running cucumber."
     puts '  -------------------', ''
-    system "cucumber #{@config.features_dir}"
+    if defined?(Bundler)
+      Bundler.with_clean_env { system "cucumber #{@config.features_dir}" }
+    else
+      system "cucumber #{@config.features_dir}"
+    end
     puts '  -------------------', ''
   end
 

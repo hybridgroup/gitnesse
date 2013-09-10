@@ -44,7 +44,11 @@ Dir.chdir(@repo_with_features) do
   abort "Failed to clone demo repo to #{@repo_with_features}." if $? != 0
 
   puts "Installing gems for demo repo."
-  Bundler.with_clean_env do
+  if defined?(Bundler)
+    Bundler.with_clean_env do
+      system "bundle install --path vendor/bundle &> /dev/null"
+    end
+  else
     system "bundle install --path vendor/bundle &> /dev/null"
   end
   abort "Failed to install gems for demo repo #{@repo_with_features}" if $? != 0
