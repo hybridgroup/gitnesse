@@ -17,9 +17,10 @@ FileUtils.mkdir_p(@root) unless File.directory?(@root)
 @wiki_without_features = File.join(@root, "/wiki_without_features")
 @repo_with_features = File.join(@root, "/repo_with_features")
 @repo_without_features = File.join(@root, "/repo_without_features")
+@assertion_dir = File.join(@root, "/assertion")
 
 dirs = [@wiki_with_features, @wiki_without_features, @repo_with_features,
-        @repo_without_features]
+        @repo_without_features, @assertion_dir]
 
 dirs.each do |dir|
   FileUtils.rm_rf dir
