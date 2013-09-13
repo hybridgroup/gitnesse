@@ -46,7 +46,7 @@ body {
 #intro-wrapper img{
   position: absolute;
   right: 0;
-  top: 15px;
+  top: 45px;
 }
 
 #section-screenshots{
@@ -89,54 +89,28 @@ body {
   padding-right: 10px;
 }
 
-#section-gitconfig{
+#section-dependencies{
   margin-bottom: 60px;
 }
 
-#section-gitconfig h2{
+#section-dependencies h2{
   vertical-align: top;
 }
 
-#section-gitconfig h2:before{
+#section-dependencies h2:before{
   content: url(../images/git_config_cog.png);
   padding-right: 10px;
 }
 
-#section-usage-rails{
+#section-usage-tasks{
   margin-bottom: 60px;
 }
 
-#section-usage-rails h2{
+#section-usage-tasks h2{
   vertical-align: top;
 }
 
-#section-usage-rails h2:before{
-  content: url(../images/rails3_usage.png);
-  padding-right: 10px;
-}
-
-#section-usage-sinatra{
-  margin-bottom: 60px;
-}
-
-#section-usage-sinatra h2{
-  vertical-align: top;
-}
-
-#section-usage-sinatra h2:before{
-  content: url(../images/sinatra_hat.png);
-  padding-right: 10px;
-}
-
-#section-usage-other{
-  margin-bottom: 60px;
-}
-
-#section-usage-other h2{
-  vertical-align: top;
-}
-
-#section-usage-other h2:before{
+#section-usage-tasks h2:before{
   content: url(../images/other_star.png);
   padding-right: 10px;
 }
@@ -181,14 +155,14 @@ code {
 pre {
   display: block;
   padding: 10.5px;
-  background-color: #fff;
+  background-color: #002d38;
 }
 
 pre code {
   padding: 0;
   background: none;
   border: 0;
-  color: black;
+  color: white;
 }
 
 figure {

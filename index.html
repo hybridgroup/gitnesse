@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oleo+Script">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/scaffold.css">
+    <link rel="stylesheet" href="css/solarized.css">
     <link rel="stylesheet" href="css/style.css">
 
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -21,7 +22,7 @@
       <header>
         <div id="logo-wrapper">
           <a href="https://github.com/hybridgroup/gitnesse">
-            <img src="images/logo.png" alt="logo" />
+            <img src="images/logo.png" alt="logo">
           </a>
         </div>
       </header>
@@ -33,15 +34,23 @@
             <span>Gitnesse</span> is an acceptance testing tool.
           </h3>
           <p>
-            It enables a project to store Cucumber feature stories in a git-based wiki, test them against your code, and then update the wiki with the latest test results.
+            It enables a project to store Cucumber feature stories in
+            a git-based wiki, test them against the code, and then update the
+            wiki with the latest test results.
           </p>
           <p>
-            The advantage is, that the features are on a wiki, so <em>non-programmers</em> can see them, and <strong>edit</strong> using the <em>wiki</em>. Hence an awesome bi-directional testing flow between developers and non-developers on a team.
+            Because the features are in a wiki, <em>non-programmers</em> can see
+            them more easily, and <strong>edit</strong> them using the
+            <em>wiki</em>.
           </p>
           <p>
-            Conceptually influenced by <a href="http://fitnesse.org" target="_blank">Fitnesse</a>, thank you Uncle Bob!.
+            Gitnesse provides an awesome bi-directional testing flow between
+            developers and non-developers on a team.
           </p>
-          <img src="images/gitnesse-avatar.png" alt="gitnesse avatar" />
+          <p>
+            Conceptually influenced by <a href="http://fitnesse.org" target="_blank">Fitnesse</a>. Thanks, Uncle Bob!.
+          </p>
+          <img src="images/gitnesse-avatar.png" alt="gitnesse avatar">
         </div>
       </div>
     </section>
@@ -52,12 +61,12 @@
         <section id="section-screenshots">
           <h2>Screenshots</h2>
           <figure id="screen1">
-            <img src="images/example-github-wiki.jpg" alt="github-wiki">
+            <img src="images/example-github-wiki.png" alt="github-wiki">
             <figcaption>Feature in Github Wiki, with last test result annotated</figcaption>
           </figure>
 
           <figure id="screen2">
-            <img src="images/example-terminal-pull.jpg" alt="pull">
+            <img src="images/example-terminal-pull.png" alt="pull">
             <figcaption>Pulling features from Github wiki to local project.</figcaption>
           </figure>
         </section>
@@ -65,63 +74,134 @@
         <section id="section-installation">
           <h2>Installation</h2>
           <p>
-            Add this line to your applications's <code>Gemfile</code>:
+            You can add Gitnesse to your project's Gemfile:
             <pre><code>gem 'gitnesse'</code></pre>
 
-            And then execute:
-            <pre><code>$ bundle</code></pre>
-
-            Or install it yourself as
+            Or install it manually (recommended):
             <pre><code>$ gem install gitnesse</code></pre>
 
-            Create a <code>gitnesse.rb</code> file somewhere in your project, and add configuration like this:
+            Now add a <code>gitnesse.rb</code> file to your project. This will
+            be used to configure Gitnesse's behaviour.
+          </p>
 
-            <pre>
-              <code>
-                Gitnesse.configure do |config|
-                  config.repository_url =  "git@github.com:hybridgroup/gitnesse-wiki.wiki"
-                  config.annotate_results = "true"
-                  config.info = "Bob Martin's Work Laptop"
-                end
-              </code>
-            </pre>
+          <p> An example config file:</p>
+
+          <div class="highlight">
+            <div class="syntax"><pre><span class="no">Gitnesse</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">config</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">repository_url</span>  <span class="o">=</span> <span class="s2">"https://github.com/hybridgroup/gitnesse-demo.wiki.git"</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">annotate_results</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s2">"Development Laptop"</span>
+<span class="k">end</span>
+</pre></div>
+          </div>
         </section>
 
-        <section id="section-gitconfig">
-        <h2>Git Config</h2>
+        <section id="section-dependencies">
+          <h2>Dependencies</h2>
 
-        <p>
-          Gitnesse depends on two values being present in your <code>gitconfig</code>: <code>user.name</code>
-          and <code>user.email</code>. These will be used when annotating test results, and to
-          identify commits you make to the feature wiki. If Gitnesse complains that you
-          don't have these set, you can fix this by entering the following lines in your
-          terminal:
-        </p>
+          <p>
+            Gitnesse has a few dependencies it needs to function properly:
+
+            <ol>
+              <li>Git <em>must</em> be installed.</li>
+              <li>Cucumber must be installed and globally accessible (<code>gem
+                install cucumber</code>)</li>
+            </ol>
+          </p>
         </section>
 
-        <section id="section-usage-rails">
-          <h2>Usage in Rails 3</h2>
-          <p>For Rails 3 the rake tasks should automatically just appear, as long as you have added the gitnesse gem to your Gemfile.</p>
-          <p>There is an example application using Rails 3 located here: <a href="https://github.com/hybridgroup/gitnesse-example-rails">https://github.com/hybridgroup/gitnesse-example-rails</a></p>
-        </section>
+        <section id="section-usage-tasks">
+          <h2>Tasks</h2>
 
-        <section id="section-usage-sinatra">
-          <h2>Usage in Sinatra</h2>
-          <p>To use gitnesse in a Sinatra application, simple add this line of code to your Rakefile:</p>
-          <pre><code>require "gitnesse/tasks"</code></pre>
-          <p>There is an example application using Sinatra located here: <a href="https://github.com/hybridgroup/gitnesse-example-sinatra">https://github.com/hybridgroup/gitnesse-example-sinatra</a></p>
-        </section>
+          <p>Gitnesse comes with a few commands:</p>
 
-        <section id="section-usage-other">
-          <h2>Other usage</h2>
-          <p>Want to use plain old Gitnesse? There is an executable, if you're allergic to rake tasks:</p>
-          <pre><code>$ gitnesse</code></pre>
+            <pre><code>gitnesse pull
+gitnesse push
+gitnesse run
+gitnesse info
+gitnesse help</code></pre>
+
+            <p>
+              All of these commands are also available as Rake tasks, if you've
+              added Gitnesse to your Gemfile:
+            </p>
+
+            <pre><code>rake gitnesse:pull
+rake gitnesse:push
+rake gitnesse:run
+rake gitnesse:info</code></pre>
+
+
+            <p>
+              If you're using Gitnesse with a Rails app, these rake tasks will
+              be hooked up automatically. If you're not using Rails, but still
+              want the rake tasks, add this line to your Rakefile:
+            </p>
+
+<div class="highlight">
+<div class="syntax"><pre><span class="nb">require</span> <span class="s1">'gitnesse/tasks'</span>
+</pre></div>
+</div>
+
+            <h3>pull</h3>
+
+            <p>
+              <code>gitnesse pull</code> pulls features from the remote git wiki,
+              and updates/replaces the relevant local features. It also creates
+              new local features if they don't already exist.
+            </p>
+
+            <h3>push</h3>
+
+            <p>
+              <code>gitnesse push</code> pushes local features to the remote git
+              wiki, updating/replacing/creating as necessary. It also adds index
+              pages, so for example if your features folder looked like this:
+            </p>
+
+<pre><code>features
+├── purchasing
+│   ├── purchasing.feature
+└── subscribing
+    ├── subscriping_logged_in.feature
+    ├── subscribing_logged_out.feature
+    └── subscribing_fail.feature
+</pre></code>
+
+            <p>Gitnesse would create these wiki pages:</p>
+
+<pre><code>features.md
+features > purchasing.md
+features > purchasing > purchasing.feature.md
+features > subscribing.md
+features > subscribing > subscriping_logged_in.feature.md
+features > subscribing > subscribing_logged_out.feature.md
+features > subscribing > subscribing_fail.feature.md
+</pre></code>
+
+          <h3>run</h3>
+
+          <p>
+            <code>gitnesse run</code> pulls remote wiki features to local,
+            similarly to gitnesse pull, but then it runs Cucumber on the
+            updated feature. If the annotate_results settings is enabled, it
+            will push annotated Cucumber results for each feature scenario to
+            the remote wiki.
+          </p>
+
+          <h3>info</h3>
+
+          <p>
+            <code>gitnesse info</code> prints the current Gitnesse
+            configuration info. Useful for debugging purposes and sanity
+            checking.
+          </p>
         </section>
 
         <section id="section-more-info">
           <div id="more-info-wrapper">
             <a href="https://github.com/hybridgroup/gitnesse" target="_blank">
-              <img src="images/octocat.png" alt="github-octocat" />
+              <img src="images/octocat.png" alt="github-octocat">
             </a>
             <h2>More Info</h2>
           </div>
@@ -132,7 +212,7 @@
       <div id="footer-wrapper">
         <p>Developed by</p>
         <a href="http://hybridgroup.com" target="_blank">
-          <img src="images/hybrid_logo.png" alt="hybrid-logo" />
+          <img src="images/hybrid_logo.png" alt="hybrid-logo">
         </a>
       </div>
     </footer>
