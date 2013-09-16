@@ -13,7 +13,7 @@ module Gitnesse
         @wiki_path = path
         @relative_path = get_relative_path
         @filename = get_filename
-        @path = "#{@relative_path}/#{@filename}"
+        @path = "#{@relative_path}/#{@filename}".gsub("//", "/")
       end
 
       # Public: Reads the file's contents. Caches result so only reads from FS
