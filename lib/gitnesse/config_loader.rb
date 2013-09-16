@@ -1,7 +1,5 @@
 module Gitnesse
   class ConfigLoader
-    class ConfigFileError < StandardError ; end
-
     def self.find_and_load
       files = Dir.glob(File.join("**", "gitnesse.rb"))
 
