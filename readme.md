@@ -21,6 +21,7 @@ Conceptually influenced by [Fitnesse][]. Thanks, Uncle Bob!
     - [Push](#push)
     - [Run](#run)
     - [Info](#info)
+    - [Cleanup](#cleanup)
 - [~/.gitnesse](#gitnesse)
 - [Contributing](#contributing)
 
@@ -89,6 +90,7 @@ gitnesse push
 gitnesse run
 gitnesse info
 gitnesse help
+gitnesse cleanup
 ```
 
 All of these commands are also available as Rake tasks, if you've added Gitnesse
@@ -99,6 +101,7 @@ rake gitnesse:pull
 rake gitnesse:push
 rake gitnesse:run
 rake gitnesse:info
+rake gitnesse:cleanup
 ```
 
 If you're using Gitnesse with a Rails app, these rake tasks will be hooked up
@@ -154,6 +157,12 @@ results for each feature scenario to the remote wiki.
 
 `gitnesse info` prints the current Gitnesse configuration info. Useful for
 debugging purposes and sanity checking.
+
+### cleanup
+
+`gitnesse cleanup` cleans up the folders Gitnesse creates in `~/.gitnesse` to
+store local copies of remote wikis. It prompts for confirmatino before deleting
+anything.
 
 ## ~/.gitnesse
 

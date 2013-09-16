@@ -31,8 +31,10 @@ Then(/^the local features should match the wiki$/) do
   wiki_features = Dir.glob("#{@assertion_dir}/**/*.feature.md")
   repo_features = Dir.glob("#{@repo_dir}/features/**/*.feature")
 
-  wiki_features.map! { |f| File.basename(f, ".md").scan(/(\w+.feature)/).flatten[0] }
-  repo_features.map! { |f| File.basename(f)  }
+  repo_features.map! { |f| File.basename(f).downcase  }
+  wiki_features.map! do |f|
+    File.basename(f, ".md").scan(/(\w+.feature)/).flatten[0].downcase
+  end
 
   FileUtils.rm_rf(@assertion_dir)
   FileUtils.mkdir_p(@assertion_dir)
