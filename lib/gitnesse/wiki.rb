@@ -20,7 +20,7 @@ module Gitnesse
       @opts = opts
       @config = Gitnesse::Config.instance
 
-      clone_or_update_repo unless !opts[:clone]
+      clone_or_update unless !opts[:clone]
 
       @repo ||= Git.init(dir)
 
@@ -99,21 +99,41 @@ module Gitnesse
     end
 
     private
+
     # Private: Clones or Updates the local copy of the remote wiki
     #
     # Returns nothing
-    def clone_or_update_repo
+    def clone_or_update
       if File.directory?(@dir + "/.git")
-        puts "  Updating local copy of remote wiki."
-        @repo = Git.open(@dir)
-        @repo.pull('origin', @config.branch)
+        if Git.open(@dir).remote.url == @config.repository_url
+          update
+        else
+          clone
+        end
       else
-        puts "  Creating local copy of remote wiki."
-        Dir.mkdir @dir unless File.directory?(@dir)
-        @repo = Git.clone @url, @dir
+        clone
       end
 
       @repo.checkout(@config.branch)
+    end
+
+    # Private: Clones the remote wiki into a local folder.
+    #
+    # Returns nothing
+    def clone
+      puts "  Creating local copy of remote wiki."
+      FileUtils.rm_rf(@dir) if File.directory?(@dir)
+      Dir.mkdir(@dir)
+      @repo = Git.clone @url, @dir
+    end
+
+    # Private: Updates the local copy of the remote wiki
+    #
+    # Returns nothing
+    def update
+      puts "  Updating local copy of remote wiki."
+      @repo = Git.open @dir
+      @repo.pull 'origin', @config.branch
     end
   end
 end

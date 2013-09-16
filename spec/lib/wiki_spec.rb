@@ -4,7 +4,7 @@ module Gitnesse
   describe Wiki do
     describe "#remove_features" do
       before do
-        Wiki.any_instance.stub(:clone_or_update_repo).and_return(true)
+        Wiki.any_instance.stub(:clone_or_update).and_return(true)
 
         @repo = double('repo', status: [])
         expect(Git).to receive(:init).with("~/.gitnesse/gitnesse").and_return(@repo)
