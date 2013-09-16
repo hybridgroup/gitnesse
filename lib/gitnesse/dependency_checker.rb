@@ -16,14 +16,14 @@ module Gitnesse
       display_errors if @errors.any?
     end
 
+    def add_error(message)
+      @errors << message
+    end
+
     def display_errors
       puts "Configuration errors were found!"
-
-      @errors.each do |error|
-        puts "  - #{error}"
-      end
-
-      exit
+      @errors.each { |error| puts "  - #{error}" }
+      abort
     end
 
     # Checks that Git is installed on the system.
@@ -33,7 +33,7 @@ module Gitnesse
       if system("git --version &> /dev/null")
         true
       else
-        @errors << "Git not found or not working"
+        add_error "Git not found or not working"
       end
     end
 
@@ -44,7 +44,7 @@ module Gitnesse
       if system("cucumber --version &> /dev/null")
         true
       else
-        @errors << "Cucumber not found or not working"
+        add_error "Cucumber not found or not working"
       end
     end
 
@@ -54,7 +54,7 @@ module Gitnesse
     def check_repository_url
       url = Gitnesse::Config.instance.repository_url
       if url.nil? || url.empty?
-        @errors << "You must specify a repository_url to run Gitnesse"
+        add_error "You must specify a repository_url to run Gitnesse"
       else
         true
       end
@@ -68,7 +68,7 @@ module Gitnesse
       return true unless Gitnesse::Config.instance.annotate_results
       identifier = Gitnesse::Config.instance.identifier
       if identifier.nil? || identifier.empty?
-        @errors << "You must specify identifier to use the annotate_results option"
+        add_error "You must specify identifier to use the annotate_results option"
       else
         true
       end
@@ -79,7 +79,7 @@ module Gitnesse
       if File.directory?(dir)
         true
       else
-        @errors << "The features directory './#{dir}' does not exist."
+        add_error "The features directory './#{dir}' does not exist."
       end
     end
   end

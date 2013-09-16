@@ -30,8 +30,9 @@ module Gitnesse
     #
     # Returns a string path
     def self.project_dir
-      project_name = File.basename Dir.pwd
-      "#{Dir.home}/.gitnesse/#{project_name}"
+      @project_dir ||= begin
+        "#{Dir.home}/.gitnesse/#{File.basename(Dir.pwd)}"
+      end
     end
   end
 end

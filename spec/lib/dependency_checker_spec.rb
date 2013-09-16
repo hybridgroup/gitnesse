@@ -37,7 +37,7 @@ module Gitnesse
 
         checker.should_receive(:puts).with("Configuration errors were found!")
         checker.should_receive(:puts).with("  - this is an example error")
-        checker.should_receive(:exit)
+        checker.should_receive(:abort)
       end
 
       it "prints a note saying errors were found" do

@@ -23,6 +23,10 @@ Examples:
   def confirm
     @folders = Dir["#{Dir.home}/.gitnesse/*"].reject { |f| f =~ /\/\_features/ }
 
+    unless @folders.any?
+      abort "  No folders to delete."
+    end
+
     puts "  This will delete the following folders:"
 
     @folders.each do |folder|
@@ -36,10 +40,10 @@ Examples:
         puts '  Remove folders? (y|n)'
       end
     rescue Interrupt
-      exit 1
+      abort
     end
 
-    exit if answer =~ /n/
+    abort if answer =~ /n/
   end
 
   def delete_folders
