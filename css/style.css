@@ -1,1 +1,106 @@
+body {
+  background: white;
+}
 
+a {
+  text-decoration: none;
+  color: #F45B2A;
+}
+
+a:hover {
+  border-bottom: 1px solid #F45B2A;
+}
+
+#main-header {
+  height: 80px;
+  padding-top: 10px;
+}
+
+#main-header h1 {
+  font-family: "Playball", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: inline-block;
+  font-size: 55px;
+  margin-top: 0;
+  line-height: 66px;
+  color: #F45B2A;
+  text-rendering: optimizeLegibility;
+  width: 200px;
+  float: left;
+}
+
+#main-header .subtitle {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 75px;
+  color: #444;
+}
+
+#main-header .menu {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 75px;
+  color: #444;
+  float: right;
+}
+
+#main-header .menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#main-header .menu a:hover {
+  color: #F45B2A;
+}
+
+.hero-wrapper {
+  background: #F45B2A;
+  width: 100%;
+}
+
+.hero {
+  padding: 20px 0;
+  padding-bottom: 30px;
+}
+
+.hero .title {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 47px;
+  color: white;
+  clear: both;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.hero .subtitle {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.85);
+  clear: both;
+  margin: 0;
+}
+
+#main {
+  clear: both;
+  margin-top: 10px;
+}
+
+.mascot {
+  float: right;
+}
+
+section {
+  width: 70%;
+}
+
+section h2 {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 30px;
+}
+
+section p {
+  color: #444;
+}
