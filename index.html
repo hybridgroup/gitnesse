@@ -17,6 +17,7 @@
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
   </head>
   <body>
+    <a href="https://github.com/hybridgroup/gitnesse"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
     <div class="container">
       <header id="main-header">
         <a href="/" class="logo"><h1>Gitnesse</h1></a>
@@ -77,7 +78,162 @@
               Thanks, Uncle Bob!.
             </p>
           </section>
+
+          <section class="screenshots">
+            <h2>Screenshots <small>Click to see larger</small></h2>
+
+            <figure>
+              <a href="images/example-github-wiki.png" target="_blank">
+                <img src="images/example-github-wiki.png">
+                <figcaption>
+                  Feature in GitHub Wiki, with results annotated.
+                </figcaption>
+              </a>
+            </figure>
+
+            <figure>
+              <a href="images/example-terminal-pull.png" target="_blank">
+                <img src="images/example-terminal-pull.png">
+                <figcaption>
+                  Pulling features from GitHub to local project.
+                </figcaption>
+              </a>
+            </figure>
+          </section>
+
+          <section class="installation">
+            <h2>Installation</h2>
+
+            <p>You can add Gitnesse to your project's Gemfile:</p>
+
+            <div class="highlight highlight-ruby"><pre><span class="n">gem</span> <span class="s1">'gitnesse'</span></pre></div>
+
+            <p>Or install it manually (recommended):</p>
+
+            <pre><code>gem install gitnesse</code></pre>
+
+            <p>
+              Now add a <code>gitnesse.rb</code> file to your project. This will
+              be used to configure Gitnesse's behaviour.
+            </p>
+
+            <p> An example config file:</p>
+
+            <div class="highlight"><div class="syntax"><pre><span class="no">Gitnesse</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">config</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">repository_url</span>  <span class="o">=</span> <span class="s2">"https://github.com/hybridgroup/gitnesse-demo.wiki.git"</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">annotate_results</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s2">"Development Laptop"</span>
+<span class="k">end</span></pre></div>
+          </div>
+          </section>
+
+          <section class="tasks">
+            <h2>Tasks</h2>
+
+            <p>Gitnesse comes with a few commands:</p>
+
+              <pre><code>gitnesse pull
+  gitnesse push
+  gitnesse run
+  gitnesse info
+  gitnesse help</code></pre>
+
+              <p>
+                All of these commands are also available as Rake tasks, if you've
+                added Gitnesse to your Gemfile:
+              </p>
+
+              <pre><code>rake gitnesse:pull
+  rake gitnesse:push
+  rake gitnesse:run
+  rake gitnesse:info</code></pre>
+
+              <p>
+                If you're using Gitnesse with a Rails app, these rake tasks will
+                be hooked up automatically. If you're not using Rails, but still
+                want the rake tasks, add this line to your Rakefile:
+              </p>
+
+  <div class="highlight"><div class="syntax"><pre><span class="nb">require</span> <span class="s1">'gitnesse/tasks'</span></pre></div></div>
+
+              <div class="subsection pull">
+                <h3>pull</h3>
+
+                <p>
+                  <code>gitnesse pull</code> pulls features from the remote git wiki,
+                  and updates/replaces the relevant local features. It also creates
+                  new local features if they don't already exist.
+                </p>
+              </div>
+
+              <div class="subsection push">
+                <h3>push</h3>
+
+                <p>
+                  <code>gitnesse push</code> pushes local features to the remote git
+                  wiki, updating/replacing/creating as necessary. It also adds index
+                  pages, so for example if your features folder looked like this:
+                </p>
+
+                <pre><code>features
+  ├── purchasing
+  │   ├── purchasing.feature
+  └── subscribing
+      ├── subscriping_logged_in.feature
+      ├── subscribing_logged_out.feature
+      └── subscribing_fail.feature</code></pre>
+
+                <p>Gitnesse would create these wiki pages:</p>
+
+                <pre><code>features.md
+  features &gt; purchasing.md
+  features &gt; purchasing &gt; purchasing.feature.md
+  features &gt; subscribing.md
+  features &gt; subscribing &gt; subscriping_logged_in.feature.md
+  features &gt; subscribing &gt; subscribing_logged_out.feature.md
+  features &gt; subscribing &gt; subscribing_fail.feature.md</code></pre>
+              </div>
+
+            <div class="subsection run">
+              <h3>run</h3>
+
+              <p>
+                <code>gitnesse run</code> pulls remote wiki features to local,
+                similarly to gitnesse pull, but then it runs Cucumber on the
+                updated feature. If the annotate_results settings is enabled, it
+                will push annotated Cucumber results for each feature scenario to
+                the remote wiki.
+              </p>
+            </div>
+
+            <div class="subsection info">
+              <h3>info</h3>
+
+              <p>
+                <code>gitnesse info</code> prints the current Gitnesse
+                configuration info. Useful for debugging purposes and sanity
+                checking.
+              </p>
+            </div>
+
+            <div class="subsection cleanup">
+              <h3>cleanup</h3>
+
+              <p>
+                <code>gitnesse cleanup</code> cleans up the folders Gitnesse creates
+                in <code>~/.gitnesse</code> to store local copies of remote wikis.
+                It prompts for confirmation before deleting anything.
+              </p>
+            </div>
+          </section>
         </div>
       </div>
+
+      <footer>
+        <div class="thg">
+          <div>Developed by</div>
+          <img src="images/hybrid_logo.png" alt="hybrid-logo">
+        </div>
+      </footer>
   </body>
 </html>
