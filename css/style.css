@@ -167,6 +167,7 @@ code {
   padding: 1px 3px;
   background: #fafafa;
   color: #444444;
+  font-family: Inconsolata, Menlo, Monaco, "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
 
 pre {
