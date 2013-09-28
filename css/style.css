@@ -269,6 +269,10 @@ footer .thg {
   footer .thg {
     margin: 0 auto;
   }
+
+  .forkme {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -278,5 +282,9 @@ footer .thg {
 
   .hero .title {
     font-size: 30px;
+  }
+
+  .forkme {
+    display: block;
   }
 }
