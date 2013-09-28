@@ -206,3 +206,77 @@ footer .thg {
   padding: 20px;
   margin-right: 10px;
 }
+
+@media only screen and (max-width: 767px) {
+  #main-header {
+    height: 140px;
+  }
+
+  #main-header h1, #main-header .subtitle {
+    float: none;
+    clear: both;
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+
+  #main-header h1 {
+    margin-bottom: 0;
+  }
+
+  #main-header .subtitle {
+    line-height: 25px;
+  }
+
+  .hero {
+    padding: 10px 0;
+  }
+
+  .hero .title {
+    font-size: 25px;
+    margin-bottom: 5px;
+  }
+
+  .hero .subtitle {
+    font-size: 16px;
+  }
+
+  .mascot {
+    display: none;
+  }
+
+  section:first-of-type {
+    width: 100%;
+  }
+
+  section h2 {
+    text-align: center;
+  }
+
+  section h2 small {
+    display: block;
+  }
+
+  section.screenshots {
+    height: 225px;
+  }
+
+  section .subsection {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  footer .thg {
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  #main-header {
+    height: 120px;
+  }
+
+  .hero .title {
+    font-size: 30px;
+  }
+}
