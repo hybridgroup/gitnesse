@@ -1,161 +1,180 @@
 body {
-  background-color: #e5e8ea;
+  background: white;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #F45B2A;
+}
+
+a:hover {
+  border-bottom: 1px solid #F45B2A;
+}
+
+#main-header {
+  height: 80px;
+  padding-top: 10px;
+}
+
+#main-header h1 {
+  font-family: "Playball", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: inline-block;
+  font-size: 55px;
+  margin-top: 0;
+  line-height: 66px;
+  color: #F45B2A;
+  text-rendering: optimizeLegibility;
+  width: 200px;
+  float: left;
+}
+
+#main-header .subtitle {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 75px;
   color: #444;
-  max-width: 100%;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-.top-container {
-  margin: 0 auto;
-  max-width: 960px;
+#main-header .menu {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 75px;
+  color: #444;
+  float: right;
 }
 
-.container {
-  max-width: 960px;
+#main-header .menu a {
+  text-decoration: none;
+  color: inherit;
 }
 
-#main{
-  background-color: #e5e8ea;
-  margin-bottom: 30px;
+#main-header .menu a:hover {
+  color: #F45B2A;
 }
 
-#logo-wrapper{
-  margin: 2.5em 0 2.5em 0;
-}
-
-#section-introduction{
-  background-color: #33393d;
-  border-top: 5px solid #ff563d;
-  border-bottom: 25px solid #454d52;
-  color: #ffffff;
-  padding: 75px;
-}
-
-#intro-wrapper{
-  width: 65%;
-}
-
-#intro-wrapper span{
-  color: #ff563d;
-}
-
-#intro-wrapper h3{
-  font-size: 28px;
-}
-
-#intro-wrapper img{
-  position: absolute;
-  right: 0;
-  top: 45px;
-}
-
-#section-screenshots{
-  width: 100%;
-  float: left;
-  margin-top: 2.5em;
-  margin-bottom: 5em;
-}
-
-#section-screenshots h2{
-  vertical-align: top;
-}
-
-#section-screenshots h2:before{
-  content: url(../images/screenshot_eye.png);
-  padding-right: 10px;
-}
-
-#section-screenshots #screen1{
-  width: 48%;
-  float: left;
-  padding-right: 35px;
-}
-
-#section-screenshots #screen2{
-  width: 48%;
-  float: left;
-}
-
-#section-installation{
-  margin-bottom: 5em;
-}
-
-#section-installation h2{
-  vertical-align: top;
-}
-
-#section-installation h2:before{
-  content: url(../images/installation_heart.png);
-  padding-right: 10px;
-}
-
-#section-dependencies{
-  margin-bottom: 60px;
-}
-
-#section-dependencies h2{
-  vertical-align: top;
-}
-
-#section-dependencies h2:before{
-  content: url(../images/git_config_cog.png);
-  padding-right: 10px;
-}
-
-#section-usage-tasks{
-  margin-bottom: 60px;
-}
-
-#section-usage-tasks h2{
-  vertical-align: top;
-}
-
-#section-usage-tasks h2:before{
-  content: url(../images/other_star.png);
-  padding-right: 10px;
-}
-
-#section-more-info{
+.hero-wrapper {
+  background: #F45B2A;
   width: 100%;
 }
 
-#more-info-wrapper{
+.hero {
+  padding: 20px 0;
+  padding-bottom: 30px;
+}
+
+.hero .title {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 47px;
+  color: white;
+  clear: both;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.hero .subtitle {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.85);
+  clear: both;
+  margin: 0;
+}
+
+#main {
+  clear: both;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.mascot {
+  float: right;
+}
+
+section {
+  margin-bottom: 20px;
+  clear: both;
+}
+
+section:first-of-type {
+  width: 70%;
+  clear: none;
+}
+
+section h2 {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+section h2 small {
+  font-weight: 400;
+  font-size: 13px;
+}
+
+section p {
+  color: #444;
+}
+
+section p:first-of-type {
+  margin-top: 10px;
+}
+
+section.screenshots {
+  height: 330px;
+}
+
+section.screenshots a {
+  color: inherit;
+}
+
+section.screenshots a:hover {
+  border: none;
+}
+
+section.screenshots figure {
+  width: 48%;
+  margin-top: 10px;
+}
+
+section.screenshots figure:first-of-type {
+  float: left;
+}
+
+section.screenshots figure:last-of-type {
+  float: right;
+}
+
+section.screenshots img {
+  width: 100%;
+  border-radius: 3px;
+}
+
+section.screenshots figcaption {
+  font-size: 13px;
   text-align: center;
-  background-color: #fff;
-  border-radius: 100%;
-  width: 165px;
-  height: 125px;
-  margin-left: 40%;
-  padding-top: 35px;
-}
-
-ul {
-  padding: 0;
-  margin: 0 0 10.5px 25px;
-  list-style: square outside;
-}
-
-li {
-  line-height: 21px;
-}
-
-code, pre {
-  font-family: Inconsolata, Menlo, Monaco, "Bitstream Vera Sans Mono", "Courier New", monospace;
-  font-size: 14px;
-  line-height: 21px;
-  border: 1px solid #cccccc;
 }
 
 code {
   padding: 1px 3px;
   background: #fafafa;
   color: #444444;
+  font-family: Inconsolata, Menlo, Monaco, "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
 
 pre {
   display: block;
   padding: 10.5px;
   background-color: #002d38;
+  border-radius: 3px;
 }
 
 pre code {
@@ -165,120 +184,108 @@ pre code {
   color: white;
 }
 
-figure {
+section .subsection {
+  background: #dedede;
+  padding: 2px 20px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  border-radius: 3px;
+}
+
+footer {
   width: 100%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-align: center;
+  height: 120px;
+  background: #222;
+  border-bottom: 20px solid #F45B2A;
 }
 
-figcaption {
-  font-size: 14px;
-  color: #888;
-}
-
-figure img {
-  width: 100%;
-  box-shadow: 0 0 20px #bbb;
-}
-
-a, a:visited {
-  color: #ff563d;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-header, #main {
-  padding: 10px 30px;
-}
-
-header h1 {
-  text-align: center;
-  margin-top: 0;
-  color: hsl(35, 95%, 55%);
-  margin-bottom: 0;
-  font-family: "Oleo Script", sans-serif;
-  font-size: 100px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  font-weight: normal;
-}
-
-header a:hover {
-  text-decoration: none;
-}
-
-footer{
-  background-color: #33393d;
-  border-bottom: 15px solid #ff563d;
-  height: 100px;
-}
-
-#footer-wrapper{
+footer .thg {
   float: right;
-  color: #ffffff;
-  padding-right: 50px;
-}
-
-#footer-wrapper p{
-  margin-bottom: 1px;
+  color: #efefef;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 20px;
+  margin-right: 10px;
 }
 
 @media only screen and (max-width: 767px) {
-  #logo-wrapper{
-    margin: 2.5em 0 2.5em 4.5em;
+  #main-header {
+    height: 140px;
   }
 
-  #logo-wrapper img{
-    width: 200px;
+  #main-header h1, #main-header .subtitle {
+    float: none;
+    clear: both;
+    width: 100%;
+    text-align: center;
+    display: block;
   }
 
-  header h1 {
-    font-size: 75px;
+  #main-header h1 {
+    margin-bottom: 0;
   }
 
-  #intro-wrapper img{
+  #main-header .subtitle {
+    line-height: 25px;
+  }
+
+  .hero {
+    padding: 10px 0;
+  }
+
+  .hero .title {
+    font-size: 25px;
+    margin-bottom: 5px;
+  }
+
+  .hero .subtitle {
+    font-size: 16px;
+  }
+
+  .mascot {
     display: none;
   }
 
-  #section-screenshots #screen1{
+  section:first-of-type {
     width: 100%;
-    float: left;
   }
 
-  #section-screenshots #screen2{
+  section h2 {
+    text-align: center;
+  }
+
+  section h2 small {
+    display: block;
+  }
+
+  section.screenshots {
+    height: 225px;
+  }
+
+  section .subsection {
     width: 100%;
-    float: left;
+    margin: 0 auto;
+  }
+
+  footer .thg {
+    margin: 0 auto;
+  }
+
+  .forkme {
+    display: none;
   }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-  #logo-wrapper{
-    margin: 2.5em 0 2.5em 4.5em;
+  #main-header {
+    height: 120px;
   }
 
-  #logo-wrapper img{
-    width: 200px;
+  .hero .title {
+    font-size: 30px;
   }
 
-  header h1 {
-    font-size: 70px;
-  }
-
-  #intro-wrapper img{
-    display: none;
-  }
-
-  #section-screenshots #screen1{
-    width: 100%;
-    float: left;
-  }
-
-  #section-screenshots #screen2{
-    width: 100%;
-    float: left;
+  .forkme {
+    display: block;
   }
 }
