@@ -41,7 +41,7 @@ module Gitnesse
       #
       # Returns nothing
       def remove_results
-        write(read.gsub(/(\s+\!\[\].*)/, ''))
+        write(read.gsub(/\s+- !\[\].*---/m, ''))
       end
 
       # Public: Appends the result of a Cucumber scenario to the feature's wiki
@@ -53,13 +53,17 @@ module Gitnesse
       #
       # Returns nothing
       def append_result(scenario, status)
-        status = status.to_s
-        image = "![](https://s3.amazonaws.com/gitnesse/github/#{status}.png)"
-        string = "\n\n#{image} \`"
-        string << "Last Result For Scenario '#{scenario}': "
-        string << status.upcase
-        string << " (#{Time.now.strftime("%b %d, %Y, %-l:%M %p")} - "
-        string << "#{Gitnesse::Config.instance.identifier})\`"
+        image = "![](//s3.amazonaws.com/gitnesse/github/#{status.to_s}.png)"
+        time = Time.now.strftime("%b %d, %Y, %-l:%M %p")
+        identifier = Gitnesse::Config.instance.identifier
+
+        string = <<-EOS.chomp
+
+- #{image} **#{scenario}**
+- #{identifier} - #{time}
+
+---
+        EOS
 
         write(read + string)
       end
