@@ -69,9 +69,9 @@ Examples:
     puts "  Running cucumber."
     puts '  -------------------', ''
     if defined?(Bundler)
-      Bundler.with_clean_env { system "cucumber #{@config.features_dir}" }
+      Bundler.with_clean_env { system "bundle exec cucumber #{@config.features_dir}" }
     else
-      system "cucumber #{@config.features_dir}"
+      system "bundle exec cucumber #{@config.features_dir}"
     end
     puts '  -------------------', ''
   end
