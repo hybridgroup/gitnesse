@@ -11,12 +11,16 @@ Pulls changed features from remote git-based wiki, runs Cucumber, and pushes
 annotated results to the remote git-based wiki if the "annotate_results" setting
 is enabled.
 
+Unlike other commands, all arguments passed to gitnesse run will be passed
+through to Cucumber if you only want to run specific cukes.
+
 Examples:
   gitnesse run  # will pull changes, run cucumber, and annotate results
+  gitnesse run ./features/addition.feature
     EOS
   end
 
-  def perform
+  def perform(*args)
     load_and_check_config
     clone_wiki
     extract_features_from_wiki
@@ -27,7 +31,7 @@ Examples:
     remove_existing_results_from_wiki
 
     create_hooks
-    run_features
+    run_features(args)
     remove_hooks
 
     push_annotated_results_to_wiki
@@ -64,15 +68,19 @@ Examples:
 
   # Public: Runs Cucumber features
   #
+  # args - optional array of arguments to be passed to Cucumber
+  #
   # Returns nothing
-  def run_features
-    puts "  Running cucumber."
-    puts '  -------------------', ''
+  def run_features(args = [])
+    puts "  Running cucumber.", '  -------------------', ''
+    args = (args.empty? ? @config.features_dir : args.join(' '))
+
     if defined?(Bundler)
-      Bundler.with_clean_env { system "bundle exec cucumber #{@config.features_dir}" }
+      Bundler.with_clean_env { system "bundle exec cucumber #{args}" }
     else
-      system "bundle exec cucumber #{@config.features_dir}"
+      system "bundle exec cucumber #{args}"
     end
+
     puts '  -------------------', ''
   end
 
