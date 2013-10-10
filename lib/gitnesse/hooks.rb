@@ -31,10 +31,18 @@ module Gitnesse
       Gitnesse::ConfigLoader.find_and_load
       dir = Gitnesse::DirManager.project_dir
 
-      file = scenario.file.gsub(/^#{@config.features_dir}\//, '')
+      if scenario.respond_to?(:scenario_outline)
+        file = scenario.scenario_outline.file.gsub(/^#{@config.features_dir}\//, '')
+        name = scenario.name.split("|")
+        name.shift
+        name = name.map! { |s| s.strip.lstrip }
+        name = "#{scenario.scenario_outline.name} - (#{name.join(', ')})"
+      else
+        file = scenario.file.gsub(/^#{@config.features_dir}\//, '')
+        name = scenario.name
+      end
 
       page = file.gsub("/", " > ")
-      name = scenario.name
       status = scenario.status
 
       @wiki = Gitnesse::Wiki.new(@config.repository_url, dir, clone: false)
