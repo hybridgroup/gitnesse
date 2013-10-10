@@ -33,13 +33,12 @@ module Gitnesse
 
       if scenario.respond_to?(:scenario_outline)
         file = scenario.scenario_outline.file.gsub(/^#{@config.features_dir}\//, '')
-        name = scenario.name.split("|")
-        name.shift
-        name = name.map! { |s| s.strip.lstrip }
-        name = "#{scenario.scenario_outline.name} - (#{name.join(', ')})"
+        name = "#{scenario.scenario_outline.name}"
+        subtitle = scenario.name.gsub(/(^\|\s+|\s+\|$)/, '').gsub(/\s+\|/, ',')
       else
         file = scenario.file.gsub(/^#{@config.features_dir}\//, '')
         name = scenario.name
+        subtitle = nil
       end
 
       page = file.gsub("/", " > ")
@@ -50,7 +49,7 @@ module Gitnesse
 
       return unless page
 
-      page.append_result name, status
+      page.append_result name, status, subtitle
       @wiki.repo.add(page.wiki_path)
     end
   end

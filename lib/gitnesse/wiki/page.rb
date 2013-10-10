@@ -50,20 +50,17 @@ module Gitnesse
       # scenario - feature scenario that was run
       # status - return status of the scenario, e.g. :passed, :undefined,
       # :failing
+      # subtitle - subtitle of scenario (used for scenario outlines)
       #
       # Returns nothing
-      def append_result(scenario, status)
+      def append_result(scenario, status, subtitle = nil)
         image = "![](//s3.amazonaws.com/gitnesse/github/#{status.to_s}.png)"
         time = Time.now.strftime("%b %d, %Y, %-l:%M %p")
         identifier = Gitnesse::Config.instance.identifier
 
-        string = <<-EOS.chomp
-
-- #{image} **#{scenario}**
-- #{identifier} - #{time}
-
----
-        EOS
+        string = "\n- #{image} **#{scenario}**".chomp
+        string << "\n- **(#{subtitle})**" if subtitle
+        string << "\n- #{identifier} - #{time}\n\n---"
 
         write(read + string)
       end
