@@ -15,7 +15,8 @@ module Gitnesse
     end
 
     def parse(args = ARGV)
-      parser.parse! args
+      # gitnesse run will pass all arguments onto cucumber
+      parser.parse! args unless ARGV.first == "run"
 
       arg = args.shift.to_s
 
