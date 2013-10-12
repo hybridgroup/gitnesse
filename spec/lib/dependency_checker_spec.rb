@@ -10,7 +10,7 @@ module Gitnesse
         checks = %w(check_git check_cucumber check_repository_url
                     check_identifier check_features_dir_exists)
         checks.each do |check|
-          checker.should_receive(check.to_sym).and_return(true)
+          expect(checker).to receive(check.to_sym).and_return(true)
         end
 
         checker.check
@@ -21,11 +21,11 @@ module Gitnesse
                     check_features_dir_exists)
 
         checks.each do |check|
-          checker.should_receive(check.to_sym).and_return(true)
+          expect(checker).to receive(check.to_sym).and_return(true)
         end
 
-        checker.should_receive(:system).with('git --version &> /dev/null').and_return(nil)
-        checker.should_receive(:display_errors)
+        expect(checker).to receive(:system).with('git --version &> /dev/null').and_return(nil)
+        expect(checker).to receive(:display_errors)
 
         checker.check
       end
@@ -35,9 +35,9 @@ module Gitnesse
       before do
         checker.instance_variable_set(:@errors, ["this is an example error"])
 
-        checker.should_receive(:puts).with("Configuration errors were found!")
-        checker.should_receive(:puts).with("  - this is an example error")
-        checker.should_receive(:abort)
+        expect(checker).to receive(:puts).with("Configuration errors were found!")
+        expect(checker).to receive(:puts).with("  - this is an example error")
+        expect(checker).to receive(:abort)
       end
 
       it "prints a note saying errors were found" do
@@ -56,7 +56,7 @@ module Gitnesse
     describe '#check_git' do
       context 'when git is installed' do
         before do
-          checker.should_receive(:system).with('git --version &> /dev/null').and_return(true)
+          expect(checker).to receive(:system).with('git --version &> /dev/null').and_return(true)
         end
 
         it 'returns true' do
@@ -66,7 +66,7 @@ module Gitnesse
 
       context 'when git is not installed' do
         before do
-          checker.should_receive(:system).with('git --version &> /dev/null').and_return(nil)
+          expect(checker).to receive(:system).with('git --version &> /dev/null').and_return(nil)
         end
 
         it 'adds an error' do
@@ -80,7 +80,7 @@ module Gitnesse
     describe '#check_cucumber' do
       context 'when cucumber is installed' do
         before do
-          checker.should_receive(:system).with('cucumber --version &> /dev/null').and_return(true)
+          expect(checker).to receive(:system).with('cucumber --version &> /dev/null').and_return(true)
         end
 
         it 'returns true' do
@@ -90,7 +90,7 @@ module Gitnesse
 
       context 'when cucumber is not installed' do
         before do
-          checker.should_receive(:system).with('cucumber --version &> /dev/null').and_return(nil)
+          expect(checker).to receive(:system).with('cucumber --version &> /dev/null').and_return(nil)
         end
 
         it 'adds an error' do
@@ -169,7 +169,7 @@ module Gitnesse
     describe "#check_features_dir_exists" do
       context "when features_dir exists" do
         before do
-          File.should_receive(:directory?).and_return(true)
+          expect(File).to receive(:directory?).and_return(true)
         end
 
         it "returns true" do
@@ -179,7 +179,7 @@ module Gitnesse
 
       context "when features_dir does not exist or is a file" do
         before do
-          File.should_receive(:directory?).and_return(false)
+          expect(File).to receive(:directory?).and_return(false)
         end
 
         it "adds an error" do

@@ -19,7 +19,7 @@ module Gitnesse
 
     describe "#read" do
       it "reads and caches the page's contents" do
-        File.should_receive(:read).with(page.wiki_path).once.and_return("test")
+        expect(File).to receive(:read).with(page.wiki_path).once.and_return("test")
 
         expect(page.read).to be_a String
         expect(page.read).to eq "test"

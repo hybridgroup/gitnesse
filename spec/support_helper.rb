@@ -1,17 +1,30 @@
 SUPPORT_FILES_DIR = File.join(File.dirname(__FILE__), "/support")
 
-Dir[File.join(File.dirname(__FILE__), "support", "*.rb")].each { |f| require(f) }
+require 'fileutils'
+require 'tempfile'
+require 'tmpdir'
+
+module CliSpecs
+  def gitnesse(args)
+    out = StringIO.new
+    Gitnesse::Cli.new(out).parse(args.split(/\s+/))
+
+    out.rewind
+    out.read
+  rescue SystemExit
+    out.rewind
+    out.read
+  end
+end
+
+RSpec.configure do |c|
+  c.include CliSpecs, type: :cli
+end
 
 class Support
   class << self
-    def example_config_file_path
-      "#{SUPPORT_FILES_DIR}/example_config/gitnesse.rb"
-    end
-
     def example_config_file
-      @example_config ||= begin
-        File.read(example_config_file_path)
-      end
+      "#{SUPPORT_FILES_DIR}/example_config/gitnesse.rb"
     end
 
     def addition_feature
@@ -79,3 +92,4 @@ class Support
     end
   end
 end
+

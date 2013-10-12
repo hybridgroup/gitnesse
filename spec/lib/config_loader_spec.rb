@@ -7,8 +7,9 @@ module Gitnesse
     describe "#find_and_load" do
       context "when no config file exists" do
         before do
-          Dir.should_receive(:glob).and_return([])
-          ConfigLoader.should_receive(:raise_error).with("Can't find a gitnesse.rb file with Gitnesse configuration.")
+          expect(Dir).to receive(:glob).and_return []
+          message = "Can't find a gitnesse.rb file with Gitnesse configuration."
+          expect(ConfigLoader).to receive(:raise_error).with message
         end
 
         it "raises an error" do
@@ -18,10 +19,10 @@ module Gitnesse
 
       context "when one config file exists" do
         before do
-          files = [Support.example_config_file_path]
-          Dir.should_receive(:glob).and_return(files)
-          ConfigLoader.should_receive(:load).and_return(true)
-          ConfigLoader.should_receive(:reject_irrelevant_files).and_return(files)
+          files = [Support.example_config_file]
+          expect(Dir).to receive(:glob).and_return(files)
+          expect(ConfigLoader).to receive(:load).and_return(true)
+          expect(ConfigLoader).to receive(:reject_irrelevant_files).and_return(files)
         end
 
         it "loads the config file" do
@@ -31,10 +32,10 @@ module Gitnesse
 
       context "when multiple config files exist" do
         before do
-          files = [Support.example_config_file_path, Support.example_config_file_path]
-          Dir.should_receive(:glob).and_return(files)
-          ConfigLoader.should_receive(:reject_irrelevant_files).and_return(files)
-          ConfigLoader.should_receive(:raise_error).with("Multiple configuration files found:", files)
+          files = [Support.example_config_file, Support.example_config_file]
+          expect(Dir).to receive(:glob).and_return(files)
+          expect(ConfigLoader).to receive(:reject_irrelevant_files).and_return(files)
+          expect(ConfigLoader).to receive(:raise_error).with("Multiple configuration files found:", files)
         end
 
         it "raises an error" do
