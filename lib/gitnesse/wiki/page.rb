@@ -41,7 +41,11 @@ module Gitnesse
       #
       # Returns nothing
       def remove_results
-        write(read.gsub(/\s+- !\[\].*---/m, ''))
+        content = read
+        # Remove old Cucumber results, if they exist
+        content.gsub!(/(\s+\!\[\].*)/, '') unless content =~ /\s+- !\[\].*---/m
+        content.gsub!(/\s+- !\[\].*---/m, '')
+        write content
       end
 
       # Public: Appends the result of a Cucumber scenario to the feature's wiki
