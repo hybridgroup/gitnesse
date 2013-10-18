@@ -1,3 +1,5 @@
+require 'etc'
+
 Gitnesse::Cli.task :cleanup do
   desc "Cleans up project folders in ~/.gitnesse"
 
@@ -21,7 +23,8 @@ Examples:
   end
 
   def confirm
-    @folders = Dir["#{Dir.home}/.gitnesse/*"].reject { |f| f =~ /\/\_features/ }
+    @folders = Dir["#{Dir.home(Etc.getlogin)}/.gitnesse/*"]
+    @folders.reject! { |f| f =~ /\/\_features/ }
 
     unless @folders.any?
       abort "  No folders to delete."
