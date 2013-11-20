@@ -2,8 +2,8 @@ module Gitnesse
   class Hooks
     @config = Gitnesse::Config.instance
 
-    DIR = File.expand_path("./#{@config.features_dir}/support")
-    PATH = File.expand_path("./#{@config.features_dir}/support/gitnesse.rb")
+    DIR = File.expand_path "./#{@config.features_dir}/support"
+    PATH = File.join DIR, "gitnesse.rb"
 
     # Public: Copies Gitnesse Cucumber hooks to Cucumber's support dir.
     #
@@ -32,8 +32,10 @@ module Gitnesse
       dir = Gitnesse::DirManager.project_dir
 
       if scenario.respond_to?(:scenario_outline)
-        file = scenario.scenario_outline.file.gsub(/^#{@config.features_dir}\//, '')
-        name = "#{scenario.scenario_outline.name}"
+        outline = scenario.scenario_outline
+
+        file = outline.file.gsub(/^#{@config.features_dir}\//, '')
+        name = "#{outline.name}"
         subtitle = scenario.name.gsub(/(^\|\s+|\s+\|$)/, '').gsub(/\s+\|/, ',')
       else
         file = scenario.file.gsub(/^#{@config.features_dir}\//, '')
