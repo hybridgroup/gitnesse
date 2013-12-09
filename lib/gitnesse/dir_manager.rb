@@ -27,8 +27,7 @@ module Gitnesse
         File.directory? project_dir
       end
 
-      private
-      # Private: Constructs project dir path in ~/.gitnesse folder
+      # Public: Constructs project dir path in ~/.gitnesse folder
       #
       # Returns a string path
       def project_dir
