@@ -58,7 +58,7 @@ module Gitnesse
       #
       # Returns nothing
       def append_result(scenario, status, subtitle = nil)
-        image = "![](//s3.amazonaws.com/gitnesse/github/#{status.to_s}.png)"
+        image = "![](https://s3.amazonaws.com/gitnesse/github/#{status}.png)"
         time = Time.now.strftime("%b %d, %Y, %-l:%M %p")
         identifier = Gitnesse::Config.instance.identifier
 
