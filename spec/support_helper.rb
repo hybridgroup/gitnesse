@@ -70,7 +70,7 @@ class Support
 ```gherkin
 #{division_feature}
 ```
-- ![](//s3.amazonaws.com/gitnesse/github/passed.png) **Divide two numbers**
+- ![](https://s3.amazonaws.com/gitnesse/github/passed.png) **Divide two numbers**
 -  - Sep 06, 2013, 10:10 AM
 
 ---
